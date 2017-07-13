@@ -57,9 +57,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kindergartens.android.kindergartens.core.modular.auth.LoginActivity"
-            android:label=""
-            >
+            android:name=".core.modular.auth.LoginActivity"
+            android:label="">
+        </activity>
+        <activity
+            android:name=".core.modular.settings.SettingsActivity"
+            android:label="@string/title_activity_settings">
         </activity>
     </application>
 

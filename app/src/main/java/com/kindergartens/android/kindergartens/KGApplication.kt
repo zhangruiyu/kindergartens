@@ -2,8 +2,11 @@ package com.kindergartens.android.kindergartens
 
 import android.app.Application
 import com.kindergartens.okrxkotlin.OkRxInit
+import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
+import okhttp3.OkHttpClient
+import org.jetbrains.anko.ctx
 
 /**
  * Created by zhangruiyu on 2017/6/21.
@@ -17,9 +20,9 @@ class KGApplication : Application() {
     }
 
     private fun initNet() {
-        OkRxInit {
+        okinit = OkRxInit {
             context = this@KGApplication
-            tag = "幼儿园小助手LOG"
+            tag = Tools.appTool().getPackageName(ctx)
             headers = mapOf("os" to "android","token" to "adb")
         }
 
@@ -27,5 +30,6 @@ class KGApplication : Application() {
 
     companion object {
         lateinit var kgApplication: KGApplication
+        lateinit var okinit: OkHttpClient.Builder
     }
 }

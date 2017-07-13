@@ -22,15 +22,14 @@ open class OkRxInitWrapper {
     lateinit var context: Application
 }
 
-inline fun OkRxInit(init: OkRxInitWrapper.() -> Unit) {
+inline fun OkRxInit(init: OkRxInitWrapper.() -> Unit):OkHttpClient.Builder {
     val wrapper = OkRxInitWrapper()
     wrapper.init()
-    initOkRx(wrapper)
+    return initOkRx(wrapper)
 }
 
-fun initOkRx(wrapper: OkRxInitWrapper) {
-
-    wrapper.apply {
+fun initOkRx(wrapper: OkRxInitWrapper):OkHttpClient.Builder {
+    return with(wrapper) {
         val builder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor(tag)
 //log打印级别，决定了log显示的详细程度
@@ -53,6 +52,7 @@ fun initOkRx(wrapper: OkRxInitWrapper) {
         headers?.forEach {
             okRx.addCommonHeaders(HttpHeaders(it.key, it.value))
         }
+        builder
     }
 
 }

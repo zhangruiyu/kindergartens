@@ -82,6 +82,9 @@ class OtherFragment : BaseFragment() {
                                 setCompoundDrawables(drawable, null, null, null)
                                 leftPadding = dip(20)
                                 gravity = Gravity.CENTER_VERTICAL
+                                onClick {
+//                                    startActivity<SettingsActivity>()
+                                }
                             }.lparams(matchParent, dip(40)) {
                                 backgroundResource = R.color.white
                             }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout
+        android:id="@+id/bsw_dynamic_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <am.widget.stateframelayout.StateFrameLayout
+            android:id="@+id/sfl_dynamic_content_false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout>
+</LinearLayout>

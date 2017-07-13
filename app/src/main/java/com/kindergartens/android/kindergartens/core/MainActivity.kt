@@ -2,13 +2,17 @@ package com.kindergartens.android.kindergartens.core
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.CoordinatorLayout
 import android.widget.TextView
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragmentActivity
+import com.kindergartens.android.kindergartens.core.modular.home.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
+import com.kindergartens.android.kindergartens.ext.hideButton
+import com.kindergartens.android.kindergartens.ext.showButton
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundResource
 
@@ -18,7 +22,7 @@ class MainActivity : BaseFragmentActivity() {
     private var index: Int = 0
     private var mTextMessage: TextView? = null
     var homepageFragment = HomepageFragment()
-    val homepageFragment2 = HomepageFragment()
+    val dynamicFragmtent = DynamicFragment()
     val homepageFragment3 = OtherFragment.newInstance()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -52,7 +56,7 @@ class MainActivity : BaseFragmentActivity() {
 
     private fun initFragments() {
         add(fragment = homepageFragment)
-        add(fragment = homepageFragment2)
+        add(fragment = dynamicFragmtent)
         add(fragment = homepageFragment3)
 
 
@@ -61,6 +65,8 @@ class MainActivity : BaseFragmentActivity() {
     }
 
     private fun initBottomNavigationBar() {
+        val fab_home_layoutParams = fab_home.layoutParams as CoordinatorLayout.LayoutParams
+//        fab_home_layoutParams.anchorId = R.id.appbar
         bottom_navigation_bar.setMode(BottomNavigationBar.MODE_SHIFTING)
         bottom_navigation_bar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE
@@ -71,16 +77,26 @@ class MainActivity : BaseFragmentActivity() {
                 //                .setFirstSelectedPosition(1)
                 .initialise()
         bottom_navigation_bar.setFab(fab_home)
+        fab_home.setOnClickListener {
+
+        }
         bottom_navigation_bar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabReselected(position: Int) {
             }
 
-            override fun onTabUnselected(position: Int) {
-            }
+            override fun onTabUnselected(position: Int) = Unit
 
             override fun onTabSelected(position: Int) {
                 changeFragmentByIndex(position)
                 toolbar!!.setBackgroundResource(ids[position])
+                fab_home?.apply {
+                    if (position == 2) {
+                        hideButton()
+                    } else {
+                        showButton()
+                    }
+                }
+
             }
 
         })

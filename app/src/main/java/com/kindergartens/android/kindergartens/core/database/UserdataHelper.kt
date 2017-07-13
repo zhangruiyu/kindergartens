@@ -1,20 +1,33 @@
 package com.kindergartens.android.kindergartens.core.database
 
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.model.HttpHeaders
 import com.raizlabs.android.dbflow.kotlinextensions.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
 
 /**
  * Created by zhangruiyu on 2017/7/12.
  */
 class UserdataHelper {
     //dbflow 会用主键作为标示 ,如果主键重复那么覆盖对应数据  扩展后会覆盖已经数据 新数据为空 那么会给数据库的也会覆盖为空
-    companion object {
+    companion object :AnkoLogger{
         private var tUser: TUserModel? = null
+            set(value) {
+                OkGo.getInstance().apply {
+                    val isSetToken = value?.isOnline ?: false
+                    addCommonHeaders(HttpHeaders("token",if (isSetToken) value?.token else ""))
+                }
+                field  = value
+            }
+
         fun getOnlineUser(): TUserModel? {
             //查询user
             if (tUser == null) {
                 tUser = (select from TUserModel::class
                         where (TUserModel_Table.isOnline eq true))
                         .result
+                debug { tUser }
             }
             if (tUser?.isOnline == false) {
                 return null
@@ -41,10 +54,12 @@ class UserdataHelper {
                 block(onlineUser)
             }
         }
+
         //是否有在线用户
         fun haveOnlineUser(): Boolean {
             return getOnlineUser() != null
         }
+
         //退出登陆
         fun loginOut(block: () -> Unit = {}) {
             val onlineUser = getOnlineUser()
