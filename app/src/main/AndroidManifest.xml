@@ -61,8 +61,8 @@
             android:label="">
         </activity>
         <activity
-            android:name=".core.modular.settings.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:name=".core.modular.dynamic.EditDynamicActivity"
+            android:label="发布动态">
         </activity>
     </application>
 

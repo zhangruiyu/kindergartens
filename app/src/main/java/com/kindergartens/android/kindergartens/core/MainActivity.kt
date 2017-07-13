@@ -2,12 +2,12 @@ package com.kindergartens.android.kindergartens.core
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.CoordinatorLayout
 import android.widget.TextView
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragmentActivity
+import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity
 import com.kindergartens.android.kindergartens.core.modular.home.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
@@ -15,6 +15,7 @@ import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundResource
+import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseFragmentActivity() {
     private val ids = intArrayOf(R.color.accent, R.color.blue, R.color.grey, R.color.orange)
@@ -65,8 +66,6 @@ class MainActivity : BaseFragmentActivity() {
     }
 
     private fun initBottomNavigationBar() {
-        val fab_home_layoutParams = fab_home.layoutParams as CoordinatorLayout.LayoutParams
-//        fab_home_layoutParams.anchorId = R.id.appbar
         bottom_navigation_bar.setMode(BottomNavigationBar.MODE_SHIFTING)
         bottom_navigation_bar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE
@@ -78,7 +77,7 @@ class MainActivity : BaseFragmentActivity() {
                 .initialise()
         bottom_navigation_bar.setFab(fab_home)
         fab_home.setOnClickListener {
-
+            startActivity<EditDynamicActivity>()
         }
         bottom_navigation_bar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabReselected(position: Int) {
