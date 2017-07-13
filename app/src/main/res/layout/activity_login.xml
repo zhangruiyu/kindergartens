@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              tools:context=".core.modular.auth.LoginActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+    <TextView
+        android:textColor="@color/toolbar_text_color"
+        android:textSize="20sp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:gravity="center_vertical"
+        android:background="?attr/colorPrimary"
+        android:layout_width="match_parent"
+        android:text="欢迎来到幼儿园小助手"
+        android:layout_marginBottom="20dp"
+        android:layout_height="40dp"/>
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/stl_tab"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:tl_textSelectColor="@color/tab_select_textColor"
+        app:tl_textUnselectColor="@color/tab_select_UnTextColor"
+        android:layout_width="match_parent"
+        app:tl_indicator_color="@color/tab_indicator_color"
+        android:layout_height="@dimen/tab_layout_height_dimen"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_auth"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

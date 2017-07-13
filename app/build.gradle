@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "android.kindergartens.com"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+def dbflow_version = "4.0.4"
+def support_version = '25.3.1'
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(":kotlin_ext_library")
+    compile project(":okrxkotlin")
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //    ui相关
+    compile "com.android.support:recyclerview-v7:${support_version}"
+    compile "com.android.support:appcompat-v7:${support_version}"
+    compile "com.android.support:design:${support_version}"
+    compile "com.android.support:cardview-v7:${support_version}"
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.3'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.android.support:support-v4:25.3.1'
+
+    //kotlin anko
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.anko:anko-commons:$anko_version"
+    // Anko Layouts
+    compile "org.jetbrains.anko:anko-sdk25:$anko_version"
+    // sdk15, sdk19, sdk21, sdk23 are also available
+    compile "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
+    // 主要为兼容一些控件事件的协程，不过协程coroutines目前还不是kotlin的正式内容
+    compile "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
+    compile "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
+    compile "org.jetbrains.anko:anko-coroutines:$anko_version"
+
+    //dbflow
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
+
+
+
+    //rx系列
+    compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+//    compile 'com.lzy.net:okserver:2.0.1'
+
+
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+}
+repositories {
+    mavenCentral()
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
