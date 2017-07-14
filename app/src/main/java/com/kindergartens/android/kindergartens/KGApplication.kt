@@ -15,6 +15,7 @@ class KGApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         kgApplication = this
+        Tools.init(this)
         FlowManager.init(FlowConfig.Builder(this).build())
         initNet()
     }
@@ -23,7 +24,7 @@ class KGApplication : Application() {
         okinit = OkRxInit {
             context = this@KGApplication
             tag = Tools.appTool().getPackageName(ctx)
-            headers = mapOf("os" to "android","token" to "adb")
+            headers = mapOf("os" to "android", "token" to "adb")
         }
 
     }

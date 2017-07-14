@@ -11,6 +11,7 @@
     <include layout="@layout/layout_toolbar"/>
 
     <io.github.rockerhieu.emojicon.EmojiconEditText
+        android:id="@+id/edt_dynamic_content"
         style="@style/default_emoji_editText"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
