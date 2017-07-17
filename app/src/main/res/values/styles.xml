@@ -75,5 +75,10 @@
         <item name="android:textColorHint">@color/black_alpha_60</item>
         <item name="android:textSize">17sp</item>
     </style>
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/toolbar_text_color</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+    </style>
 
 </resources>

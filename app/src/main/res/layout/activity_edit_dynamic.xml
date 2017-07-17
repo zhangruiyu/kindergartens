@@ -13,8 +13,8 @@
     <io.github.rockerhieu.emojicon.EmojiconEditText
         android:id="@+id/edt_dynamic_content"
         style="@style/default_emoji_editText"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="@dimen/dynamic_select_pic_margin"
+        android:layout_marginRight="@dimen/dynamic_select_pic_margin"
         android:layout_marginTop="20dp"
         android:gravity="top"
         android:hint="请输入内容..."
@@ -24,5 +24,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_pics"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dynamic_select_pic_margin"
+        android:layout_marginRight="@dimen/dynamic_select_pic_margin"/>
 </LinearLayout>
