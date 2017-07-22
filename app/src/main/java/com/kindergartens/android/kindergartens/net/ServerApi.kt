@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens.net
 
+import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.composeMain
 import com.kindergartens.okrxkotlin.JsonConvert
 import com.lzy.okgo.OkGo
@@ -14,31 +15,53 @@ import io.reactivex.Observable
  */
 class ServerApi {
     companion object {
-        val baseUrl = ""
-       /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
-            val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
+        val baseUrl = "http://192.168.43.20:8080"
+        /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
+             val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
+             val params = HttpParams()
+             params.put("tel", tel)
+             request.params(params)
+
+             return converter(request)
+         }
+         */
+        inline fun <reified T> getYSToken(): Observable<T> {
+            val request = OkGo.post<T>("https://open.ys7.com/api/lapp/token/get")
             val params = HttpParams()
-            params.put("tel", tel)
+            params.put("appKey", "b109fdee59b14b19b48927f627814c58")
+            params.put("appSecret", "fa7d8a8c75176be997d80f13590dfaa6")
             request.params(params)
 
             return converter(request)
         }
-        */
-       inline fun <reified T> getYSToken(): Observable<T> {
-           val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
-           val params = HttpParams()
-           params.put("appKey","b109fdee59b14b19b48927f627814c58")
-           params.put("appSecret","fa7d8a8c75176be997d80f13590dfaa6")
-           request.params(params)
 
-           return converter(request)
-       }
         inline fun <reified T> registerUser(tel: String, password: String, authCode: String): Observable<T> {
-            val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
+            val request = OkGo.post<T>("https://open.ys7.com/api/lapp/token/get")
             val params = HttpParams()
             params.put("tel", tel)
             params.put("password", password)
             params.put("authCode", authCode)
+            request.params(params)
+
+            return converter(request)
+        }
+
+        //多次sign
+        fun getOCSPeriodEffectiveSignSign(type:Int): Observable<SignInfo> {
+            val request = OkGo.post<SignInfo>("$baseUrl/cos/periodEffectiveSign")
+            val params = HttpParams()
+            params.put("type",type)
+            request.params(params)
+
+            return converter(request)
+        }
+
+
+        //多次sign
+        fun commitDynamic(type:Int): Observable<SignInfo> {
+            val request = OkGo.post<SignInfo>("$baseUrl/cos/periodEffectiveSign")
+            val params = HttpParams()
+            params.put("type",type)
             request.params(params)
 
             return converter(request)

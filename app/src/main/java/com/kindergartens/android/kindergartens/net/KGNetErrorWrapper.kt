@@ -1,9 +1,9 @@
 package com.kindergartens.android.kindergartens.net
 
-import com.kindergartens.okrxkotlin.NetErrorWrapper
+import com.kindergartens.okrxkotlin.ErrorWrapper
 
 /**
  * Created by zhangruiyu on 2017/7/3.
  */
-class KGNetErrorWrapper<T> : NetErrorWrapper<T>() {
+abstract class KGNetErrorWrapper<T> : ErrorWrapper<T>() {
 }

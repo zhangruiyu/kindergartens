@@ -35,8 +35,8 @@ open class JsonConvert<T> : Converter<T> {
         // 如果你对这里的代码原理不清楚，可以看这里的详细原理说明: https://github.com/jeasonlzy/okhttp-OkGo/wiki/JsonCallback
         // 如果你对这里的代码原理不清楚，可以看这里的详细原理说明: https://github.com/jeasonlzy/okhttp-OkGo/wiki/JsonCallback
         // 如果你对这里的代码原理不清楚，可以看这里的详细原理说明: https://github.com/jeasonlzy/okhttp-OkGo/wiki/JsonCallback
-        val body = response.body()
-        val jsonReader = JsonReader(body!!.charStream())
+//        val body = response.body()
+//        val jsonReader = JsonReader(body!!.charStream())
         if (clazz != null) {
             val string = response.body()!!.string()
             // 泛型格式如下： new JsonCallback<LzyResponse<内层JavaBean>>(this)

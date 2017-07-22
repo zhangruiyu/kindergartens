@@ -39,3 +39,9 @@
 }
 
 # end ------glide
+
+# start ------ali oss
+-keep class com.alibaba.sdk.android.oss.** { *; }
+-dontwarn okio.**
+-dontwarn org.apache.commons.codec.binary.**
+# start ------ali oss

@@ -11,11 +11,14 @@ import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicA
 import com.kindergartens.android.kindergartens.core.modular.home.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
+import com.kindergartens.android.kindergartens.core.modular.video.CustomMediaRecorderActivity
 import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
+import com.mabeijianxi.smallvideorecord2.model.MediaRecorderConfig
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.startActivity
+
 
 class MainActivity : BaseFragmentActivity() {
     private val ids = intArrayOf(R.color.accent, R.color.blue, R.color.grey, R.color.orange)
@@ -78,6 +81,22 @@ class MainActivity : BaseFragmentActivity() {
         bottom_navigation_bar.setFab(fab_home)
         fab_home.setOnClickListener {
             startActivity<EditDynamicActivity>()
+        }
+        fab_home.setOnLongClickListener {
+            // 录制
+            val config = MediaRecorderConfig.Buidler()
+
+                    .fullScreen(false)
+                    .smallVideoWidth(360)
+                    .smallVideoHeight(1880)
+                    .recordTimeMax(6000)
+                    .recordTimeMin(1500)
+                    .maxFrameRate(20)
+                    .videoBitrate(600000)
+                    .captureThumbnailsTime(1)
+                    .build()
+            CustomMediaRecorderActivity.goSmallVideoRecorder(this@MainActivity, EditDynamicActivity::class.java.name, config)
+            return@setOnLongClickListener true
         }
         bottom_navigation_bar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
             override fun onTabReselected(position: Int) {

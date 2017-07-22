@@ -1,4 +1,4 @@
-package com.kindergartens.android.kindergartens.customUI
+package com.kindergartens.android.kindergartens.custom.ui
 
 import android.view.ViewManager
 import com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout

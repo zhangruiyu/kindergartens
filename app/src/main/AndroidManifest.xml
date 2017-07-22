@@ -75,6 +75,9 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/customTheme"/>
+
+        <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity"/>
+        <activity android:name=".core.modular.video.CustomMediaRecorderActivity"/>
     </application>
 
 </manifest>

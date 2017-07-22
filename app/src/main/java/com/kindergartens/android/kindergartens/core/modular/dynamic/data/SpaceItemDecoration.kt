@@ -13,8 +13,8 @@ class SpaceItemDecoration : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView?, state: RecyclerView.State?) {
         val dip = view.context.dip(3)
         outRect.top = dip * 2
-        outRect.left = dip
-        outRect.right = dip
+        outRect.left = dip/2
+        outRect.right = dip/2
 
     }
 }

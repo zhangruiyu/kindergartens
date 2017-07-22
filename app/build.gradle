@@ -25,13 +25,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
+
 def dbflow_version = "4.0.4"
 def support_version = '25.3.1'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(":kotlin_ext_library")
-    compile project(":okrxkotlin")
+    compile project(':kotlin_ext_library')
+    compile project(':okrxkotlin')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -41,7 +47,6 @@ dependencies {
     compile "com.android.support:design:${support_version}"
     compile "com.android.support:cardview-v7:${support_version}"
     //状态布局
-
     //kotlin anko
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.anko:anko-commons:$anko_version"
@@ -53,18 +58,15 @@ dependencies {
     compile "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
     compile "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
     compile "org.jetbrains.anko:anko-coroutines:$anko_version"
-
     //dbflow
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
-
     //rx系列
     //    compile 'com.lzy.net:okserver:2.0.1'
-
-//    tools
+    //    tools
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.android.support:support-vector-drawable:25.3.1'
@@ -84,11 +86,18 @@ dependencies {
     //图片选择
     compile 'com.nineoldandroids:library:2.4.0'
     testCompile 'junit:junit:4.12'
-//    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+    //    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    //    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
     compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //    compile 'com.tencent.cos:cos:4.3.2+@aar'
+    compile 'ch.halcyon:squareprogressbar:1.6.2'
+    compile 'com.apkfuns.logutils:library:1.5.1.1'
+    compile 'com.mabeijianxi:small-video-record2:2.0.3@aar'
+    compile files('libs/sha1utils.jar')
+    compile files('libs/okio-1.6.0.jar')
+    compile files('libs/cos-sdk-android.1.4.3.10.jar')
 }
 repositories {
     mavenCentral()
