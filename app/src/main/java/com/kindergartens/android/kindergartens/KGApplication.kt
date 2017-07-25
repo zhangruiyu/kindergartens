@@ -34,7 +34,7 @@ class KGApplication : Application() {
         okInit = OkRxInit {
             context = this@KGApplication
             tag = Tools.appTool().getPackageName(ctx)
-            headers = mapOf("os" to "android", "token" to "adb")
+            headers = mapOf("os" to "android")
         }
 
     }

@@ -11,14 +11,17 @@ import org.jetbrains.anko.debug
  */
 class UserdataHelper {
     //dbflow 会用主键作为标示 ,如果主键重复那么覆盖对应数据  扩展后会覆盖已经数据 新数据为空 那么会给数据库的也会覆盖为空
-    companion object :AnkoLogger{
+    companion object : AnkoLogger {
         private var tUser: TUserModel? = null
             set(value) {
                 OkGo.getInstance().apply {
-                    val isSetToken = value?.isOnline ?: false
-                    addCommonHeaders(HttpHeaders("token",if (isSetToken) value?.token else ""))
+                    //在线就设置token
+                    if (value?.isOnline ?: false) {
+                        addCommonHeaders(HttpHeaders("token", value?.token))
+                    }
+
                 }
-                field  = value
+                field = value
             }
 
         fun getOnlineUser(): TUserModel? {

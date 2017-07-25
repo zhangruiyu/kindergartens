@@ -43,7 +43,7 @@ class DynamicFragment : BaseFragment() {
     //获取动态
     private fun refreshData() {
         http<ArrayList<DynamicEntiy>> {
-            url = "/dynamic/getSchoolMessage"
+            url = "/user/dynamic/getSchoolMessage"
             params = mapOf("page_index" to page_index)
             onSuccess {
                 debug { it }

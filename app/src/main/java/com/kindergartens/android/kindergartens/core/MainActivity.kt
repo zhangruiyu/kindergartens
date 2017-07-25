@@ -88,7 +88,7 @@ class MainActivity : BaseFragmentActivity() {
 
                     .fullScreen(false)
                     .smallVideoWidth(360)
-                    .smallVideoHeight(1880)
+                    .smallVideoHeight(480)
                     .recordTimeMax(6000)
                     .recordTimeMin(1500)
                     .maxFrameRate(20)

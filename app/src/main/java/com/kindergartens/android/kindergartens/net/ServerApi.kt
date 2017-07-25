@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens.net
 
+import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.composeMain
 import com.kindergartens.okrxkotlin.JsonConvert
@@ -47,23 +48,38 @@ class ServerApi {
         }
 
         //多次sign
-        fun getOCSPeriodEffectiveSignSign(type:Int): Observable<SignInfo> {
-            val request = OkGo.post<SignInfo>("$baseUrl/cos/periodEffectiveSign")
+        fun getOCSPeriodEffectiveSignSign(type: Int): Observable<SignInfo> {
+            val request = OkGo.post<SignInfo>("$baseUrl/user/cos/periodEffectiveSign")
             val params = HttpParams()
-            params.put("type",type)
+            params.put("type", type)
             request.params(params)
 
             return converter(request)
         }
 
 
-        //多次sign
-        fun commitDynamic(type:Int): Observable<SignInfo> {
-            val request = OkGo.post<SignInfo>("$baseUrl/cos/periodEffectiveSign")
+        //发布视频动态
+        fun commitDynamicVideo(dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitDynamicVideo")
             val params = HttpParams()
-            params.put("type",type)
+            params.put("type", 1)
+            params.put("dynamic_content", dynamic_content)
+            params.put("screenshot_server_url", screenshot_server_url)
+            params.put("video_server_url", video_server_url)
+            params.put("video_long", video_long)
             request.params(params)
+            return converter(request)
+        }
 
+        //发布视频动态
+        fun commitDynamicPic(dynamic_content: String, urls: ArrayList<DynamicSelectedPic.PicOrderInfo>): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitDynamicPic")
+            val params = HttpParams()
+            params.put("type", 0)
+            params.put("dynamic_content", dynamic_content)
+            val customUrls = urls.joinToString { it.toString() }
+            params.put("urls", customUrls)
+            request.params(params)
             return converter(request)
         }
 

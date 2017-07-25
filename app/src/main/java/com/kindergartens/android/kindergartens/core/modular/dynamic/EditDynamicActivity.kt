@@ -8,14 +8,16 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
+import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.toText
-import com.kindergartens.android.kindergartens.net.KGNetErrorWrapper
+import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.mabeijianxi.smallvideorecord2.MediaRecorderActivity
 import com.yanzhenjie.permission.AndPermission
@@ -46,7 +48,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
             rl_video_info.visibility = View.VISIBLE
             Glide.with(ctx)
                     .load(File(intent.extras.getString(MediaRecorderActivity.VIDEO_SCREENSHOT)))
-                    .into(iv_video_background)
+                    .into(iv_video_background.find<ImageView>(R.id.imageView1))
         } else {
             selectedAdapter = SelectedDynamicAdapter(ctx)
             dynamic_type = PIC_TYPE
@@ -97,24 +99,38 @@ class EditDynamicActivity : BaseToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_send_dynamic) {
             val find = find<ActionMenuItemView>(R.id.menu_send_dynamic)
+            val toText = edt_dynamic_content.toText()
+            val empty = toText.isEmpty()
+            val empty1 = toText.length
             if (edt_dynamic_content.toText().isEmpty()) {
                 toast("发布内容不能为空")
-                return true
+                return@onOptionsItemSelected true
             }
-            ServerApi.getOCSPeriodEffectiveSignSign(0).subscribe(object : KGNetErrorWrapper<SignInfo>() {
+            val isVideoDynamic = dynamic_type == VIDEO_TYPE
+            ServerApi.getOCSPeriodEffectiveSignSign(if (isVideoDynamic) {
+                1
+            } else {
+                0
+            }).subscribe(object : CustomNetErrorWrapper<SignInfo>() {
                 override fun onNext(t: SignInfo) {
                     LogUtils.d(t)
-                    val list = selectedAdapter.data.subList(0, selectedAdapter.data.size - 1)
-                    var count = 0
-                    list.forEach {
-                        it.block = {
-                            count++
-                            if (list.size == count) {
-                                //全部完成了
-                            }
-                        }
-                        //遍历然后上传图片
-                        it.putPicForDynamicSelectedPic(t.sign, t.cosPath)
+                    //是视频
+                    if (dynamic_type == VIDEO_TYPE) {
+                        VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String
+                                , {
+                            //成功后回调
+                            ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long).subscribe(object : CustomNetErrorWrapper<Any>() {
+                                override fun onNext(any: Any) {
+                                    toast("消息发布成功!")
+                                    finish()
+                                }
+
+                            })
+                        })
+                                .putPicForDynamicSelectedPic(t.sign, t.cosPath)
+                    } else {
+                        //图片
+                        uploadPicDynamics(t)
                     }
                 }
 
@@ -123,6 +139,22 @@ class EditDynamicActivity : BaseToolbarActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun uploadPicDynamics(t: SignInfo) {
+        val uploadPics = ArrayList<DynamicSelectedPic.PicOrderInfo>()
+        val list = selectedAdapter.data.subList(0, selectedAdapter.data.size - 1)
+        var count = 0
+        list.forEach {
+            //遍历然后上传图片
+            it.putPicForDynamicSelectedPic(t.sign, t.cosPath, uploadPics, list.size, {
+                //图片上传完毕 开始把信息给服务端
+                ServerApi.commitDynamicPic(edt_dynamic_content.toText(), it).subscribe(object : CustomNetErrorWrapper<Any>() {
+                    override fun onNext(t: Any) {
+
+                    }
+                })
+            })
+        }
+    }
 
     override fun onResume() {
         super.onResume()

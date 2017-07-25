@@ -27,21 +27,21 @@
 
         <FrameLayout
             android:id="@+id/rl_video_info"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginLeft="20dp">
 
-            <ImageView
+            <ch.halcyon.squareprogressbar.SquareProgressBar
                 android:id="@+id/iv_video_background"
                 android:layout_width="120dp"
+                android:layout_gravity="center"
                 android:layout_height="120dp"
-                >
-            </ImageView>
+                />
 
             <ImageView
                 android:id="@+id/iv_video_foreground"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_play_circle_outline_18dp">
             </ImageView>

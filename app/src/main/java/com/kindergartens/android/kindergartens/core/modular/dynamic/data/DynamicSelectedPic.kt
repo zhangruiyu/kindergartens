@@ -17,12 +17,20 @@ import java.io.File
  * Created by zhangruiyu on 2017/7/16.
  */
 class DynamicSelectedPic : BaseEntity {
+    //图片本地位置
     var url: File? = null
+    //图片显示
     var resourceId: Int? = null
+    //进度条
     var squareProgressBar: SquareProgressBar? = null
+    //顺序
     var position: Int = 0
-    var cosResult: PutObjectResult? = null
-    var block: () -> Unit = {}
+    //一共个数
+    var size: Int? = null
+    //上传后封装的info
+    var uploadPics: ArrayList<PicOrderInfo>? = null
+    var block: (ArrayList<PicOrderInfo>) -> Unit = {}
+    //回调
     var customUploadTaskListener: CustomUploadTaskListener = DynamicUploadTaskListener()
 
     constructor()
@@ -34,7 +42,15 @@ class DynamicSelectedPic : BaseEntity {
         this.resourceId = resourceId
     }
 
-    fun putPicForDynamicSelectedPic(sign: String, cosPath: String) {
+    @Synchronized
+    fun addPics(picOrderInfo: PicOrderInfo) {
+        uploadPics?.add(picOrderInfo)
+    }
+
+    fun putPicForDynamicSelectedPic(sign: String, cosPath: String, uploadPics: ArrayList<PicOrderInfo>, size: Int, block: (ArrayList<PicOrderInfo>) -> Unit) {
+        this.uploadPics = uploadPics
+        this.block = block
+        this.size = size
         val uploadRequest = COSTools.toUploadRequest(cosPath, url!!.absolutePath, sign)
         uploadRequest.listener = customUploadTaskListener
         val bizService = BizService.instance()
@@ -54,8 +70,16 @@ class DynamicSelectedPic : BaseEntity {
 
         override fun onSuccess(cosRequest: COSRequest, cosResult: COSResult) {
             super.onSuccess(cosRequest, cosResult)
-            this@DynamicSelectedPic.cosResult = cosResult as PutObjectResult
-            block()
+            val result = cosResult as PutObjectResult
+            uploadPics?.add(PicOrderInfo(result.resource_path, position))
+            if (uploadPics?.size == size) {
+                //上传完毕
+                uploadPics!!.sortBy {
+                    it.sequence
+                }
+                block(uploadPics!!)
+            }
+
         }
 
         override fun onFailed(cosRequest: COSRequest, cosResult: COSResult) {
@@ -64,4 +88,11 @@ class DynamicSelectedPic : BaseEntity {
             LogUtils.d(result)
         }
     }
+
+    class PicOrderInfo(val path: String, val sequence: Int) : BaseEntity {
+        override fun toString(): String {
+            return "$path*$sequence"
+        }
+    }
+
 }
