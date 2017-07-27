@@ -1,21 +1,21 @@
 package com.kindergartens.android.kindergartens.core.modular.home.dummy
 
 import android.content.Context
-import android.graphics.Rect
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
+import com.kindergartens.android.kindergartens.core.tools.TimeUtil
 import com.kindergartens.android.kindergartens.ext.width
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import org.jetbrains.anko.dimen
-import org.jetbrains.anko.dip
 
 /**
  * Created by zhangruiyu on 2017/7/26.
@@ -23,12 +23,12 @@ import org.jetbrains.anko.dip
 class DynamicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.Data, BaseViewHolder>(R.layout.layout_item_dynamic) {
     override fun convert(helper: BaseViewHolder, item: DynamicEntity.Data) {
         Glide.with(ctx).load(R.drawable.ic_face_primary_24dp).bitmapTransform(CropCircleTransformation(ctx)).into(helper.getView<ImageView>(R.id.iv_dynamic_head_pic))
-        helper.setText(R.id.tv_dynamic_create_time, item.createTime)
+        helper.setText(R.id.tv_dynamic_create_time, TimeUtil.getTimeFormatText(item.createTime))
                 .setText(R.id.tv_dynamic_content, item.content)
                 .setText(R.id.tv_dynamic_nick_name, item.nickName)
         helper.getView<View>(R.id.iv_liked).isFocusable = true
+        //设置图片start
         val recyclerView = helper.getView<RecyclerView>(R.id.rcy_dynamic_pic)
-
         val layoutParams = recyclerView.layoutParams
         var row = 1
         if (item.tails.kgDynamicPics.size % 3 != 0) {
@@ -63,6 +63,19 @@ class DynamicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.Data, Ba
                 }
             })
         }
+        //设置图片end
+
+        //设置评论start
+        val commentLinearLayout = helper.getView<LinearLayout>(R.id.ll_dynamic_comment)
+        commentLinearLayout.removeAllViews()
+        val allComment = item.tails.kgDynamicComment.groupBy({
+            it.groupTag
+        })
+        item.tails.kgDynamicComment.forEach {
+            //            commentLinearLayou
+        }
+
+        //设置评论end
     }
 
 }
@@ -76,14 +89,4 @@ class DynamicPicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.Data.
         layoutParams.height = ctx.width() / 3
     }
 
-}
-
-class DynamicSpaceItemDecoration : RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView?, state: RecyclerView.State?) {
-//        val dip = view.context.dip(3)
-        outRect.bottom = view.context.dip(10)
-//        outRect.left = dip/2
-//        outRect.right = dip/2
-
-    }
 }
