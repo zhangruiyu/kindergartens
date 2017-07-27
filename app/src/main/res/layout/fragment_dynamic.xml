@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <am.widget.stateframelayout.StateFrameLayout
-            android:id="@+id/sfl_dynamic_content_false"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_dynamic_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout>

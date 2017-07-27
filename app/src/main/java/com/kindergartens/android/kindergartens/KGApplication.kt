@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Environment
 import com.apkfuns.logutils.LogUtils
 import com.kindergartens.android.kindergartens.core.ali.BizService
+import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.okrxkotlin.OkRxInit
 import com.mabeijianxi.smallvideorecord2.DeviceUtils
 import com.mabeijianxi.smallvideorecord2.JianXiCamera
@@ -28,6 +29,8 @@ class KGApplication : Application() {
         initSmallVideo()
         LogUtils.getLogConfig().configTagPrefix(Tools.appTool().getPackageName(ctx))
                 .configAllowLog(true)//是否开启
+        //查询出当前用户
+        UserdataHelper.getOnlineUser()
     }
 
     private fun initNet() {

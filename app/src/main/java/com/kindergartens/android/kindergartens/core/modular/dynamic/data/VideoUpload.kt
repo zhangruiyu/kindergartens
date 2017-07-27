@@ -16,10 +16,10 @@ import org.jetbrains.anko.runOnUiThread
 class VideoUpload(var video_screenshot: String, var video_uri: String, var block: (VideoUpload) -> Unit) {
     lateinit var video_server_url: String
     lateinit var screenshot_server_url: String
+    var isSucceed = false
     //9秒
     val video_long: String = "9"
     var squareProgressBar: SquareProgressBar? = null
-    var cosResult: PutObjectResult? = null
     var count = 0
     fun putPicForDynamicSelectedPic(sign: String, cosPath: String) {
         val bizService = BizService.instance()
@@ -46,7 +46,6 @@ class VideoUpload(var video_screenshot: String, var video_uri: String, var block
         override fun onSuccess(cosRequest: COSRequest, cosResult: COSResult) {
             super.onSuccess(cosRequest, cosResult)
             val putObjectResult = cosResult as PutObjectResult
-            this@VideoUpload.cosResult = cosResult as PutObjectResult
             if (isPic) {
                 screenshot_server_url = putObjectResult.resource_path
             } else {
@@ -54,12 +53,17 @@ class VideoUpload(var video_screenshot: String, var video_uri: String, var block
             }
             count++
             if (count == 2) {
+                isSucceed = true
                 block(this@VideoUpload)
             }
         }
 
         override fun onFailed(cosRequest: COSRequest, cosResult: COSResult) {
             super.onFailed(cosRequest, cosResult)
+            if (isSucceed) {
+                isSucceed = false
+                block(this@VideoUpload)
+            }
             val result = "上传出错： ret =" + cosResult.code + "; msg =" + cosResult.msg
             LogUtils.d(result)
         }

@@ -9,6 +9,8 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
 
+    <color name="recycle_divider">#f2f4f7</color>
+
     <color name="tab_select_textColor">@color/primary</color>
     <color name="tab_select_UnTextColor">@color/primary_text</color>
     <color name="tab_indicator_color">@color/primary</color>

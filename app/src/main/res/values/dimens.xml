@@ -51,4 +51,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="tab_layout_height_dimen">44dp</dimen>
     <dimen name="dynamic_select_pic_margin">20dp</dimen>
+    <dimen name="item_normal_margin">14dp</dimen>
 </resources>

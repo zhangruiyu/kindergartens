@@ -16,4 +16,11 @@ class Json {
 //        Collections.sort(arrayListOf, DynamicSelectedPic.PicOrderInfoComparator())
         val arrayListOf1 = arrayListOf
     }
+    @Test
+    fun testJson2(){
+        val s = "/1253631018/kindergartens/pic/dynamic/pic_dynamic/118/Screenshot_20170725-143540.png"
+        val substringAfter = s.substringAfter("/1253631018/kindergartens")
+//        Collections.sort(arrayListOf, DynamicSelectedPic.PicOrderInfoComparator())
+        assert(substringAfter == "/pic/dynamic/pic_dynamic/118/Screenshot_20170725-143540.png")
+    }
 }

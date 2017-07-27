@@ -29,9 +29,10 @@ class DynamicSelectedPic : BaseEntity {
     var size: Int? = null
     //上传后封装的info
     var uploadPics: ArrayList<PicOrderInfo>? = null
-    var block: (ArrayList<PicOrderInfo>) -> Unit = {}
+    var block: (DynamicSelectedPic) -> Unit = {}
     //回调
     var customUploadTaskListener: CustomUploadTaskListener = DynamicUploadTaskListener()
+    var isSucceed = false
 
     constructor()
     constructor(url: File) {
@@ -47,7 +48,7 @@ class DynamicSelectedPic : BaseEntity {
         uploadPics?.add(picOrderInfo)
     }
 
-    fun putPicForDynamicSelectedPic(sign: String, cosPath: String, uploadPics: ArrayList<PicOrderInfo>, size: Int, block: (ArrayList<PicOrderInfo>) -> Unit) {
+    fun putPicForDynamicSelectedPic(sign: String, cosPath: String, uploadPics: ArrayList<PicOrderInfo>, size: Int, block: (DynamicSelectedPic) -> Unit) {
         this.uploadPics = uploadPics
         this.block = block
         this.size = size
@@ -71,13 +72,14 @@ class DynamicSelectedPic : BaseEntity {
         override fun onSuccess(cosRequest: COSRequest, cosResult: COSResult) {
             super.onSuccess(cosRequest, cosResult)
             val result = cosResult as PutObjectResult
-            uploadPics?.add(PicOrderInfo(result.resource_path, position))
+            addPics(PicOrderInfo(result.resource_path, position))
             if (uploadPics?.size == size) {
                 //上传完毕
                 uploadPics!!.sortBy {
                     it.sequence
                 }
-                block(uploadPics!!)
+                isSucceed = true
+                block(this@DynamicSelectedPic)
             }
 
         }
@@ -85,6 +87,10 @@ class DynamicSelectedPic : BaseEntity {
         override fun onFailed(cosRequest: COSRequest, cosResult: COSResult) {
             super.onFailed(cosRequest, cosResult)
             val result = "上传出错： ret =" + cosResult.code + "; msg =" + cosResult.msg
+            if (isSucceed) {
+                isSucceed = false
+                block(this@DynamicSelectedPic)
+            }
             LogUtils.d(result)
         }
     }

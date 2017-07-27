@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.GridLayoutManager
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
@@ -16,6 +18,7 @@ import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
+import com.kindergartens.android.kindergartens.ext.safeDissmiss
 import com.kindergartens.android.kindergartens.ext.toText
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
@@ -99,14 +102,23 @@ class EditDynamicActivity : BaseToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_send_dynamic) {
             val find = find<ActionMenuItemView>(R.id.menu_send_dynamic)
-            val toText = edt_dynamic_content.toText()
-            val empty = toText.isEmpty()
-            val empty1 = toText.length
             if (edt_dynamic_content.toText().isEmpty()) {
                 toast("发布内容不能为空")
                 return@onOptionsItemSelected true
             }
             val isVideoDynamic = dynamic_type == VIDEO_TYPE
+            val dialog = MaterialDialog.Builder(this)
+                    .title("正在发布中")
+                    .content(R.string.please_wait)
+                    .progress(true, 0)
+                    .show()
+            dialog.setCancelable(false)
+            dialog.setOnKeyListener { _, keyCode, _ ->
+                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH) {
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
             ServerApi.getOCSPeriodEffectiveSignSign(if (isVideoDynamic) {
                 1
             } else {
@@ -116,22 +128,16 @@ class EditDynamicActivity : BaseToolbarActivity() {
                     LogUtils.d(t)
                     //是视频
                     if (dynamic_type == VIDEO_TYPE) {
-                        VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String
-                                , {
-                            //成功后回调
-                            ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long).subscribe(object : CustomNetErrorWrapper<Any>() {
-                                override fun onNext(any: Any) {
-                                    toast("消息发布成功!")
-                                    finish()
-                                }
-
-                            })
-                        })
-                                .putPicForDynamicSelectedPic(t.sign, t.cosPath)
+                        uploadVideoDynamics(t.data, dialog)
                     } else {
                         //图片
-                        uploadPicDynamics(t)
+                        uploadPicDynamics(t.data, dialog)
                     }
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    dialog?.safeDissmiss()
                 }
 
             })
@@ -139,19 +145,48 @@ class EditDynamicActivity : BaseToolbarActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun uploadPicDynamics(t: SignInfo) {
+    private fun uploadVideoDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
+        VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
+                , {
+            if (it.isSucceed) {
+                //成功后回调
+                ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
+                        .doOnTerminate { dialog?.safeDissmiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                    override fun onNext(any: Any) {
+                        toast("消息发布成功!")
+                        dialog?.safeDissmiss()
+                        finish()
+                    }
+
+                })
+            } else {
+                //失败
+                dialog?.safeDissmiss()
+            }
+
+        })
+                .putPicForDynamicSelectedPic(t.sign, t.cosPath)
+    }
+
+    fun uploadPicDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
         val uploadPics = ArrayList<DynamicSelectedPic.PicOrderInfo>()
         val list = selectedAdapter.data.subList(0, selectedAdapter.data.size - 1)
-        var count = 0
         list.forEach {
             //遍历然后上传图片
             it.putPicForDynamicSelectedPic(t.sign, t.cosPath, uploadPics, list.size, {
-                //图片上传完毕 开始把信息给服务端
-                ServerApi.commitDynamicPic(edt_dynamic_content.toText(), it).subscribe(object : CustomNetErrorWrapper<Any>() {
-                    override fun onNext(t: Any) {
-
-                    }
-                })
+                if (it.isSucceed) {
+                    //图片上传完毕 开始把信息给服务端
+                    ServerApi.commitDynamicPic(edt_dynamic_content.toText(), it.uploadPics!!)
+                            .doOnTerminate { dialog?.safeDissmiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                        override fun onNext(t: Any) {
+                            toast("消息发布成功!")
+                            finish()
+                        }
+                    })
+                } else {
+                    //失败
+                    dialog?.safeDissmiss()
+                }
             })
         }
     }

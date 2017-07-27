@@ -8,7 +8,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragmentActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity
-import com.kindergartens.android.kindergartens.core.modular.home.DynamicFragment
+import com.kindergartens.android.kindergartens.core.modular.home.dummy.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
 import com.kindergartens.android.kindergartens.core.modular.video.CustomMediaRecorderActivity

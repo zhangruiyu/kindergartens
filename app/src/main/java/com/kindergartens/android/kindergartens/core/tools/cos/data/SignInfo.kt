@@ -1,9 +1,10 @@
 package com.kindergartens.android.kindergartens.core.tools.cos.data
 
-import com.kindergartens.android.kindergartens.base.BaseEntity
-
 /**
  * Created by zhangruiyu on 2017/7/19.
  */
-data class SignInfo(var cosPath: String,
-                    var sign: String) : BaseEntity
+
+class SignInfo(var data: Data) {
+    data class Data(var cosPath: String,
+                    var sign: String)
+}

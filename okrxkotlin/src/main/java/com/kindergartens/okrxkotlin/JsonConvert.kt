@@ -1,7 +1,6 @@
 package com.kindergartens.okrxkotlin
 
 
-import com.google.gson.stream.JsonReader
 import com.lzy.okgo.convert.Converter
 import okhttp3.Response
 
@@ -46,8 +45,9 @@ open class JsonConvert<T> : Converter<T> {
             //这里的0是以下意思
             //一般来说服务器会和客户端约定一个数表示成功，其余的表示失败，这里根据实际情况修改
             if (code == 200) {
+//                val json = JsonSplit.split(string)
                 @Suppress("UNCHECKED_CAST")
-                return Convert.fromJson(JsonSplit.split(string), clazz!!)
+                return Convert.fromJson(string, clazz!!)
             } else if (code == 104) {
                 throw IllegalStateException("用户授权信息无效")
             } else if (code == 105) {

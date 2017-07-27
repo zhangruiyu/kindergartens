@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
-import com.kindergartens.android.kindergartens.core.database.TUser
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.auth.data.LoginUserEntity
 import com.kindergartens.android.kindergartens.ext.applyAndSave
@@ -116,9 +115,9 @@ class LoginFragment : BaseFragment() {
                 params = mapOf("tel" to tel.toText(), "password" to et_password.toText())
                 onSuccess {
                     //保存到数据库
-                    UserdataHelper.selectUserByTel(it.tel).applyAndSave {
-                        tel = it.tel
-                        token = it.token
+                    UserdataHelper.selectUserByTel(it.data.tel).applyAndSave {
+                        tel = it.data.tel
+                        token = it.data.token
                         isOnline = true
                     }
                     activity?.finish()
