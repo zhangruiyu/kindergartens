@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

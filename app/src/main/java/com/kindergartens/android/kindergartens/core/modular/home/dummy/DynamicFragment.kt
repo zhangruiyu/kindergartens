@@ -7,21 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
+import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
+import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.ui.CustomLoadMoreView
-import com.kindergartens.android.kindergartens.ext.getColorSource
-import com.kindergartens.android.kindergartens.ext.height
-import com.kindergartens.android.kindergartens.ext.width
+import com.kindergartens.android.kindergartens.ext.*
+import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
+import com.kindergartens.android.kindergartens.net.ServerApi
 import com.kindergartens.okrxkotlin.http
 import com.yanyusong.y_divideritemdecoration.Y_Divider
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_dynamic.*
 import org.jetbrains.anko.find
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.toast
+
 
 /**
  * Created by zhangruiyu on 2017/7/13.
@@ -39,7 +46,7 @@ class DynamicFragment : BaseFragment() {
         }
         rcv_dynamic_content.addItemDecoration(DynamicItemDecoration(ctx))
         rcv_dynamic_content.layoutManager = LinearLayoutManager(ctx)
-        dynamicAdapter = DynamicAdapter(ctx)
+        dynamicAdapter = DynamicAdapter(ctx, childClickListener)
         dynamicAdapter.openLoadAnimation()
         val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
         Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=401967138,750679164&fm=26&gp=0.jpg")
@@ -51,8 +58,86 @@ class DynamicFragment : BaseFragment() {
         dynamicAdapter.setLoadMoreView(CustomLoadMoreView())
         dynamicAdapter.disableLoadMoreIfNotFullPage()
         dynamicAdapter.setEnableLoadMore(true)
+        dynamicAdapter.setOnItemChildClickListener { adapter, view, position ->
+            LogUtils.e("评论的动态位置====$position")
+
+            when (view.id) {
+                R.id.iv_reply -> {
+                    MaterialDialog.Builder(ctx).titleColorRes(R.color.accent)
+                            .title("请输入评论")
+                            .inputRangeRes(5, 200, R.color.accent)
+                            .input(null, null, { dialog, input ->
+                                val waitDialog = ctx.getWaitDialog()
+                                ServerApi.commitDynamicComent(input.toString(), view.tag as String)
+                                        .doOnTerminate {
+                                            waitDialog.safeDismiss()
+                                            dialog.safeDismiss()
+                                        }
+                                        .subscribe(object : CustomNetErrorWrapper<Any>() {
+                                            override fun onNext(t: Any) {
+                                                adapter.data[position]?.let {
+                                                    UserdataHelper.haveOnlineLet { onlineUser ->
+                                                        val data = it as DynamicEntity.Data
+                                                        data.tails.kgDynamicComment.add(DynamicEntity.Data.Tails.KgDynamicComment(input.toString(), onlineUser.id!!))
+                                                        ctx.runOnUiThread {
+                                                            //因为有头部 所有要pisition加1
+                                                            adapter.notifyItemChanged(position + 1)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        })
+                            }).show()
+                }
+
+            }
+        }
         rcv_dynamic_content.adapter = dynamicAdapter
         super.onActivityCreated(savedInstanceState)
+    }
+
+    val childClickListener = {
+        adapter: DynamicAdapter, view: View, position: Int ->
+        when (view.tag) {
+            is DynamicEntity.Data.Tails.KgDynamicComment -> {
+                if ((view.tag as DynamicEntity.Data.Tails.KgDynamicComment).id == "0") {
+                    toast("请刷新后在评论")
+                } else {
+                    MaterialDialog.Builder(ctx).titleColorRes(R.color.accent)
+                            .title("请输入回复")
+                            .inputRangeRes(5, 200, R.color.accent)
+                            .input(null, null, { dialog, input ->
+                                val waitDialog = ctx.getWaitDialog()
+                                val tag = (view.tag as DynamicEntity.Data.Tails.KgDynamicComment)
+                                ServerApi.commitDynamicComent(input.toString(), tag.dynamicId, tag.id, tag.groupTag)
+                                        .doOnTerminate {
+                                            waitDialog.safeDismiss()
+                                        }
+                                        .subscribe(object : CustomNetErrorWrapper<Any>() {
+                                            override fun onNext(t: Any) {
+                                                dialog.safeDismiss()
+                                                adapter.data[position]?.let {
+                                                    dynamicEntity ->
+                                                    UserdataHelper.haveOnlineLet { onlineUser ->
+                                                        dynamicEntity.tails.kgDynamicComment.add(DynamicEntity.Data.Tails.KgDynamicComment(input.toString(), onlineUser.id!!, tag.groupTag, tag.id))
+                                                        ctx.runOnUiThread {
+                                                            //因为有头部 所有要pisition加1
+                                                            adapter.notifyItemChanged(position + 1)
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+
+                                            override fun onError(e: Throwable) {
+                                                super.onError(e)
+                                            }
+                                        })
+                            }).show()
+                }
+            }
+        }
+        print("")
     }
 
     override fun onVisible() {
@@ -74,15 +159,18 @@ class DynamicFragment : BaseFragment() {
                     dynamicAdapter.notifyDataSetChanged()
                     rcv_dynamic_content.smoothScrollToPosition(0)
                 }
-                dynamicAdapter.addData(it.data)
-                val size = it.data.size
+                dynamicAdapter.addData(it.data.dynamics)
+                val size = it.data.dynamics.size
                 print(size)
-                if (it.data.size < 5){
+                if (it.data.dynamics.size < 5) {
                     dynamicAdapter.loadMoreEnd()
-                }else{
+                } else {
                     dynamicAdapter.loadMoreComplete()
                 }
                 page_index++
+                if (it.data.allClassRoomUserInfo.size > 0) {
+                    SchoolmateHelper.saveSchoolmates(it.data.allClassRoomUserInfo)
+                }
             }
             doOnTerminate {
                 bsw_dynamic_refresh?.isRefreshing = false

@@ -117,6 +117,7 @@ class LoginFragment : BaseFragment() {
                     //保存到数据库
                     UserdataHelper.selectUserByTel(it.data.tel).applyAndSave {
                         tel = it.data.tel
+                        id = it.data.id
                         token = it.data.token
                         isOnline = true
                     }

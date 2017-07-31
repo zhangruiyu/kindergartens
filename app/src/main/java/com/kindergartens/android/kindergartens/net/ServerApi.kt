@@ -83,6 +83,18 @@ class ServerApi {
             return converter(request)
         }
 
+        //评论动态
+        fun commitDynamicComent(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitComment")
+            val params = HttpParams()
+            params.put("commentContent", commentContent)
+            params.put("dynamicId", dynamicId)
+            params.put("parentCommentId", parentCommentId)
+            params.put("groupTag", groupTag)
+            request.params(params)
+            return converter(request)
+        }
+
         inline fun <reified T> converter(request: PostRequest<T>): Observable<T> {
             return request.converter(JsonConvert(T::class.java)).adapt(ObservableBody<T>()).composeMain()
         }

@@ -51,7 +51,7 @@ class UserdataHelper {
         }
 
         //如果有用户执行闭包
-        fun haveOnlineLet(block: TUserModel.() -> Unit) {
+        fun haveOnlineLet(block: (TUserModel) -> Unit) {
             val onlineUser = getOnlineUser()
             if (onlineUser != null) {
                 block(onlineUser)

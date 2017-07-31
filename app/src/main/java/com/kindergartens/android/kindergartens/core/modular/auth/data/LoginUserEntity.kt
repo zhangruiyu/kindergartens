@@ -5,6 +5,6 @@ package com.kindergartens.android.kindergartens.core.modular.auth.data
  */
 
 class LoginUserEntity(var data: Data) {
-    data class Data(var tel: String,
+    data class Data(var tel: String, var id: String,
                     var token: String)
 }

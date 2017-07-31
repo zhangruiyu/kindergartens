@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.GridLayoutManager
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,8 +17,10 @@ import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
-import com.kindergartens.android.kindergartens.ext.safeDissmiss
+import com.kindergartens.android.kindergartens.ext.safeDismiss
+import com.kindergartens.android.kindergartens.ext.setUnCancel
 import com.kindergartens.android.kindergartens.ext.toText
+import com.kindergartens.android.kindergartens.ext.getWaitDialog
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.mabeijianxi.smallvideorecord2.MediaRecorderActivity
@@ -107,18 +108,8 @@ class EditDynamicActivity : BaseToolbarActivity() {
                 return@onOptionsItemSelected true
             }
             val isVideoDynamic = dynamic_type == VIDEO_TYPE
-            val dialog = MaterialDialog.Builder(this)
-                    .title("正在发布中")
-                    .content(R.string.please_wait)
-                    .progress(true, 0)
-                    .show()
-            dialog.setCancelable(false)
-            dialog.setOnKeyListener { _, keyCode, _ ->
-                if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_SEARCH) {
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
+            val dialog = getWaitDialog()
+            dialog.setUnCancel()
             ServerApi.getOCSPeriodEffectiveSignSign(if (isVideoDynamic) {
                 1
             } else {
@@ -137,7 +128,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    dialog?.safeDissmiss()
+                    dialog?.safeDismiss()
                 }
 
             })
@@ -151,17 +142,17 @@ class EditDynamicActivity : BaseToolbarActivity() {
             if (it.isSucceed) {
                 //成功后回调
                 ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
-                        .doOnTerminate { dialog?.safeDissmiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                        .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
                     override fun onNext(any: Any) {
                         toast("消息发布成功!")
-                        dialog?.safeDissmiss()
+                        dialog?.safeDismiss()
                         finish()
                     }
 
                 })
             } else {
                 //失败
-                dialog?.safeDissmiss()
+                dialog?.safeDismiss()
             }
 
         })
@@ -177,7 +168,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                 if (it.isSucceed) {
                     //图片上传完毕 开始把信息给服务端
                     ServerApi.commitDynamicPic(edt_dynamic_content.toText(), it.uploadPics!!)
-                            .doOnTerminate { dialog?.safeDissmiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                            .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
                         override fun onNext(t: Any) {
                             toast("消息发布成功!")
                             finish()
@@ -185,7 +176,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                     })
                 } else {
                     //失败
-                    dialog?.safeDissmiss()
+                    dialog?.safeDismiss()
                 }
             })
         }
