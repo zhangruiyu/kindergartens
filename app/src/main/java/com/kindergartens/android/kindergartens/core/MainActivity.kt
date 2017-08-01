@@ -8,9 +8,9 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragmentActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity
-import com.kindergartens.android.kindergartens.core.modular.home.dummy.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
+import com.kindergartens.android.kindergartens.core.modular.home.dummy.DynamicFragment
 import com.kindergartens.android.kindergartens.core.modular.video.CustomMediaRecorderActivity
 import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
@@ -26,7 +26,7 @@ class MainActivity : BaseFragmentActivity() {
     private var index: Int = 0
     private var mTextMessage: TextView? = null
     var homepageFragment = HomepageFragment()
-    val dynamicFragmtent = DynamicFragment()
+    val dynamicFragment = DynamicFragment()
     val homepageFragment3 = OtherFragment.newInstance()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -60,7 +60,7 @@ class MainActivity : BaseFragmentActivity() {
 
     private fun initFragments() {
         add(fragment = homepageFragment)
-        add(fragment = dynamicFragmtent)
+        add(fragment = dynamicFragment)
         add(fragment = homepageFragment3)
 
 
@@ -134,6 +134,7 @@ class MainActivity : BaseFragmentActivity() {
         }
         fragmentTransaction.show(mFragments!![index]).commit()
         currentTabIndex = index
+
     }
 
 }

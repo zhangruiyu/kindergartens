@@ -53,4 +53,5 @@
     <dimen name="dynamic_select_pic_margin">20dp</dimen>
     <dimen name="item_normal_margin">14dp</dimen>
     <dimen name="dynamic_tools_margin">30dp</dimen>
+    <dimen name="other_marleft">20dp</dimen>
 </resources>

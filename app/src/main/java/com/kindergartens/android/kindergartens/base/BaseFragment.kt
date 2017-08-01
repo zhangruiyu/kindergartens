@@ -1,6 +1,7 @@
 package com.kindergartens.android.kindergartens.base
 
 import android.os.Bundle
+import com.apkfuns.logutils.LogUtils
 import com.trello.rxlifecycle2.components.support.RxFragment
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
@@ -8,7 +9,7 @@ import org.jetbrains.anko.debug
 /**
  * Created by zhangruiyu on 2017/6/21.
  */
-open class BaseFragment : RxFragment(), AnkoLogger {
+open class BaseFragment : RxFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         onVisible()
@@ -16,7 +17,7 @@ open class BaseFragment : RxFragment(), AnkoLogger {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        debug { (if (hidden) "不可见" else "可见") + "======" + javaClass.canonicalName }
+        LogUtils.e((if (hidden) "不可见" else "可见") + "======" + javaClass.canonicalName)
         try {
             if (!hidden) {
                 //fragment显示时候调用

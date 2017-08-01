@@ -88,6 +88,8 @@ dependencies {
     compile 'com.yanzhenjie:permission:1.0.8'
     //支持emojicon的view
     compile 'io.github.rockerhieu:emojicon:1.4.2'
+    //动画支持
+    compile "com.andkulikov:transitionseverywhere:1.7.4"
     //图片选择
     compile 'com.nineoldandroids:library:2.4.0'
     testCompile 'junit:junit:4.12'

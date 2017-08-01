@@ -1,6 +1,7 @@
 package com.kindergartens.android.kindergartens.net
 
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
+import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.composeMain
 import com.kindergartens.okrxkotlin.JsonConvert
@@ -92,6 +93,12 @@ class ServerApi {
             params.put("parentCommentId", parentCommentId)
             params.put("groupTag", groupTag)
             request.params(params)
+            return converter(request)
+        }
+
+        //评论动态
+        fun getAccountProfile(): Observable<UserProfileEntity> {
+            val request = OkGo.post<UserProfileEntity>("$baseUrl/user/profile")
             return converter(request)
         }
 

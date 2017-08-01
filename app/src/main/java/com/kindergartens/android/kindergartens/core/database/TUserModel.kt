@@ -15,6 +15,15 @@ class TUserModel : BaseModel() {
     @Column var id: String? = null
     @Column(defaultValue = "") var token: String? = null
     @Column var isOnline: Boolean = false
+    @Column var nickName: String? = null
+    @Column var avatar: String? = null
+        get() {
+            if (field?.isEmpty() ?: true) {
+                return "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3063611797,2186093747&fm=117&gp=0.jpg"
+            } else {
+                return field
+            }
+        }
 }
 
 inline fun TUser(init: TUserModel.() -> Unit): TUserModel {

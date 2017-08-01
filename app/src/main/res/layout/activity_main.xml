@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:text="北京市"
+                    android:text="天云山幼儿园"
                     android:textColor="@color/white"
                     android:textSize="@dimen/default_medium_text_size"/>
             </LinearLayout>

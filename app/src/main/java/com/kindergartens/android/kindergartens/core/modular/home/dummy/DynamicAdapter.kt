@@ -39,7 +39,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         //设置图片start
         val recyclerView = helper.getView<RecyclerView>(R.id.rcy_dynamic_pic)
         val layoutParams = recyclerView.layoutParams
-        var row: Int
+        val row: Int
         if (item.tails.kgDynamicPics.size % 3 != 0) {
             row = item.tails.kgDynamicPics.size / 3 + 1
         } else {
