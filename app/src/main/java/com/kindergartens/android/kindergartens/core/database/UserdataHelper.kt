@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens.core.database
 
+import com.kindergartens.android.kindergartens.ext.applyAndSave
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.raizlabs.android.dbflow.kotlinextensions.*
@@ -66,10 +67,10 @@ class UserdataHelper {
         //退出登陆
         fun loginOut(block: () -> Unit = {}) {
             val onlineUser = getOnlineUser()
-            onlineUser?.apply {
+            onlineUser?.applyAndSave {
                 isOnline = false
                 token = ""
-            }?.save()
+            }
             resetData()
             block.invoke()
 

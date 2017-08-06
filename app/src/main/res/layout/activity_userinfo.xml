@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    tools:context=".core.modular.userinfo.UserInfoActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_avatar"
+        style="@style/ImageViewSelect"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edt_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/user_info_mar_left"
+        android:hint=""
+        app:met_iconLeft="@drawable/ic_person_name"
+        app:met_iconPadding="0dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/user_info_mar_left"
+        android:layout_marginTop="@dimen/user_info_mar_top"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_person_name"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/accb_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/accb_men"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        style="@style/default_text_subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/user_info_mar_left"
+        android:layout_marginTop="20dp"
+        android:text="与园中孩子的关系"
+        android:textColor="@color/accent"/>
+
+    <com.kindergartens.android.kindergartens.core.ui.KeyRadioGroupV2
+        android:id="@+id/krgv_check_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/user_info_mar_left"
+        android:layout_marginTop="@dimen/user_info_mar_top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="0"
+                android:text="父亲"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_two"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="1"
+                android:text="母亲"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_three"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="2"
+                android:text="爷爷"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_four"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="3"
+                android:text="奶奶"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_five"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="4"
+                android:text="外婆"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_six"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="5"
+                android:text="外公"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_seven"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="6"
+                android:text="其他"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/acrb_eight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="其他"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </com.kindergartens.android.kindergartens.core.ui.KeyRadioGroupV2>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/met_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/user_info_mar_left"
+        android:layout_marginTop="20dp"
+        android:hint="添加居住地,以便园方及时联系"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/ic_location_on"
+        app:met_iconPadding="0dp"
+        />
+</LinearLayout>

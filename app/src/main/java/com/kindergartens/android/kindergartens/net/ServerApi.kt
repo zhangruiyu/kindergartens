@@ -85,7 +85,7 @@ class ServerApi {
         }
 
         //评论动态
-        fun commitDynamicComent(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<Any> {
+        fun commitDynamicComment(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<Any> {
             val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitComment")
             val params = HttpParams()
             params.put("commentContent", commentContent)
@@ -99,6 +99,18 @@ class ServerApi {
         //评论动态
         fun getAccountProfile(): Observable<UserProfileEntity> {
             val request = OkGo.post<UserProfileEntity>("$baseUrl/user/profile")
+            return converter(request)
+        }
+
+        //修改个人信息
+        fun reviseProfile(checkGender: Int, relationCheck: Int, address: String, avatar: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/reviseProfile")
+            val params = HttpParams()
+            params.put("checkGender", checkGender)
+            params.put("relationCheck", relationCheck)
+            params.put("address", address)
+            params.put("avatarUrl", avatar)
+            request.params(params)
             return converter(request)
         }
 

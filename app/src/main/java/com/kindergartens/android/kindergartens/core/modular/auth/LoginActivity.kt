@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.text.TextUtils
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -32,28 +34,29 @@ class LoginActivity : BaseToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 允许使用transitions
         setContentView(R.layout.activity_login)
         LoginFragment()
         stl_tab.setViewPager(vp_auth, arrayOf("登陆", "注册"), this, arrayListOf(LoginFragment(), RegisterFragment()))
         // Set up the login form.
-      /*  mEmailView = findViewById(R.id.email) as AutoCompleteTextView
-        //获取本地的预输入手机号
-        onLoadFinished()
+        /*  mEmailView = findViewById(R.id.email) as AutoCompleteTextView
+          //获取本地的预输入手机号
+          onLoadFinished()
 
-        mPasswordView = findViewById(R.id.password) as EditText
-        mPasswordView!!.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
-            if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                attemptLogin()
-                return@OnEditorActionListener true
-            }
-            false
-        })
+          mPasswordView = findViewById(R.id.password) as EditText
+          mPasswordView!!.setOnEditorActionListener(TextView.OnEditorActionListener { textView, id, keyEvent ->
+              if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                  attemptLogin()
+                  return@OnEditorActionListener true
+              }
+              false
+          })
 
-        val mEmailSignInButton = findViewById(R.id.email_sign_in_button) as Button
-        mEmailSignInButton.setOnClickListener { attemptLogin() }
+          val mEmailSignInButton = findViewById(R.id.email_sign_in_button) as Button
+          mEmailSignInButton.setOnClickListener { attemptLogin() }
 
-        mLoginFormView = findViewById(R.id.login_form)
-        mProgressView = findViewById(R.id.login_progress)*/
+          mLoginFormView = findViewById(R.id.login_form)
+          mProgressView = findViewById(R.id.login_progress)*/
     }
 
     /**

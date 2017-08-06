@@ -54,4 +54,6 @@
     <dimen name="item_normal_margin">14dp</dimen>
     <dimen name="dynamic_tools_margin">30dp</dimen>
     <dimen name="other_marleft">20dp</dimen>
+    <dimen name="user_info_mar_left">10dp</dimen>
+    <dimen name="user_info_mar_top">10dp</dimen>
 </resources>

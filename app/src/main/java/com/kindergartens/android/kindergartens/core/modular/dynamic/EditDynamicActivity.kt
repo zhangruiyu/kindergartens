@@ -17,10 +17,10 @@ import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
+import com.kindergartens.android.kindergartens.ext.getWaitDialog
 import com.kindergartens.android.kindergartens.ext.safeDismiss
 import com.kindergartens.android.kindergartens.ext.setUnCancel
 import com.kindergartens.android.kindergartens.ext.toText
-import com.kindergartens.android.kindergartens.ext.getWaitDialog
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.mabeijianxi.smallvideorecord2.MediaRecorderActivity
@@ -40,7 +40,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
     lateinit var selectedAdapter: SelectedDynamicAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE).callback(this).start()
+        AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA).callback(this).start()
         setContentView(R.layout.activity_edit_dynamic)
 
         init()
@@ -101,8 +101,8 @@ class EditDynamicActivity : BaseToolbarActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_send_dynamic) {
-            val find = find<ActionMenuItemView>(R.id.menu_send_dynamic)
+        if (item.itemId == R.id.menu_send) {
+            val find = find<ActionMenuItemView>(R.id.menu_send)
             if (edt_dynamic_content.toText().isEmpty()) {
                 toast("发布内容不能为空")
                 return@onOptionsItemSelected true

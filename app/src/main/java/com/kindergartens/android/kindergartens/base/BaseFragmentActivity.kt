@@ -12,7 +12,7 @@ open class BaseFragmentActivity : BaseActivity(), AnkoLogger {
     protected var current_index: Int = 0
 
 
-    protected override fun onPause() {
+    override fun onPause() {
         super.onPause()
         mFragments?.apply {
             (size > 0).yes {
@@ -27,8 +27,8 @@ open class BaseFragmentActivity : BaseActivity(), AnkoLogger {
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
         mFragments?.apply {
             (size > 0).yes {
                 forEachIndexed { i, fragment ->

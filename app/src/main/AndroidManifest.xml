@@ -69,15 +69,13 @@
         </activity>
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/customTheme"
-            />
-
+            android:theme="@style/customTheme"/>
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/customTheme"/>
-
-        <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity"/>
-        <activity android:name=".core.modular.video.CustomMediaRecorderActivity"/>
+        <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity" />
+        <activity android:name=".core.modular.video.CustomMediaRecorderActivity" android:label=""/>
+        <activity android:name=".core.modular.userinfo.UserInfoActivity" android:label="编辑个人信息"/>
     </application>
 
 </manifest>

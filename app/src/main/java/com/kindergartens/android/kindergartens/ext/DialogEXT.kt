@@ -26,9 +26,9 @@ fun Dialog?.setUnCancel(): Dialog {
     return this
 }
 
-fun Context?.getWaitDialog(): MaterialDialog {
+fun Context?.getWaitDialog(title: String = "正在发布中"): MaterialDialog {
     return MaterialDialog.Builder(this!!)
-            .title("正在发布中")
+            .title(title)
             .content(R.string.please_wait)
             .progress(true, 0)
             .show()

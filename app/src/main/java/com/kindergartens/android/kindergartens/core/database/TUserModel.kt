@@ -24,6 +24,9 @@ class TUserModel : BaseModel() {
                 return field
             }
         }
+    @Column var gender: Int? = null
+    @Column var address: String? = null
+    @Column(defaultValue = "0") var relation: Int? = null
 }
 
 inline fun TUser(init: TUserModel.() -> Unit): TUserModel {

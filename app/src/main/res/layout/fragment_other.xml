@@ -42,9 +42,9 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_login"
+            style="@style/default_click_view"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            style="@style/default_click_view">
+            android:layout_height="70dp">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_avatar"
@@ -80,5 +80,11 @@
         </android.support.v7.widget.CardView>
     </FrameLayout>
 
-
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/bt_login_out"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="退出登录"/>
 </LinearLayout>

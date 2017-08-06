@@ -68,7 +68,7 @@ class DynamicFragment : BaseFragment() {
                             .inputRangeRes(5, 200, R.color.accent)
                             .input(null, null, { dialog, input ->
                                 val waitDialog = ctx.getWaitDialog()
-                                ServerApi.commitDynamicComent(input.toString(), view.tag as String)
+                                ServerApi.commitDynamicComment(input.toString(), view.tag as String)
                                         .doOnTerminate {
                                             waitDialog.safeDismiss()
                                             dialog.safeDismiss()
@@ -109,7 +109,7 @@ class DynamicFragment : BaseFragment() {
                             .input(null, null, { dialog, input ->
                                 val waitDialog = ctx.getWaitDialog()
                                 val tag = (view.tag as DynamicEntity.Data.Tails.KgDynamicComment)
-                                ServerApi.commitDynamicComent(input.toString(), tag.dynamicId, tag.id, tag.groupTag)
+                                ServerApi.commitDynamicComment(input.toString(), tag.dynamicId, tag.id, tag.groupTag)
                                         .doOnTerminate {
                                             waitDialog.safeDismiss()
                                         }
