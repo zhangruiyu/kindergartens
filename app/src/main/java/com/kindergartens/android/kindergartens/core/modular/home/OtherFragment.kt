@@ -35,7 +35,6 @@ class OtherFragment : BaseFragment() {
                 override fun onNext(t: UserProfileEntity) {
                     //重新设置
                     setUpUserUi(UserdataHelper.selectUserByTel(it.tel!!).applyAndSave {
-                        avatar = t.data.avatar
                         nickName = t.data.nickName
                     })
                 }

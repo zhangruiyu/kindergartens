@@ -49,6 +49,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${support_version}"
     compile "com.android.support:design:${support_version}"
     compile "com.android.support:cardview-v7:${support_version}"
+    compile 'com.trycatch.android:mysnackbar:1.2.2'
     //
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     //状态布局

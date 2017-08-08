@@ -24,6 +24,13 @@ class TUserModel : BaseModel() {
                 return field
             }
         }
+        set(value) {
+            if (value?.isEmpty() ?: true) {
+                return
+            } else {
+                field = value
+            }
+        }
     @Column var gender: Int? = null
     @Column var address: String? = null
     @Column(defaultValue = "0") var relation: Int? = null

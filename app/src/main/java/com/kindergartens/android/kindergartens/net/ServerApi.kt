@@ -2,6 +2,7 @@ package com.kindergartens.android.kindergartens.net
 
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
+import com.kindergartens.android.kindergartens.core.modular.userinfo.data.ProfileAlteredInfo
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.composeMain
 import com.kindergartens.okrxkotlin.JsonConvert
@@ -57,6 +58,15 @@ class ServerApi {
 
             return converter(request)
         }
+        //单次sign
+        fun getOCSOneEffectiveSignSign(type: Int): Observable<SignInfo> {
+            val request = OkGo.post<SignInfo>("$baseUrl/user/cos/oneEffectiveSign")
+            val params = HttpParams()
+            params.put("type", type)
+            request.params(params)
+
+            return converter(request)
+        }
 
 
         //发布视频动态
@@ -103,8 +113,8 @@ class ServerApi {
         }
 
         //修改个人信息
-        fun reviseProfile(checkGender: Int, relationCheck: Int, address: String, avatar: String): Observable<Any> {
-            val request = OkGo.post<Any>("$baseUrl/user/reviseProfile")
+        fun reviseProfile(checkGender: Int, relationCheck: Int, address: String, avatar: String): Observable<ProfileAlteredInfo> {
+            val request = OkGo.post<ProfileAlteredInfo>("$baseUrl/user/reviseProfile")
             val params = HttpParams()
             params.put("checkGender", checkGender)
             params.put("relationCheck", relationCheck)

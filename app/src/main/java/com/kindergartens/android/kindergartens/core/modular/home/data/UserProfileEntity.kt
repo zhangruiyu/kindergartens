@@ -8,8 +8,7 @@ import com.kindergartens.android.kindergartens.base.BaseEntity
 data class UserProfileEntity(var code: Int,
                              var data: Data,
                              var msg: String) : BaseEntity {
-    data class Data(var avatar: String,
-                    var classroomId: Int,
+    data class Data(var classroomId: Int,
                     var nickName: String,
                     var schoolId: Int) : BaseEntity
 }

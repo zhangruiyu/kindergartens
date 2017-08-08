@@ -2,10 +2,13 @@
 
 package com.kindergartens.android.kindergartens.ext
 
+import android.app.Activity
 import android.content.Context
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
+import android.view.View
+import android.view.ViewGroup
 import com.kindergartens.android.kindergartens.KGApplication
 
 
@@ -28,3 +31,7 @@ fun Context.getColorSource(@ColorRes id: Int) = resources.getColor(id)
 
 fun Fragment.getDrawableSource(@DrawableRes id: Int) = resources.getDrawable(id)
 fun Context.getDrawableSource(@DrawableRes id: Int) = resources.getDrawable(id)
+
+fun Activity.getRootView(): View {
+    return (findViewById(android.R.id.content) as ViewGroup).getChildAt(0)
+}
