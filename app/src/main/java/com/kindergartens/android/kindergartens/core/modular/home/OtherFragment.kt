@@ -42,7 +42,7 @@ class OtherFragment : BaseFragment() {
             })
             setUpUserUi(it)
         }
-        TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.RIGHT))
+        TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.TOP))
         card_noLogin.visibility = if (haveOnlineUser) View.INVISIBLE else View.VISIBLE
         bt_login_out.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
         card_login.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE

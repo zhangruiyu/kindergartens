@@ -16,7 +16,6 @@ import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
 import com.mabeijianxi.smallvideorecord2.model.MediaRecorderConfig
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.startActivity
 
 
@@ -73,9 +72,14 @@ class MainActivity : BaseFragmentActivity() {
         bottom_navigation_bar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE
                 )
+//        bottom_navigation_bar.addItem(BottomNavigationItem(R.drawable.ic_home_normal).setActiveColorResource(R.color.accent))
+//                .addItem(BottomNavigationItem(R.drawable.ic_notifications_normal).setActiveColorResource(R.color.blue))
+//                .addItem(BottomNavigationItem(R.drawable.ic_menu_normal).setActiveColorResource(R.color.grey))
+//                //                .setFirstSelectedPosition(1)
+//                .initialise()
         bottom_navigation_bar.addItem(BottomNavigationItem(R.drawable.ic_home_normal).setActiveColorResource(R.color.accent))
-                .addItem(BottomNavigationItem(R.drawable.ic_notifications_normal).setActiveColorResource(R.color.blue))
-                .addItem(BottomNavigationItem(R.drawable.ic_menu_normal).setActiveColorResource(R.color.grey))
+                .addItem(BottomNavigationItem(R.drawable.ic_notifications_normal).setActiveColorResource(R.color.accent))
+                .addItem(BottomNavigationItem(R.drawable.ic_menu_normal).setActiveColorResource(R.color.accent))
                 //                .setFirstSelectedPosition(1)
                 .initialise()
         bottom_navigation_bar.setFab(fab_home)
@@ -106,7 +110,7 @@ class MainActivity : BaseFragmentActivity() {
 
             override fun onTabSelected(position: Int) {
                 changeFragmentByIndex(position)
-                toolbar!!.setBackgroundResource(ids[position])
+//                toolbar!!.setBackgroundResource(ids[position])
                 fab_home?.apply {
                     if (position == 2) {
                         hideButton()
@@ -118,7 +122,7 @@ class MainActivity : BaseFragmentActivity() {
             }
 
         })
-        toolbar!!.backgroundResource = ids[bottom_navigation_bar.currentSelectedPosition]
+//        toolbar!!.backgroundResource = ids[bottom_navigation_bar.currentSelectedPosition]
     }
 
     private fun changeFragmentByIndex(currentIndex: Int) {
