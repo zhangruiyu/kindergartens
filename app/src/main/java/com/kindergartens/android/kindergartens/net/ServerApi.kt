@@ -2,6 +2,7 @@ package com.kindergartens.android.kindergartens.net
 
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
+import com.kindergartens.android.kindergartens.core.modular.schoolmessage.data.MessageEntity
 import com.kindergartens.android.kindergartens.core.modular.userinfo.data.ProfileAlteredInfo
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.composeMain
@@ -58,6 +59,7 @@ class ServerApi {
 
             return converter(request)
         }
+
         //单次sign
         fun getOCSOneEffectiveSignSign(type: Int): Observable<SignInfo> {
             val request = OkGo.post<SignInfo>("$baseUrl/user/cos/oneEffectiveSign")
@@ -126,6 +128,14 @@ class ServerApi {
 
         inline fun <reified T> converter(request: PostRequest<T>): Observable<T> {
             return request.converter(JsonConvert(T::class.java)).adapt(ObservableBody<T>()).composeMain()
+        }
+
+        //校园消息
+        fun getSchoolMessage(): Observable<MessageEntity> {
+            val request = OkGo.post<MessageEntity>("$baseUrl/user/messageList/schoolMessage")
+            val params = HttpParams()
+            request.params(params)
+            return converter(request)
         }
 
     }

@@ -7,12 +7,12 @@ noArg {
     annotation("com.kindergartens.android.kindergartens.base")
 }
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "android.kindergartens.com"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -36,7 +36,7 @@ android {
 }
 
 def dbflow_version = "4.0.5"
-def support_version = '25.3.1'
+def support_version = '26.0.1'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':kotlin_ext_library')
@@ -49,9 +49,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${support_version}"
     compile "com.android.support:design:${support_version}"
     compile "com.android.support:cardview-v7:${support_version}"
-    compile 'com.trycatch.android:mysnackbar:1.2.2'
     //
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
     //状态布局
     //kotlin anko
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -79,20 +77,23 @@ dependencies {
     //图片选择
     //    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     //    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
-    compile 'com.nineoldandroids:library:2.4.0'
     //    compile 'com.tencent.cos:cos:4.3.2+@aar'
     compile files('libs/sha1utils.jar')
     compile files('libs/okio-1.6.0.jar')
     compile files('libs/cos-sdk-android.1.4.3.10.jar')
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.trycatch.android:mysnackbar:1.2.2'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile "com.android.support:support-vector-drawable:${support_version}"
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.3'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.youth.banner:banner:1.4.9'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile "com.android.support:support-v4:${support_version}"
     compile 'am.widget:stateframelayout:2.0.2'
     compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
@@ -101,7 +102,6 @@ dependencies {
     compile 'com.yanzhenjie:permission:1.0.8'
     compile 'io.github.rockerhieu:emojicon:1.4.2'
     compile 'com.andkulikov:transitionseverywhere:1.7.4'
-    compile 'com.nineoldandroids:library:2.4.0'
     compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
@@ -112,6 +112,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 repositories {
+    google()
+    jcenter()
     mavenCentral()
 }
 kotlin {

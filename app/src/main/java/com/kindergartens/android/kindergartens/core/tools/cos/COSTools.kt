@@ -3,27 +3,17 @@ package com.kindergartens.android.kindergartens.core.tools.cos
 import com.kindergartens.android.kindergartens.core.ali.BizService
 import com.mazouri.tools.io.FileTool
 import com.tencent.cos.model.PutObjectRequest
-import java.io.File
 
 /**
  * Created by zhangruiyu on 2017/7/18.
  */
 class COSTools {
     companion object {
-        fun putArray() {
-            val file = File("/storage/emulated/0/Pictures/Screenshots/Screenshot_20170718-232601.png")
-//            FileTool.instance().getFileExtension()
-
-//            a.putObjectForSamllFile("/pic/dynamic/118/${UUID.randomUUID()}", "/storage/emulated/0/Pictures/Screenshots/Screenshot_20170718-232601.png")
-//            OSSFederationCredentialProvider
-//            OSSStsTokenCredentialProvider()
-//            OSSClient(KGApplication.Companion.kgApplication,)
-        }
 
         /**
          * 简单文件上传 : <20M的文件，直接上传
          */
-        fun toUploadRequest (cosPath: String, localPath: String, sign: String): PutObjectRequest {
+        fun toUploadRequest(cosPath: String, localPath: String, sign: String): PutObjectRequest {
             val bizService = BizService.instance()
             /** PutObjectRequest 请求对象  */
             val putObjectRequest = PutObjectRequest()
