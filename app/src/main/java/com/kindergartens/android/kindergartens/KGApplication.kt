@@ -11,6 +11,7 @@ import com.mabeijianxi.smallvideorecord2.JianXiCamera
 import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
+import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.ctx
 
@@ -31,6 +32,13 @@ class KGApplication : Application() {
                 .configAllowLog(true)//是否开启
         //查询出当前用户
         UserdataHelper.getOnlineUser()
+//        initEzOpen()
+    }
+
+    private fun initEzOpen() {
+        EZOpenSDK.showSDKLog(true)
+        EZOpenSDK.enableP2P(false)
+        EZOpenSDK.initLib(this, "b109fdee59b14b19b48927f627814c58", "")
     }
 
     private fun initNet() {

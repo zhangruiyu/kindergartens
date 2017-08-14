@@ -40,6 +40,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
         android:name=".KGApplication"
@@ -83,6 +84,11 @@
         <activity
             android:name=".core.modular.schoolmessage.SchoolMessageActivity"
             android:label="校园消息"/>
+        <activity
+            android:name=".core.modular.classroom.ClassRoomActivity"
+            android:label="@string/title_activity_class_room"
+            android:theme="@style/KGAppTheme">
+        </activity>
     </application>
 
 </manifest>

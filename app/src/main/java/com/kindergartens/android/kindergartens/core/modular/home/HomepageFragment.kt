@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
+import com.kindergartens.android.kindergartens.core.modular.classroom.ClassRoomActivity
 import com.kindergartens.android.kindergartens.core.modular.home.data.HomepageItemBean
 import com.kindergartens.android.kindergartens.core.modular.schoolmessage.SchoolMessageActivity
 import com.kindergartens.android.kindergartens.core.ui.NGGuidePageTransformer
@@ -55,10 +56,10 @@ open class HomepageFragment : BaseFragment() {
 
     //摄像头放中间 方便老师看见
     val itemBeans = mutableListOf(HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
+            HomepageItemBean(R.drawable.home_fab_icon, "校园消息"),
             HomepageItemBean(R.drawable.home_fab_icon, "校园消息"),
             HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
+            HomepageItemBean(R.drawable.home_fab_icon, "在线视频"),
             HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
             HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
             HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
@@ -93,8 +94,11 @@ open class HomepageFragment : BaseFragment() {
         rl_homepage_content.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 toast(position.toString())
-                if (position == 1){
-                    startActivity<SchoolMessageActivity>()
+                when (position) {
+                    1 -> startActivity<SchoolMessageActivity>()
+                    4 -> {
+                        startActivity<ClassRoomActivity>()
+                    }
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]
 //                val intent = Intent(context, SchoolDetailActivity::class.java)
