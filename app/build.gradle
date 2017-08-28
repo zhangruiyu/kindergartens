@@ -17,10 +17,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-//        ndk {
-//            abiFilters "armeabi-v7a"
-//            abiFilters "armeabi"
-//        }
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -96,7 +95,6 @@ dependencies {
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.3'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.youth.banner:banner:1.4.9'
-    compile "com.android.support:support-v4:${support_version}"
     compile 'am.widget:stateframelayout:2.0.2'
     compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
@@ -112,16 +110,17 @@ dependencies {
     compile 'com.apkfuns.logutils:library:1.5.1.1'
     compile 'com.mabeijianxi:small-video-record2:2.0.3@aar'
     //萤石云sdk
-//    compile 'com.hikvision.ezviz:ezuikit:1.2'
+    compile 'com.hikvision.ezviz:ezuikit:1.2'
+    //校验edittext这样的
+//    compile 'com.github.yoojia:next-inputs-android:1.6'
     testCompile 'junit:junit:4.12'
-}
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
 }
 kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+androidExtensions {
+    experimental = true
 }

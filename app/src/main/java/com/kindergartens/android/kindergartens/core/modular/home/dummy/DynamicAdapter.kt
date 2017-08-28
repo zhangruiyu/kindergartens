@@ -19,7 +19,7 @@ import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.tools.TimeUtil
-import com.kindergartens.android.kindergartens.ext.width
+import com.kindergartens.android.kindergartens.ext.getWidth
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import org.jetbrains.anko.dimen
 
@@ -45,7 +45,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         } else {
             row = item.tails.kgDynamicPics.size / 3
         }
-        val item_width = ctx.width() - ctx.dimen(R.dimen.item_normal_margin) * 2
+        val item_width = ctx.getWidth() - ctx.dimen(R.dimen.item_normal_margin) * 2
         layoutParams.width = item_width
         LogUtils.e("动态图片row == $row")
         layoutParams.height = item_width / 3 * row
@@ -114,8 +114,8 @@ class DynamicPicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.Data.
         val imageView = helper.getView<ImageView>(R.id.iv_dynamic_item_pic)
         Glide.with(ctx).load(item.picUrl).into(imageView)
         val layoutParams = imageView.layoutParams
-        layoutParams.width = ctx.width() / 3
-        layoutParams.height = ctx.width() / 3
+        layoutParams.width = ctx.getWidth() / 3
+        layoutParams.height = ctx.getWidth() / 3
     }
 
 }

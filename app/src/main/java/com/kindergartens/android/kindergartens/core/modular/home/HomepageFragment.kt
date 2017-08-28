@@ -14,7 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
-import com.kindergartens.android.kindergartens.core.modular.classroom.ClassRoomActivity
+import com.kindergartens.android.kindergartens.core.modular.classroom.ClassroomActivity
 import com.kindergartens.android.kindergartens.core.modular.home.data.HomepageItemBean
 import com.kindergartens.android.kindergartens.core.modular.schoolmessage.SchoolMessageActivity
 import com.kindergartens.android.kindergartens.core.ui.NGGuidePageTransformer
@@ -97,7 +97,7 @@ open class HomepageFragment : BaseFragment() {
                 when (position) {
                     1 -> startActivity<SchoolMessageActivity>()
                     4 -> {
-                        startActivity<ClassRoomActivity>()
+                        startActivity<ClassroomActivity>()
                     }
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]

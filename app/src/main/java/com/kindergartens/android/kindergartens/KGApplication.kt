@@ -12,6 +12,7 @@ import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.videogo.openapi.EZOpenSDK
+//import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.ctx
 
@@ -27,12 +28,12 @@ class KGApplication : Application() {
         FlowManager.init(FlowConfig.Builder(this).build())
         initNet()
         BizService.instance().init(this)
-        initSmallVideo()
+//        initSmallVideo()
         LogUtils.getLogConfig().configTagPrefix(Tools.appTool().getPackageName(ctx))
                 .configAllowLog(true)//是否开启
         //查询出当前用户
         UserdataHelper.getOnlineUser()
-//        initEzOpen()
+        initEzOpen()
     }
 
     private fun initEzOpen() {

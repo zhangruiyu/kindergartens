@@ -85,9 +85,9 @@
             android:name=".core.modular.schoolmessage.SchoolMessageActivity"
             android:label="校园消息"/>
         <activity
-            android:name=".core.modular.classroom.ClassRoomActivity"
-            android:label="@string/title_activity_class_room"
-            android:theme="@style/KGAppTheme">
+            android:name=".core.modular.classroom.ClassroomActivity"
+            android:label=""
+            >
         </activity>
     </application>
 

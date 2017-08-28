@@ -20,8 +20,9 @@ val height: Int by lazy {
     KGApplication.kgApplication.resources.displayMetrics.heightPixels
 }
 
-fun Context.width() = width
-fun Context.height() = height
+
+fun Context.getWidth() = width
+fun Context.getHeight() = height
 
 fun Fragment.getColorSource(@ColorRes id: Int) = resources.getColor(id)
 fun Context.getColorSource(@ColorRes id: Int) = resources.getColor(id)

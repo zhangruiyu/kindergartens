@@ -17,8 +17,8 @@ class UserdataHelper {
             set(value) {
                 OkGo.getInstance().apply {
                     //在线就设置token
-                    if (value?.isOnline ?: false) {
-                        addCommonHeaders(HttpHeaders("token", value?.token))
+                    if (value?.isOnline == true) {
+                        addCommonHeaders(HttpHeaders("token", value.token))
                     }
 
                 }
@@ -60,9 +60,7 @@ class UserdataHelper {
         }
 
         //是否有在线用户
-        fun haveOnlineUser(): Boolean {
-            return getOnlineUser() != null
-        }
+        fun haveOnlineUser(): Boolean = getOnlineUser() != null
 
         //退出登陆
         fun loginOut(block: () -> Unit = {}) {

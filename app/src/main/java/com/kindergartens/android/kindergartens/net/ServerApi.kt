@@ -1,5 +1,8 @@
 package com.kindergartens.android.kindergartens.net
 
+import com.kindergartens.android.kindergartens.core.modular.classroom.data.ClassroomEntity
+import com.kindergartens.android.kindergartens.core.modular.classroom.data.YSToken
+import com.kindergartens.android.kindergartens.core.modular.classroom.data.YsHelper
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
 import com.kindergartens.android.kindergartens.core.modular.schoolmessage.data.MessageEntity
@@ -29,15 +32,10 @@ class ServerApi {
              return converter(request)
          }
          */
-        inline fun <reified T> getYSToken(): Observable<T> {
-            val request = OkGo.post<T>("https://open.ys7.com/api/lapp/token/get")
-            val params = HttpParams()
-            params.put("appKey", "b109fdee59b14b19b48927f627814c58")
-            params.put("appSecret", "fa7d8a8c75176be997d80f13590dfaa6")
-            request.params(params)
 
-            return converter(request)
-        }
+        inline fun <reified T> converter(request: PostRequest<T>): Observable<T> =
+                request.converter(JsonConvert(T::class.java)).adapt(ObservableBody<T>()).composeMain()
+
 
         inline fun <reified T> registerUser(tel: String, password: String, authCode: String): Observable<T> {
             val request = OkGo.post<T>("https://open.ys7.com/api/lapp/token/get")
@@ -126,9 +124,6 @@ class ServerApi {
             return converter(request)
         }
 
-        inline fun <reified T> converter(request: PostRequest<T>): Observable<T> {
-            return request.converter(JsonConvert(T::class.java)).adapt(ObservableBody<T>()).composeMain()
-        }
 
         //校园消息
         fun getSchoolMessage(): Observable<MessageEntity> {
@@ -138,5 +133,27 @@ class ServerApi {
             return converter(request)
         }
 
+        //获取萤石token
+        fun getYSToken(): Observable<YSToken> {
+            val localToken = YsHelper.getLocalToken()
+            return if (localToken.isNullOrEmpty()) {
+                converter(OkGo.post<YSToken>("$baseUrl/user/ys/registerAndGenerateToken")).map {
+                    YsHelper.saveYSToken(it.data.accessToken!!)
+                    it
+                }
+            } else {
+                Observable.just(YSToken(200, YSToken.Data(localToken!!), ""))
+            }
+        }
+
+        //获取萤石token
+        fun geLocationYSToken(): String? = YsHelper.getLocalToken()
+
+        fun getClassrooms(): Observable<ClassroomEntity> {
+            val request = OkGo.post<ClassroomEntity>("$baseUrl/user/ys/classroom/list")
+            val params = HttpParams()
+            request.params(params)
+            return converter(request)
+        }
     }
 }

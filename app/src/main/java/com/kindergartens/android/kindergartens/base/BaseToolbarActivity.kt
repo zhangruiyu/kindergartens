@@ -19,7 +19,7 @@ open class BaseToolbarActivity : BaseActivity() {
         setUpToolbar()
     }
     private fun setUpToolbar() {
-        toolbar = find<Toolbar>(R.id.toolbar)
+        toolbar = find(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener({ finish() })

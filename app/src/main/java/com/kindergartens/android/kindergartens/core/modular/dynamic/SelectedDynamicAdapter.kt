@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
-import com.kindergartens.android.kindergartens.ext.width
+import com.kindergartens.android.kindergartens.ext.getWidth
 
 /**
  * Created by zhangruiyu on 2017/7/22.
@@ -20,7 +20,7 @@ import com.kindergartens.android.kindergartens.ext.width
 class SelectedDynamicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicSelectedPic, BaseViewHolder>(
         R.layout.layout_dynamic_selected_pics, listOf(DynamicSelectedPic(R.drawable.dynamic_selected_add))) {
     //    var mRequestOptions = RequestOptions().override(ctx.width() / 5, ctx.width() / 5).centerCrop()
-    val width: Int = (ctx.width() / row - ctx.resources.getDimension(R.dimen.dynamic_select_pic_margin)).toInt()
+    val width: Int = (ctx.getWidth() / row - ctx.resources.getDimension(R.dimen.dynamic_select_pic_margin)).toInt()
     val params = ViewGroup.LayoutParams(width, width)
     val image_params = RelativeLayout.LayoutParams(width, width)
 
