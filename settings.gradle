@@ -1,3 +1,1 @@
-include ':app', ':okrxkotlin'
-include ':kotlin_ext_library'
-project(':kotlin_ext_library').projectDir = new File('/Users/zhangruiyu/IdeaProjects/kindergarten/kotlin_ext_library')
+include ':app', ':okrxkotlin', ':kotlin_ext'

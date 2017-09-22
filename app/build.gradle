@@ -42,7 +42,7 @@ def dbflow_version = "4.0.5"
 def support_version = '26.0.1'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':kotlin_ext_library')
+    compile project(':kotlin_ext')
     compile project(':okrxkotlin')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
