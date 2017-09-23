@@ -86,8 +86,11 @@
             android:label="校园消息"/>
         <activity
             android:name=".core.modular.classroom.ClassroomActivity"
-            android:label=""
-            >
+            android:label="">
+        </activity>
+        <activity
+            android:name=".core.modular.eat.EatActivity"
+            android:label="宝贝饮食">
         </activity>
     </application>
 

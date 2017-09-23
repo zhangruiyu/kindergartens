@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens
 
+//import com.videogo.openapi.EZOpenSDK
 import android.app.Application
 import android.os.Environment
 import com.apkfuns.logutils.LogUtils
@@ -11,8 +12,11 @@ import com.mabeijianxi.smallvideorecord2.JianXiCamera
 import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.videogo.openapi.EZOpenSDK
-//import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.ctx
 
@@ -21,6 +25,7 @@ import org.jetbrains.anko.ctx
  * Created by zhangruiyu on 2017/6/21.
  */
 class KGApplication : Application() {
+
     override fun onCreate() {
         super.onCreate()
         kgApplication = this
@@ -72,5 +77,19 @@ class KGApplication : Application() {
     companion object {
         lateinit var kgApplication: KGApplication
         lateinit var okInit: OkHttpClient.Builder
+
+        init {
+            //static 代码段可以防止内存泄露
+            //设置全局的Header构建器
+            SmartRefreshLayout.setDefaultRefreshHeaderCreater { context, layout ->
+                layout.setPrimaryColorsId(R.color.primary, android.R.color.white);//全局设置主题颜色
+                ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+            };
+            //设置全局的Footer构建器
+            SmartRefreshLayout.setDefaultRefreshFooterCreater({ context, _ ->
+                //指定为经典Footer，默认是 BallPulseFooter
+                ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate)
+            })
+        }
     }
 }
