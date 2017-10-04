@@ -6,24 +6,24 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
-import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.ui.CustomLoadMoreView
-import com.kindergartens.android.kindergartens.ext.*
+import com.kindergartens.android.kindergartens.ext.getColorSource
+import com.kindergartens.android.kindergartens.ext.getWaitDialog
+import com.kindergartens.android.kindergartens.ext.safeDismiss
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
+import com.scwang.smartrefresh.header.PhoenixHeader
 import com.yanyusong.y_divideritemdecoration.Y_Divider
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_dynamic.*
-import org.jetbrains.anko.find
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.toast
@@ -41,16 +41,17 @@ class DynamicFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         bsw_dynamic_refresh.setOnRefreshListener {
-            onVisible()
+            refreshData()
         }
+        bsw_dynamic_refresh.refreshHeader = PhoenixHeader(context)
         rcv_dynamic_content.addItemDecoration(DynamicItemDecoration(ctx))
         rcv_dynamic_content.layoutManager = LinearLayoutManager(ctx)
         dynamicAdapter = DynamicAdapter(ctx, childClickListener)
         dynamicAdapter.openLoadAnimation()
-        val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
-        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=401967138,750679164&fm=26&gp=0.jpg")
-                .override(width, (height / 5.5).toInt()).centerCrop().into(headView.find<ImageView>(R.id.iv_dynamic_head_pic))
-        dynamicAdapter.addHeaderView(headView)
+//        val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
+//        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=401967138,750679164&fm=26&gp=0.jpg")
+//                .override(width, (height / 5.5).toInt()).centerCrop().into(headView.find<ImageView>(R.id.iv_dynamic_head_pic))
+//        dynamicAdapter.addHeaderView(headView)
         dynamicAdapter.setOnLoadMoreListener({
             refreshData()
         }, rcv_dynamic_content)
@@ -141,13 +142,13 @@ class DynamicFragment : BaseFragment() {
         super.onVisible()
         //初始化化
         page_index = 0
-        refreshData()
-        bsw_dynamic_refresh.isRefreshing = true
+//        refreshData()
+        bsw_dynamic_refresh.autoRefresh()
     }
 
     //获取动态
     private fun refreshData() {
-        ServerApi.getDynamics(page_index).doOnTerminate { bsw_dynamic_refresh?.isRefreshing = false }.subscribe(object : CustomNetErrorWrapper<DynamicEntity>() {
+        ServerApi.getDynamics(page_index).doOnTerminate { bsw_dynamic_refresh?.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<DynamicEntity>() {
             override fun onNext(it: DynamicEntity) {
                 if (page_index == 0) {
                     dynamicAdapter.data.clear()

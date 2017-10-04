@@ -122,6 +122,8 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
     //饮食页进度库
     compile 'com.github.fython:MaterialStepperView:0.2.2'
+    //播放页面暂停播放按钮
+    compile 'com.github.Lauzy:PlayPauseView:1.0.4'
     testCompile 'junit:junit:4.12'
 }
 kotlin {
