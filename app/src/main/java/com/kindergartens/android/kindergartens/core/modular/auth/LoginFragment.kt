@@ -15,7 +15,8 @@ import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.auth.data.LoginUserEntity
 import com.kindergartens.android.kindergartens.ext.applyAndSave
 import com.kindergartens.android.kindergartens.ext.toText
-import com.kindergartens.okrxkotlin.http
+import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
+import com.kindergartens.android.kindergartens.net.ServerApi
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.ctx
@@ -110,11 +111,8 @@ class LoginFragment : BaseFragment() {
         if (cancel) {
             focusView!!.requestFocus()
         } else {
-            http<LoginUserEntity> {
-                url = "/public/auth/login"
-                params = mapOf("tel" to tel.toText(), "password" to et_password.toText())
-                onSuccess {
-                    //保存到数据库
+            ServerApi.login(tel.toText(), et_password.toText()).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
+                override fun onNext(it: LoginUserEntity) {
                     UserdataHelper.selectUserByTel(it.data.tel).applyAndSave {
                         isOnline = true
                         tel = it.data.tel
@@ -127,7 +125,7 @@ class LoginFragment : BaseFragment() {
                     }
                     activity?.finish()
                 }
-            }
+            })
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 //            showProgress(true)

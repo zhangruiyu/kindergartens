@@ -18,5 +18,9 @@
     <string name="title_activity_class_room">ClassRoomActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="content_step_0">diyi</string>
+    <string name="content_step_1">diyi1</string>
+    <string name="content_step_2">diyi2</string>
+    <string name="toggle_animation_button">hhh</string>
 
 </resources>

@@ -6,7 +6,7 @@ import android.os.Environment
 import com.apkfuns.logutils.LogUtils
 import com.kindergartens.android.kindergartens.core.ali.BizService
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
-import com.kindergartens.okrxkotlin.OkRxInit
+import com.kindergartens.android.kindergartens.ext.OkRxInit
 import com.mabeijianxi.smallvideorecord2.DeviceUtils
 import com.mabeijianxi.smallvideorecord2.JianXiCamera
 import com.mazouri.tools.Tools

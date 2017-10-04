@@ -5,8 +5,6 @@ import com.apkfuns.logutils.LogUtils
 import com.kindergartens.android.kindergartens.KGApplication
 import com.kindergartens.android.kindergartens.base.BaseActivity
 import com.kindergartens.android.kindergartens.ext.TSnackbarUitils
-import com.kindergartens.okrxkotlin.ApiException
-import com.kindergartens.okrxkotlin.ErrorWrapper
 import org.jetbrains.anko.toast
 
 /**

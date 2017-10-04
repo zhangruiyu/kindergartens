@@ -50,21 +50,17 @@ class EatActivity : BaseToolbarActivity() {
 
 
     private class MyAdapter(context: Context, objects: Array<String>) : ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, objects), ThemedSpinnerAdapter {
-        private val mDropDownHelper: ThemedSpinnerAdapter.Helper
-
-        init {
-            mDropDownHelper = ThemedSpinnerAdapter.Helper(context)
-        }
+        private val mDropDownHelper: ThemedSpinnerAdapter.Helper = ThemedSpinnerAdapter.Helper(context)
 
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
             val view: View
 
-            if (convertView == null) {
+            view = if (convertView == null) {
                 // Inflate the drop down using the helper's LayoutInflater
                 val inflater = mDropDownHelper.dropDownViewInflater
-                view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false)
+                inflater.inflate(android.R.layout.simple_list_item_1, parent, false)
             } else {
-                view = convertView
+                convertView
             }
 
             val textView = view.findViewById<View>(android.R.id.text1) as TextView

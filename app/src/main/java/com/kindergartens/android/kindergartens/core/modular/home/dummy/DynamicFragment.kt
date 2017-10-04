@@ -19,7 +19,6 @@ import com.kindergartens.android.kindergartens.core.ui.CustomLoadMoreView
 import com.kindergartens.android.kindergartens.ext.*
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
-import com.kindergartens.okrxkotlin.http
 import com.yanyusong.y_divideritemdecoration.Y_Divider
 import com.yanyusong.y_divideritemdecoration.Y_DividerBuilder
 import com.yanyusong.y_divideritemdecoration.Y_DividerItemDecoration
@@ -96,8 +95,7 @@ class DynamicFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    val childClickListener = {
-        adapter: DynamicAdapter, view: View, position: Int ->
+    val childClickListener = { adapter: DynamicAdapter, view: View, position: Int ->
         when (view.tag) {
             is DynamicEntity.Data.Tails.KgDynamicComment -> {
                 if ((view.tag as DynamicEntity.Data.Tails.KgDynamicComment).id == "0") {
@@ -116,8 +114,7 @@ class DynamicFragment : BaseFragment() {
                                         .subscribe(object : CustomNetErrorWrapper<Any>() {
                                             override fun onNext(t: Any) {
                                                 dialog.safeDismiss()
-                                                adapter.data[position]?.let {
-                                                    dynamicEntity ->
+                                                adapter.data[position]?.let { dynamicEntity ->
                                                     UserdataHelper.haveOnlineLet { onlineUser ->
                                                         dynamicEntity.tails.kgDynamicComment.add(DynamicEntity.Data.Tails.KgDynamicComment(input.toString(), onlineUser.id!!, tag.groupTag, tag.id))
                                                         ctx.runOnUiThread {
@@ -150,10 +147,8 @@ class DynamicFragment : BaseFragment() {
 
     //获取动态
     private fun refreshData() {
-        http<DynamicEntity> {
-            url = "/user/dynamic/list"
-            params = mapOf("page_index" to page_index)
-            onSuccess {
+        ServerApi.getDynamics(page_index).doOnTerminate { bsw_dynamic_refresh?.isRefreshing = false }.subscribe(object : CustomNetErrorWrapper<DynamicEntity>() {
+            override fun onNext(it: DynamicEntity) {
                 if (page_index == 0) {
                     dynamicAdapter.data.clear()
                     dynamicAdapter.notifyDataSetChanged()
@@ -172,13 +167,13 @@ class DynamicFragment : BaseFragment() {
                     SchoolmateHelper.saveSchoolmates(it.data.allClassRoomUserInfo)
                 }
             }
-            doOnTerminate {
-                bsw_dynamic_refresh?.isRefreshing = false
-            }
-            onFail {
+
+            override fun onError(e: Throwable) {
+                super.onError(e)
                 dynamicAdapter.loadMoreFail()
             }
-        }
+
+        })
 
     }
 
