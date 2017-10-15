@@ -38,8 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kindergartens.android.kindergartens.R;
+import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity;
 import com.kindergartens.android.kindergartens.core.modular.video.editer.TCVideoEditerActivity;
-import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity;
 import com.kindergartens.android.kindergartens.core.modular.video.ui.BeautySettingPannel;
 import com.kindergartens.android.kindergartens.core.modular.video.ui.ComposeRecordBtn;
 import com.kindergartens.android.kindergartens.core.modular.video.ui.RecordProgressView;
@@ -842,24 +842,28 @@ public class MediaRecorderActivity extends Activity implements View.OnClickListe
         if (mTXRecordResult != null && (mTXRecordResult.retCode == TXRecordCommon.RECORD_RESULT_OK
                 || mTXRecordResult.retCode == TXRecordCommon.RECORD_RESULT_OK_REACHED_MAXDURATION
                 || mTXRecordResult.retCode == TXRecordCommon.RECORD_RESULT_OK_LESS_THAN_MINDURATION)) {
-            Intent intent = new Intent(getApplicationContext(), TCVideoPreviewActivity.class);
-            intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD);
-            intent.putExtra(TCConstants.VIDEO_RECORD_RESULT, mTXRecordResult.retCode);
-            intent.putExtra(TCConstants.VIDEO_RECORD_DESCMSG, mTXRecordResult.descMsg);
-            intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, mTXRecordResult.videoPath);
-            intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mTXRecordResult.coverPath);
-            if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_LOW) {
-                intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_360_640);
-            } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_MEDIUM) {
-                intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_540_960);
-            } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_HIGH) {
-                intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_720_1280);
-            } else {
-                intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mRecordResolution);
-            }
-            startActivity(intent);
+            startDynamicActivity();
             finish();
         }
+    }
+
+    private void startDynamicActivity() {
+        Intent intent = new Intent(getApplicationContext(), EditDynamicActivity.class);
+        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD);
+        intent.putExtra(TCConstants.VIDEO_RECORD_RESULT, mTXRecordResult.retCode);
+        intent.putExtra(TCConstants.VIDEO_RECORD_DESCMSG, mTXRecordResult.descMsg);
+        intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, mTXRecordResult.videoPath);
+        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mTXRecordResult.coverPath);
+        if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_LOW) {
+            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_360_640);
+        } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_MEDIUM) {
+            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_540_960);
+        } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_HIGH) {
+            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_720_1280);
+        } else {
+            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mRecordResolution);
+        }
+        startActivity(intent);
     }
 
     private void startEditVideo() {

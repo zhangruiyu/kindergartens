@@ -33,9 +33,9 @@
 
             <ch.halcyon.squareprogressbar.SquareProgressBar
                 android:id="@+id/iv_video_background"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:layout_height="120dp"
+                android:layout_height="180dp"
                 />
 
             <ImageView

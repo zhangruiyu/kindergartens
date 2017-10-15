@@ -4,13 +4,19 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.view.menu.ActionMenuItemView
+import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
+import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
+import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
+import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.getWaitDialog
 import com.kindergartens.android.kindergartens.ext.safeDismiss
@@ -34,28 +40,32 @@ class EditDynamicActivity : BaseToolbarActivity() {
     lateinit var selectedAdapter: SelectedDynamicAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA).callback(this).start()
+        AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).callback(this).start()
         setContentView(R.layout.activity_edit_dynamic)
 
         init()
     }
 
     private fun init() {
-      /*  if (intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) != null && intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) != null) {
+        if (intent?.extras?.get(TCConstants.VIDEO_RECORD_VIDEPATH) != null && intent?.extras?.get(TCConstants.VIDEO_RECORD_COVERPATH) != null) {
             dynamic_type = VIDEO_TYPE
             rl_video_info.visibility = View.VISIBLE
             Glide.with(ctx)
-                    .load(File(intent.extras.getString(MediaRecorderActivity.VIDEO_SCREENSHOT)))
+                    .load(File(intent.extras.getString(TCConstants.VIDEO_RECORD_COVERPATH)))
                     .into(iv_video_background.find<ImageView>(R.id.imageView1))
+            rl_video_info.setOnClickListener {
+                val preViewIntent = Intent(ctx, TCVideoPreviewActivity::class.java).putExtras(intent.extras)
+                startActivity(preViewIntent)
+            }
         } else {
             selectedAdapter = SelectedDynamicAdapter(ctx)
             dynamic_type = PIC_TYPE
             rl_video_info.visibility = View.INVISIBLE
             rcv_pics.layoutManager = object : GridLayoutManager(ctx, SelectedDynamicAdapter.row) {}
             rcv_pics.adapter = selectedAdapter
-//        rcv_pics.addItemDecoration(SpaceItemDecoration())
+            //        rcv_pics.addItemDecoration(SpaceItemDecoration())
             selectedAdapter.setOnItemClickListener({ adapter, _, position ->
-
+                toast("22")
                 if (position == adapter!!.itemCount - 1) {
                     //打开相册页面
                     startPickerActivity()
@@ -63,7 +73,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                     toast("22")
                 }
             })
-        }*/
+        }
 
     }
 
@@ -131,26 +141,26 @@ class EditDynamicActivity : BaseToolbarActivity() {
     }
 
     private fun uploadVideoDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
-      /*  VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
-                , {
-            if (it.isSucceed) {
-                //成功后回调
-                ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
-                        .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
-                    override fun onNext(any: Any) {
-                        toast("消息发布成功!")
-                        dialog?.safeDismiss()
-                        finish()
-                    }
+        /*  VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
+                  , {
+              if (it.isSucceed) {
+                  //成功后回调
+                  ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
+                          .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                      override fun onNext(any: Any) {
+                          toast("消息发布成功!")
+                          dialog?.safeDismiss()
+                          finish()
+                      }
 
-                })
-            } else {
-                //失败
-                dialog?.safeDismiss()
-            }
+                  })
+              } else {
+                  //失败
+                  dialog?.safeDismiss()
+              }
 
-        })
-                .putPicForDynamicSelectedPic(t.sign, t.cosPath)*/
+          })
+                  .putPicForDynamicSelectedPic(t.sign, t.cosPath)*/
     }
 
     fun uploadPicDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
@@ -185,5 +195,11 @@ class EditDynamicActivity : BaseToolbarActivity() {
     companion object {
         const val PIC_TYPE = 0
         const val VIDEO_TYPE = 1
+        /* const val VIDEO_URI = "VIDEO_URI"
+         const val VIDEO_SCREENSHOT = "VIDEO_SCREENSHOT"
+         const val VIDEO_DURATION = "VIDEO_DURATION"
+         fun startVideoDynamicActivity(context: Context, videoPath: String, videoImage: String, duration: String) {
+             context.startActivity<EditDynamicActivity>(VIDEO_URI to videoPath, VIDEO_SCREENSHOT to videoImage, VIDEO_DURATION to duration)
+         }*/
     }
 }
