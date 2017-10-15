@@ -120,4 +120,14 @@
     <style name="KGAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="KGAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="ConfirmDialogStyle" parent="Base.Theme.AppCompat.Light.Dialog">
+
+        <item name="windowMinWidthMinor">90%</item>
+
+
+        <item name="android:textColorPrimary">#000000</item>
+
+        <item name="colorAccent">#0accac</item>
+    </style>
 </resources>

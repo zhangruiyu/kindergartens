@@ -1,5 +1,7 @@
 package com.kindergartens.android.kindergartens.core
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.widget.TextView
@@ -11,11 +13,15 @@ import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicA
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.DynamicFragment
-import com.kindergartens.android.kindergartens.core.modular.video.CustomMediaRecorderActivity
+import com.kindergartens.android.kindergartens.core.modular.video.MediaRecorderActivity
+import com.kindergartens.android.kindergartens.core.modular.video.TCVideoSettingActivity
 import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
-import com.mabeijianxi.smallvideorecord2.model.MediaRecorderConfig
+import com.tencent.ugc.TXRecordCommon
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.PermissionYes
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
 
 
@@ -86,20 +92,22 @@ class MainActivity : BaseFragmentActivity() {
         fab_home.setOnClickListener {
             startActivity<EditDynamicActivity>()
         }
+        AndPermission.with(ctx).requestCode(201).permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO).callback(this).start()
         fab_home.setOnLongClickListener {
-            // 录制
-            val config = MediaRecorderConfig.Buidler()
+            /*  // 录制
+              val config = MediaRecorderConfig.Buidler()
 
-                    .fullScreen(false)
-                    .smallVideoWidth(360)
-                    .smallVideoHeight(480)
-                    .recordTimeMax(6000)
-                    .recordTimeMin(1500)
-                    .maxFrameRate(20)
-                    .videoBitrate(600000)
-                    .captureThumbnailsTime(1)
-                    .build()
-            CustomMediaRecorderActivity.goSmallVideoRecorder(this@MainActivity, EditDynamicActivity::class.java.name, config)
+                      .fullScreen(false)
+                      .smallVideoWidth(360)
+                      .smallVideoHeight(480)
+                      .recordTimeMax(6000)
+                      .recordTimeMin(1500)
+                      .maxFrameRate(20)
+                      .videoBitrate(600000)
+                      .captureThumbnailsTime(1)
+                      .build()*/
+
+            startMediaRecorderActivity()
             return@setOnLongClickListener true
         }
         bottom_navigation_bar.setTabSelectedListener(object : BottomNavigationBar.OnTabSelectedListener {
@@ -123,6 +131,23 @@ class MainActivity : BaseFragmentActivity() {
 
         })
 //        toolbar!!.backgroundResource = ids[bottom_navigation_bar.currentSelectedPosition]
+    }
+
+    fun goSmallVideoRecorder(context: Activity, overGOActivityName: String) {
+        //            //视频比例
+        val mAspectRatio = TXRecordCommon.VIDEO_ASPECT_RATIO_9_16
+        //画质
+        val mRecommendQuality = TXRecordCommon.VIDEO_QUALITY_MEDIUM
+//            val mRecommendQuality = TXRecordCommon.VIDEO_QUALITY_HIGH
+        context.startActivity<MediaRecorderActivity>(TCVideoSettingActivity.RECORD_CONFIG_MIN_DURATION to 5 * 1000,
+                TCVideoSettingActivity.RECORD_CONFIG_MAX_DURATION to 60 * 1000,
+                TCVideoSettingActivity.RECORD_CONFIG_ASPECT_RATIO to mAspectRatio,
+                TCVideoSettingActivity.RECORD_CONFIG_RECOMMEND_QUALITY to mRecommendQuality)
+    }
+
+    @PermissionYes(201)
+    private fun startMediaRecorderActivity() {
+        this.goSmallVideoRecorder(this@MainActivity, EditDynamicActivity::class.java.name)
     }
 
     private fun changeFragmentByIndex(currentIndex: Int) {

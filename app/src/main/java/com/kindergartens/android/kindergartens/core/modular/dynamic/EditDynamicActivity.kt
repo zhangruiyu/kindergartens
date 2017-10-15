@@ -4,18 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.view.menu.ActionMenuItemView
-import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
-import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
-import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
 import com.kindergartens.android.kindergartens.ext.getWaitDialog
 import com.kindergartens.android.kindergartens.ext.safeDismiss
@@ -23,7 +18,6 @@ import com.kindergartens.android.kindergartens.ext.setUnCancel
 import com.kindergartens.android.kindergartens.ext.toText
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
-import com.mabeijianxi.smallvideorecord2.MediaRecorderActivity
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
 import kotlinx.android.synthetic.main.activity_edit_dynamic.*
@@ -47,7 +41,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
     }
 
     private fun init() {
-        if (intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) != null && intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) != null) {
+      /*  if (intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) != null && intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) != null) {
             dynamic_type = VIDEO_TYPE
             rl_video_info.visibility = View.VISIBLE
             Glide.with(ctx)
@@ -69,7 +63,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                     toast("22")
                 }
             })
-        }
+        }*/
 
     }
 
@@ -137,7 +131,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
     }
 
     private fun uploadVideoDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
-        VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
+      /*  VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
                 , {
             if (it.isSucceed) {
                 //成功后回调
@@ -156,7 +150,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
             }
 
         })
-                .putPicForDynamicSelectedPic(t.sign, t.cosPath)
+                .putPicForDynamicSelectedPic(t.sign, t.cosPath)*/
     }
 
     fun uploadPicDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {

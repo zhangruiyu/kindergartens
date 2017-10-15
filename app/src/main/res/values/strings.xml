@@ -22,5 +22,7 @@
     <string name="content_step_1">diyi1</string>
     <string name="content_step_2">diyi2</string>
     <string name="toggle_animation_button">hhh</string>
-
+    <string name="music_empty">空空如也</string>
+    <string name="music_loading">正在加载本地音乐...</string>
+    <string name="delete">删除</string>
 </resources>

@@ -43,7 +43,7 @@ def support_version = '26.1.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':kotlin_ext')
-//    compile project(':okrxkotlin')
+    //    compile project(':okrxkotlin')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -85,9 +85,9 @@ dependencies {
     //    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     //    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
     compile 'com.tencent.cos:cos:4.3.2+@aar'
-//    compile files('libs/sha1utils.jar')
-//    compile files('libs/okio-1.6.0.jar')
-//    compile files('libs/cos-sdk-android.1.4.3.10.jar')
+    //    compile files('libs/sha1utils.jar')
+    //    compile files('libs/okio-1.6.0.jar')
+    //    compile files('libs/cos-sdk-android.1.4.3.10.jar')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.trycatch.android:mysnackbar:1.2.2'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
@@ -112,19 +112,21 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'ch.halcyon:squareprogressbar:1.6.2'
     compile 'com.apkfuns.logutils:library:1.5.1.1'
-    compile 'com.mabeijianxi:small-video-record2:2.0.3@aar'
     //萤石云sdk
     compile 'com.hikvision.ezviz:ezuikit:1.2'
     //校验edittext这样的
-//    compile 'com.github.yoojia:next-inputs-android:1.6'
+    //    compile 'com.github.yoojia:next-inputs-android:1.6'
     //刷新库
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'//没有使用特殊Header，可以不加这行
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    //没有使用特殊Header，可以不加这行
     //饮食页进度库
     compile 'com.github.fython:MaterialStepperView:0.2.2'
     //播放页面暂停播放按钮
     compile 'com.github.Lauzy:PlayPauseView:1.0.4'
     testCompile 'junit:junit:4.12'
+    // 导入短视频SDK aar
+    compile(name: 'LiteAVSDK_UGC_3.4.1797', ext: 'aar')
 }
 kotlin {
     experimental {

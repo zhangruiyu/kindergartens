@@ -7,8 +7,6 @@ import com.apkfuns.logutils.LogUtils
 import com.kindergartens.android.kindergartens.core.ali.BizService
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.ext.OkRxInit
-import com.mabeijianxi.smallvideorecord2.DeviceUtils
-import com.mabeijianxi.smallvideorecord2.JianXiCamera
 import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
@@ -39,6 +37,8 @@ class KGApplication : Application() {
         //查询出当前用户
         UserdataHelper.getOnlineUser()
         initEzOpen()
+        initSmallVideo()
+
     }
 
     private fun initEzOpen() {
@@ -60,18 +60,6 @@ class KGApplication : Application() {
         // 设置拍摄视频缓存路径
         val dcim = Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        if (DeviceUtils.isZte()) {
-            if (dcim.exists()) {
-                JianXiCamera.setVideoCachePath("$dcim/mabeijianxi/")
-            } else {
-                JianXiCamera.setVideoCachePath(dcim.path.replace("/sdcard/",
-                        "/sdcard-ext/") + "/mabeijianxi/")
-            }
-        } else {
-            JianXiCamera.setVideoCachePath("$dcim/mabeijianxi/")
-        }
-        // 初始化拍摄，遇到问题可选择开启此标记，以方便生成日志
-        JianXiCamera.initialize(false, null)
     }
 
     companion object {

@@ -42,6 +42,9 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
+    <uses-feature android:name="android.hardware.Camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
     <application
         android:name=".KGApplication"
         android:allowBackup="true"
@@ -74,9 +77,8 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/customTheme"/>
-        <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity"/>
         <activity
-            android:name=".core.modular.video.CustomMediaRecorderActivity"
+            android:name=".core.modular.video.MediaRecorderActivity"
             android:label=""/>
         <activity
             android:name=".core.modular.userinfo.UserInfoActivity"
@@ -91,6 +93,10 @@
         <activity
             android:name=".core.modular.eat.EatActivity"
             android:label="宝贝饮食">
+        </activity>
+        <activity
+            android:name=".core.modular.video.preview.TCVideoPreviewActivity"
+            android:label="">
         </activity>
     </application>
 

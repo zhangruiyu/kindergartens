@@ -9,6 +9,7 @@
     <color name="icons">#FFFFFF</color>
 
     <color name="recycle_divider">#f2f4f7</color>
+    <color name="transparent">#00ffffff</color>
 
 
     <color name="tab_select_textColor">@color/primary</color>
@@ -105,6 +106,14 @@
     <color name="red">#F44336</color>
     <color name="red_dark">#C62828</color>
     <color name="red_trans">#99F44336</color>
+    <color name="btn_red">#D63F41</color>
+    <color name="colorGreen">#0accac</color>
+    <color name="colorGray7">#D8D8D8</color>
+
+    <color name="record_progress_bg">#66000000</color> <!-- 40%不透明度 -->
+    <color name="record_progress">#00f5ac</color>
+    <color name="record_progress_pending">#10acc0</color>
+    <color name="color_EBEBEB">#EBEBEB</color>
 
 
 </resources>
