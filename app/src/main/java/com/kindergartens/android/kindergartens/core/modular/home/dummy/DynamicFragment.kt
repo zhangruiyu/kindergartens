@@ -81,7 +81,7 @@ class DynamicFragment : BaseFragment() {
                                                 adapter.data[position]?.let {
                                                     UserdataHelper.haveOnlineLet { onlineUser ->
                                                         val data = it as DynamicEntity.Data
-                                                        data.tails.kgDynamicComment.add(DynamicEntity.Data.Tails.KgDynamicComment(input.toString(), onlineUser.id!!))
+                                                        data.kgDynamicComment.add(DynamicEntity.KgDynamicComment(input.toString(), onlineUser.id!!))
                                                         ctx.runOnUiThread {
                                                             //因为有头部 所有要pisition加1
                                                             adapter.notifyItemChanged(position + 1)
@@ -101,8 +101,8 @@ class DynamicFragment : BaseFragment() {
 
     val childClickListener = { adapter: DynamicAdapter, view: View, position: Int ->
         when (view.tag) {
-            is DynamicEntity.Data.Tails.KgDynamicComment -> {
-                if ((view.tag as DynamicEntity.Data.Tails.KgDynamicComment).id == "0") {
+            is DynamicEntity.KgDynamicComment -> {
+                if ((view.tag as DynamicEntity.KgDynamicComment).id == "0") {
                     toast("请刷新后在评论")
                 } else {
                     MaterialDialog.Builder(ctx).titleColorRes(R.color.accent)
@@ -110,7 +110,7 @@ class DynamicFragment : BaseFragment() {
                             .inputRangeRes(5, 200, R.color.accent)
                             .input(null, null, { dialog, input ->
                                 val waitDialog = ctx.getWaitDialog()
-                                val tag = (view.tag as DynamicEntity.Data.Tails.KgDynamicComment)
+                                val tag = (view.tag as DynamicEntity.KgDynamicComment)
                                 ServerApi.commitDynamicComment(input.toString(), tag.dynamicId, tag.id, tag.groupTag)
                                         .doOnTerminate {
                                             waitDialog.safeDismiss()
@@ -120,7 +120,7 @@ class DynamicFragment : BaseFragment() {
                                                 dialog.safeDismiss()
                                                 adapter.data[position]?.let { dynamicEntity ->
                                                     UserdataHelper.haveOnlineLet { onlineUser ->
-                                                        dynamicEntity.tails.kgDynamicComment.add(DynamicEntity.Data.Tails.KgDynamicComment(input.toString(), onlineUser.id!!, tag.groupTag, tag.id))
+                                                        dynamicEntity.kgDynamicComment.add(DynamicEntity.KgDynamicComment(input.toString(), onlineUser.id!!, tag.groupTag, tag.id))
                                                         ctx.runOnUiThread {
                                                             //因为有头部 所有要pisition加1
                                                             adapter.notifyItemChanged(position + 1)
@@ -162,7 +162,8 @@ class DynamicFragment : BaseFragment() {
                 if (page_index == 0) {
                     dynamicAdapter.data.clear()
                     dynamicAdapter.notifyDataSetChanged()
-                    rcv_dynamic_content.smoothScrollToPosition(0)
+                    //跳转到第一个
+//                    rcv_dynamic_content.smoothScrollToPosition(0)
                 }
                 dynamicAdapter.addData(it.data.dynamics)
                 val size = it.data.dynamics.size

@@ -80,7 +80,7 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
                         LogUtils.e(list)
                         val deviceInfo = list[0]
                         val classroomImage = classroomEntity.data[0].classroomImage
-                        val verifyCode = classroomEntity.data[0].tails.kgCamera[0].verifyCode
+                        val verifyCode = classroomEntity.data[0].kgCamera[0].verifyCode
                         preparePlay(deviceInfo, verifyCode,classroomImage)
                     } catch (e: BaseException) {
                         toast(e.localizedMessage + e.errorCode)

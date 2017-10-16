@@ -11,13 +11,11 @@ data class ClassroomEntity(var code: Int,
     data class Data(var childCount: Int,
                     var classroomImage: String,
                     var showName: String,
-                    var tails: Tails) : BaseEntity {
-        data class Tails(var isCorridor: Int,
-                         var kgCamera: List<KgCamera>) : BaseEntity {
-            data class KgCamera(var deviceName: String,
-                                var deviceSerial: String,
-                                var model: String,
-                                var verifyCode: String) : BaseEntity
-        }
+                    var isCorridor: Int,
+                    var kgCamera: List<KgCamera>) : BaseEntity {
+        data class KgCamera(var deviceName: String,
+                            var deviceSerial: String,
+                            var model: String,
+                            var verifyCode: String) : BaseEntity
     }
 }

@@ -47,12 +47,12 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         if (item.dynamicType == 1) {
             fl_dynamic_video.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
-            Glide.with(ctx).load(item.tails.kgDynamicVideo.videoPic).into(helper.getView<ImageView>(R.id.iv_video_image))
+            Glide.with(ctx).load(item.kgDynamicVideo.videoPic).into(helper.getView<ImageView>(R.id.iv_video_image))
             helper.getView<ImageView>(R.id.iv_video_image).setOnClickListener {
                 val intent = Intent(ctx, TCVideoPreviewActivity::class.java)
-                intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, item.tails.kgDynamicVideo.videoUrl)
-                intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, item.tails.kgDynamicVideo.videoPic)
-                intent.putExtra(TCConstants.VIDEO_RECORD_DURATION, item.tails.kgDynamicVideo.videoLength)
+                intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, item.kgDynamicVideo.videoUrl)
+                intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, item.kgDynamicVideo.videoPic)
+                intent.putExtra(TCConstants.VIDEO_RECORD_DURATION, item.kgDynamicVideo.videoLength)
                 ctx.startActivity(intent)
             }
 
@@ -64,20 +64,20 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
     }
 
     private fun setUpDynamicImage(recyclerView: RecyclerView, item: DynamicEntity.Data, helper: BaseViewHolder) {
-        if (item.tails.kgDynamicPics.isEmpty()) {
+        if (item.kgDynamicPics.isEmpty()) {
             return@setUpDynamicImage
         }
         val layoutParams = recyclerView.layoutParams
-        val row: Int = if (item.tails.kgDynamicPics.size % 3 != 0) {
-            item.tails.kgDynamicPics.size / 3 + 1
+        val row: Int = if (item.kgDynamicPics.size % 3 != 0) {
+            item.kgDynamicPics.size / 3 + 1
         } else {
-            item.tails.kgDynamicPics.size / 3
+            item.kgDynamicPics.size / 3
         }
         val item_width = ctx.getWidth() - ctx.dimen(R.dimen.item_normal_margin) * 2
         layoutParams.width = item_width
         LogUtils.e("动态图片row == $row")
         layoutParams.height = item_width / 3 * row
-        val layoutManager = object : GridLayoutManager(ctx, if (item.tails.kgDynamicPics.size > 2) 3 else item.tails.kgDynamicPics.size) {}
+        val layoutManager = object : GridLayoutManager(ctx, if (item.kgDynamicPics.size > 2) 3 else item.kgDynamicPics.size) {}
         layoutManager.isAutoMeasureEnabled = true
         recyclerView.layoutManager = layoutManager
         //        rcv_pics.addItemDecoration(SpaceItemDecoration())
@@ -89,7 +89,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         val adapter = recyclerView.adapter
         if (adapter is DynamicPicAdapter) {
             adapter.openLoadAnimation()
-            adapter.setNewData(item.tails.kgDynamicPics)
+            adapter.setNewData(item.kgDynamicPics)
             adapter.setOnItemClickListener({ adapter, _, position ->
 
                 if (position == adapter!!.itemCount - 1) {
@@ -105,7 +105,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         //设置评论start
         val commentLinearLayout = helper.getView<LinearLayout>(R.id.ll_dynamic_comment)
         commentLinearLayout.removeAllViews()
-        val groupBy = item.tails.kgDynamicComment.groupBy({
+        val groupBy = item.kgDynamicComment.groupBy({
             //按照tag排序呢
             it.groupTag
         })
@@ -136,8 +136,8 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
 }
 
 
-class DynamicPicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.Data.Tails.KgDynamicPics, BaseViewHolder>(R.layout.layout_item_dynamic_pic) {
-    override fun convert(helper: BaseViewHolder, item: DynamicEntity.Data.Tails.KgDynamicPics) {
+class DynamicPicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicEntity.KgDynamicPics, BaseViewHolder>(R.layout.layout_item_dynamic_pic) {
+    override fun convert(helper: BaseViewHolder, item: DynamicEntity.KgDynamicPics) {
         val imageView = helper.getView<ImageView>(R.id.iv_dynamic_item_pic)
         Glide.with(ctx).load(item.picUrl).into(imageView)
         val layoutParams = imageView.layoutParams
