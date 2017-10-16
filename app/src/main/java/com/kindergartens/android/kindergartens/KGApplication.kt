@@ -42,6 +42,7 @@ class KGApplication : Application() {
     }
 
     private fun initEzOpen() {
+        //如果萤石云报错 sdktarge设置为22 要不需要手动获取权限
         EZOpenSDK.showSDKLog(true)
         EZOpenSDK.enableP2P(false)
         EZOpenSDK.initLib(this, "b109fdee59b14b19b48927f627814c58", "")

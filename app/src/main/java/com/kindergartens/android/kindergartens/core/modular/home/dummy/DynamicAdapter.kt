@@ -1,6 +1,7 @@
 package com.kindergartens.android.kindergartens.core.modular.home.dummy
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -18,6 +19,8 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
+import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
+import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.TimeUtil
 import com.kindergartens.android.kindergartens.ext.getWidth
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -36,14 +39,39 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
                 .setTag(R.id.iv_reply, item.id)
         helper.getView<View>(R.id.iv_liked).isFocusable = true
+
+
         //设置图片start
+        val fl_dynamic_video = helper.getView<View>(R.id.fl_dynamic_video)
         val recyclerView = helper.getView<RecyclerView>(R.id.rcy_dynamic_pic)
-        val layoutParams = recyclerView.layoutParams
-        val row: Int
-        if (item.tails.kgDynamicPics.size % 3 != 0) {
-            row = item.tails.kgDynamicPics.size / 3 + 1
+        if (item.dynamicType == 1) {
+            fl_dynamic_video.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+            Glide.with(ctx).load(item.tails.kgDynamicVideo.videoPic).into(helper.getView<ImageView>(R.id.iv_video_image))
+            helper.getView<ImageView>(R.id.iv_video_image).setOnClickListener {
+                val intent = Intent(ctx, TCVideoPreviewActivity::class.java)
+                intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, item.tails.kgDynamicVideo.videoUrl)
+                intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, item.tails.kgDynamicVideo.videoPic)
+                intent.putExtra(TCConstants.VIDEO_RECORD_DURATION, item.tails.kgDynamicVideo.videoLength)
+                ctx.startActivity(intent)
+            }
+
         } else {
-            row = item.tails.kgDynamicPics.size / 3
+            fl_dynamic_video.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            setUpDynamicImage(recyclerView, item, helper)
+        }
+    }
+
+    private fun setUpDynamicImage(recyclerView: RecyclerView, item: DynamicEntity.Data, helper: BaseViewHolder) {
+        if (item.tails.kgDynamicPics.isEmpty()) {
+            return@setUpDynamicImage
+        }
+        val layoutParams = recyclerView.layoutParams
+        val row: Int = if (item.tails.kgDynamicPics.size % 3 != 0) {
+            item.tails.kgDynamicPics.size / 3 + 1
+        } else {
+            item.tails.kgDynamicPics.size / 3
         }
         val item_width = ctx.getWidth() - ctx.dimen(R.dimen.item_normal_margin) * 2
         layoutParams.width = item_width
@@ -52,7 +80,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         val layoutManager = object : GridLayoutManager(ctx, if (item.tails.kgDynamicPics.size > 2) 3 else item.tails.kgDynamicPics.size) {}
         layoutManager.isAutoMeasureEnabled = true
         recyclerView.layoutManager = layoutManager
-//        rcv_pics.addItemDecoration(SpaceItemDecoration())
+        //        rcv_pics.addItemDecoration(SpaceItemDecoration())
 
         if (recyclerView.adapter == null) {
             recyclerView.adapter = DynamicPicAdapter(ctx)
@@ -66,9 +94,9 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
 
                 if (position == adapter!!.itemCount - 1) {
                     //打开相册页面
-//                    startPickerActivity()
+                    //                    startPickerActivity()
                 } else {
-//                    toast("22")
+                    //                    toast("22")
                 }
             })
         }
@@ -90,8 +118,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 } else {
                     textView.setPadding(0, 0, 0, 0)
                 }
-                SchoolmateHelper.getNickName(kgDynamicComment.userId, {
-                    nickName ->
+                SchoolmateHelper.getNickName(kgDynamicComment.userId, { nickName ->
                     val style = SpannableStringBuilder("$nickName:${kgDynamicComment.commentContent}")
                     style.setSpan(ForegroundColorSpan(Color.GRAY), 0, nickName.length + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     style.setSpan(ForegroundColorSpan(Color.BLACK), nickName.length, style.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)

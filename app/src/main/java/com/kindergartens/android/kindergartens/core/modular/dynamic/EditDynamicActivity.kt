@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
+import com.kindergartens.android.kindergartens.core.modular.dynamic.data.VideoUpload
 import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
 import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.cos.data.SignInfo
@@ -141,26 +142,26 @@ class EditDynamicActivity : BaseToolbarActivity() {
     }
 
     private fun uploadVideoDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
-        /*  VideoUpload(intent?.extras?.get(MediaRecorderActivity.VIDEO_SCREENSHOT) as String, intent?.extras?.get(MediaRecorderActivity.VIDEO_URI) as String
-                  , {
-              if (it.isSucceed) {
-                  //成功后回调
-                  ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
-                          .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
-                      override fun onNext(any: Any) {
-                          toast("消息发布成功!")
-                          dialog?.safeDismiss()
-                          finish()
-                      }
+        VideoUpload(intent?.extras?.get(TCConstants.VIDEO_RECORD_COVERPATH) as String, intent?.extras?.get(TCConstants.VIDEO_RECORD_VIDEPATH) as String
+                , {
+            if (it.isSucceed) {
+                //成功后回调
+                ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
+                        .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                    override fun onNext(any: Any) {
+                        toast("消息发布成功!")
+                        dialog?.safeDismiss()
+                        finish()
+                    }
 
-                  })
-              } else {
-                  //失败
-                  dialog?.safeDismiss()
-              }
+                })
+            } else {
+                //失败
+                dialog?.safeDismiss()
+            }
 
-          })
-                  .putPicForDynamicSelectedPic(t.sign, t.cosPath)*/
+        })
+                .putPicForDynamicSelectedPic(t.sign, t.cosPath)
     }
 
     fun uploadPicDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {

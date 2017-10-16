@@ -6,11 +6,9 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -42,15 +40,12 @@ import java.util.Locale;
 public class TCVideoPreviewActivity extends BaseActivity implements View.OnClickListener, ITXLivePlayListener {
     public static final String TAG = "TCVideoPreviewActivity";
 
-    private int mVideoSource; // 视频来源
 
     ImageView mStartPreview;
     boolean mVideoPlay = false;
     boolean mVideoPause = false;
     boolean mAutoPause = false;
 
-    private ImageView mIvPublish;
-    private ImageView mIvToEdit;
     private String mVideoPath;
     private String mCoverImagePath;
     ImageView mImageViewBg;
@@ -65,8 +60,6 @@ public class TCVideoPreviewActivity extends BaseActivity implements View.OnClick
     private ErrorDialogFragment mErrDlgFragment;
     //视频时长（ms）
     private int mVideoDuration;
-    //录制界面传过来的视频分辨率
-    private int mVideoResolution;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +74,14 @@ public class TCVideoPreviewActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.activity_video_preview);
 
         mStartPreview = (ImageView) findViewById(R.id.record_preview);
-        mIvToEdit = (ImageView) findViewById(R.id.record_to_edit);
-        mIvToEdit.setOnClickListener(this);
 
-        mIvPublish = (ImageView) findViewById(R.id.video_publish);
-
-        mVideoSource = getIntent().getIntExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_EDIT);
         mVideoPath = getIntent().getStringExtra(TCConstants.VIDEO_RECORD_VIDEPATH);
         mCoverImagePath = getIntent().getStringExtra(TCConstants.VIDEO_RECORD_COVERPATH);
         mVideoDuration = getIntent().getIntExtra(TCConstants.VIDEO_RECORD_DURATION, 0);
-        mVideoResolution = getIntent().getIntExtra(TCConstants.VIDEO_RECORD_RESOLUTION, -1);
         Log.i(TAG, "onCreate: CouverImagePath = " + mCoverImagePath);
         mImageViewBg = (ImageView) findViewById(R.id.cover);
         if (mCoverImagePath != null && !mCoverImagePath.isEmpty()) {
-            Glide.with(this).load(Uri.fromFile(new File(mCoverImagePath)))
+            Glide.with(this).load(mCoverImagePath)
                     .into(mImageViewBg);
         }
 
@@ -127,23 +114,11 @@ public class TCVideoPreviewActivity extends BaseActivity implements View.OnClick
             }
         });
         mProgressTime = (TextView) findViewById(R.id.progress_time);
-        if (mVideoSource == TCConstants.VIDEO_RECORD_TYPE_PUBLISH) {
-            mIvPublish.setVisibility(View.VISIBLE);
-        } else {
-            mIvPublish.setVisibility(View.GONE);
-        }
-
-        if (mVideoSource == TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD) {
-            mIvToEdit.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.record_delete:
-                deleteVideo();
-                break;
             case R.id.record_download:
                 downloadRecord();
                 break;
@@ -162,70 +137,11 @@ public class TCVideoPreviewActivity extends BaseActivity implements View.OnClick
                     startPlay();
                 }
                 break;
-            case R.id.video_publish:
-//                publish();
-                break;
-            case R.id.record_to_edit:
-                startEditVideo();
-                break;
             default:
                 break;
         }
 
     }
-
-    private void startEditVideo() {
-        // 播放器版本没有此activity
-//        Intent intent = new Intent(this, TCVideoEditerActivity.class);
-        Class editActivityClass = null;
-        try {
-            editActivityClass = Class.forName("com.tencent.liteav.demo.shortvideo.editor.TCVideoEditerActivity");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (editActivityClass != null) {
-            Intent intent = new Intent(this, editActivityClass);
-
-            intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH, mVideoPath);
-            intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, mVideoSource);
-            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mVideoResolution);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    //    private void publish() {
-//        stopPlay(false);
-//        Intent intent = new Intent(getApplicationContext(), TCVideoPublisherActivity.class);
-//        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_PLAY);
-//        intent.putExtra(TCConstants.VIDEO_RECORD_VIDEPATH,  mVideoPath);
-//        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mCoverImagePath);
-//        startActivity(intent);
-//        finish();
-//    }
-    /*private void publish() {
-        stopPlay(false);
-        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext());
-        txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {
-            @Override
-            public void onPublishProgress(long uploadBytes, long totalBytes) {
-            }
-
-            @Override
-            public void onPublishComplete(TXUGCPublishTypeDef.TXPublishResult result) {
-
-            }
-        });
-
-        TXUGCPublishTypeDef.TXPublishParam param = new TXUGCPublishTypeDef.TXPublishParam();
-        // signature计算规则可参考 https://www.qcloud.com/document/product/266/9221
-        param.signature = "";
-        param.videoPath = mVideoPath;
-        param.coverPath = mCoverImagePath;
-        txugcPublish.publishVideo(param);
-        finish();
-    }*/
 
     private boolean startPlay() {
         mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);

@@ -12,17 +12,23 @@ class DynamicEntity(var data: WrapperDynamic) {
             var content: String,
             var createTime: String,
             var nickName: String,
+            var dynamicType: Int,
             var tails: Tails,
             var userId: Int) {
         data class Tails(/*var kgDynamicLiked: List<?>,*/
                 var kgDynamicPics: List<KgDynamicPics>,
-                var kgDynamicComment: ArrayList<KgDynamicComment>
+                var kgDynamicComment: ArrayList<KgDynamicComment>,
+                var kgDynamicVideo: KgDynamicVideo
 
         ) {
             data class KgDynamicPics(var dynamicId: Int,
                                      var id: Int,
                                      var picUrl: String,
                                      var sequence: Int)
+
+            data class KgDynamicVideo(var videoLength: String,
+                                      var videoUrl: String,
+                                      var videoPic: String)
 
             data class KgDynamicComment(var id: String, var userId: String, var dynamicId: String, var commentContent: String,
                                         var createTime: String, var groupTag: String, var parentCommentId: String) {

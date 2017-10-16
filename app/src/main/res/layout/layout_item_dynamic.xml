@@ -51,14 +51,32 @@
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"
             tools:text="发几个落地生根就爱看老弟叫改了的萨克管克拉打暑假工啦估计拉多少级了蓝思科技"/>
+
+        <FrameLayout
+            android:id="@+id/fl_dynamic_video"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_video_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_play_circle_outline_18dp"/>
+        </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcy_dynamic_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            />
 
         <RelativeLayout
             android:layout_width="wrap_content"

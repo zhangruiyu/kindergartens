@@ -29,57 +29,27 @@
 
 
     <!--录制完成-->
-    <RelativeLayout
-        android:id="@+id/publishLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+    <ImageView
+        android:id="@+id/record_download"
+        android:layout_width="@dimen/live_btn_size"
+        android:layout_height="@dimen/live_btn_size"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp">
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/icon_record_download"
+        android:onClick="onClick"
+        android:visibility="gone"/>
 
-        <ImageView
-            android:id="@+id/record_delete"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="80dp"
-            android:background="@drawable/icon_record_delete"
-            android:onClick="onClick"/>
-
-        <ImageView
-            android:id="@+id/record_download"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="80dp"
-            android:background="@drawable/icon_record_download"
-            android:onClick="onClick"/>
-
-        <ImageView
-            android:id="@+id/video_publish"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_centerInParent="true"
-            android:background="@drawable/icon_share"
-            android:onClick="onClick"/>
-
-        <ImageView
-            android:id="@+id/record_to_edit"
-            android:layout_width="@dimen/live_btn_size"
-            android:layout_height="@dimen/live_btn_size"
-            android:layout_centerInParent="true"
-            android:background="@drawable/selector_preview_to_edit"
-            android:onClick="onClick"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
 
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/publishLayout"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center|right"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="75dp"
         android:max="0"
         android:maxHeight="2.0dip"
         android:minHeight="2.0dip"
