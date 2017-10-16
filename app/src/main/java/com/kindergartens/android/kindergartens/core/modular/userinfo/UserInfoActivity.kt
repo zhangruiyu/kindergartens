@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.ali.BizService
@@ -26,7 +28,6 @@ import com.tencent.cos.model.PutObjectResult
 import com.trycatch.mysnackbar.TSnackbar
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
-import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_userinfo.*
 import me.iwf.photopicker.PhotoPicker
 import org.jetbrains.anko.ctx
@@ -44,7 +45,7 @@ class UserInfoActivity : BaseToolbarActivity() {
         AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).callback(this).start()
         setContentView(R.layout.activity_userinfo)
         UserdataHelper.haveOnlineLet {
-            Glide.with(ctx).load(it.avatar).bitmapTransform(CropCircleTransformation(ctx))
+            Glide.with(ctx).load(it.avatar).apply(bitmapTransform(CircleCrop()))
                     .into(iv_avatar)
             edt_nick_name.hint = it.nickName
             edt_nick_name.canNotEdit()
@@ -92,7 +93,7 @@ class UserInfoActivity : BaseToolbarActivity() {
                 LogUtils.d(photos)
                 if (photos.size > 0) {
                     localFile = photos[0]
-                    Glide.with(ctx).load(File(localFile)).bitmapTransform(CropCircleTransformation(ctx))
+                    Glide.with(ctx).load(File(localFile)).apply(bitmapTransform(CircleCrop()))
                             .into(iv_avatar)
                 }
             }

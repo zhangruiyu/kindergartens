@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
@@ -36,9 +35,9 @@ import java.io.File
 
 
 class EditDynamicActivity : BaseToolbarActivity() {
-    val select_pic = DynamicSelectedPic(R.drawable.dynamic_selected_add)
+    private val select_pic = DynamicSelectedPic(R.drawable.dynamic_selected_add)
     var dynamic_type = PIC_TYPE //0是图片动态 1是视频动态
-    lateinit var selectedAdapter: SelectedDynamicAdapter
+    private lateinit var selectedAdapter: SelectedDynamicAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndPermission.with(ctx).requestCode(200).permission(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA).callback(this).start()
@@ -53,7 +52,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
             rl_video_info.visibility = View.VISIBLE
             Glide.with(ctx)
                     .load(File(intent.extras.getString(TCConstants.VIDEO_RECORD_COVERPATH)))
-                    .into(iv_video_background.find<ImageView>(R.id.imageView1))
+                    .into(iv_video_background.find(R.id.imageView1))
             rl_video_info.setOnClickListener {
                 val preViewIntent = Intent(ctx, TCVideoPreviewActivity::class.java).putExtras(intent.extras)
                 startActivity(preViewIntent)

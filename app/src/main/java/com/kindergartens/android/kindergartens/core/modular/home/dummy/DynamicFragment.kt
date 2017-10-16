@@ -6,10 +6,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
@@ -50,8 +50,10 @@ class DynamicFragment : BaseFragment() {
         dynamicAdapter = DynamicAdapter(ctx, childClickListener)
         dynamicAdapter.openLoadAnimation()
         val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
-        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=401967138,750679164&fm=26&gp=0.jpg")
-                .override(width, (height / 6.5).toInt()).centerCrop().into(headView.find<ImageView>(R.id.iv_dynamic_head_pic))
+
+        Glide.with(ctx).load("http://img5.imgtn.bdimg.com/it/u=561855009,461918882&fm=27&gp=0.jpg").apply(RequestOptions()
+                .override(width, (height / 6.5).toInt()).centerCrop())
+                .into(headView.find(R.id.iv_dynamic_head_pic))
         dynamicAdapter.addHeaderView(headView)
         dynamicAdapter.setOnLoadMoreListener({
             refreshData()
@@ -144,7 +146,13 @@ class DynamicFragment : BaseFragment() {
         //初始化化
         page_index = 0
 //        refreshData()
-        bsw_dynamic_refresh.autoRefresh()
+        if (dynamicAdapter.data.size == 0) {
+            bsw_dynamic_refresh.autoRefresh()
+        } else {
+            refreshData()
+        }
+
+
     }
 
     //获取动态

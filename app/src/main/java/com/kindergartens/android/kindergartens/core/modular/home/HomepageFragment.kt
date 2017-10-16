@@ -10,6 +10,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.kindergartens.android.kindergartens.R
@@ -33,20 +34,21 @@ import org.jetbrains.anko.support.v4.toast
  * Created by zhangruiyu on 2017/6/21.
  */
 open class HomepageFragment : BaseFragment() {
-    //    lateinit private var bannerOptions: RequestOptions
+    lateinit private var bannerOptions: RequestOptions
     lateinit private var banner: Banner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        bannerOptions = RequestOptions()/*.placeholder(R.drawable.banner_normal).error(R.drawable.banner_normal)*/
-//                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).override(width, dimen(R.dimen.general_banner_height))
+        bannerOptions = RequestOptions()/*.placeholder(R.drawable.banner_normal).error(R.drawable.banner_normal)*/
+                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).override(width, dimen(R.dimen.general_banner_height))
         banner = Banner(ctx)
                 .setImageLoader(object : ImageLoader() {
                     override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
                         Glide.with(context)
-                                .load(path).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).override(width, dimen(R.dimen.general_banner_height))
+                                .load(path)
 //                                .transition(DrawableTransitionOptions().crossFade(500))
-//                                .thumbnail(Glide.with(context).load(R.drawable.banner_normal).apply(bannerOptions))
+//                                .thumbnail(Glide.with(context).load(R.drawable.banner_normal))
+                                .apply(bannerOptions)
                                 .into(imageView)
                     }
 

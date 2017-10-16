@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import ch.halcyon.squareprogressbar.SquareProgressBar
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
@@ -44,7 +45,7 @@ class SelectedDynamicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicSelecte
                     .into(helper.getView<ImageView>(R.id.imageView1))
         } else {
             Glide.with(ctx)
-                    .load(item.url).override(width, width).centerCrop()
+                    .load(item.url).apply(RequestOptions().override(width, width).centerCrop())
                     .into(helper.getView<ImageView>(R.id.imageView1))
         }
     }

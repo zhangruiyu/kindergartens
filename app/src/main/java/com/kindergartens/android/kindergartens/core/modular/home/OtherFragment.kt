@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.TUserModel
@@ -18,7 +20,6 @@ import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.transitionseverywhere.Slide
 import com.transitionseverywhere.TransitionManager
-import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_other.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
@@ -50,7 +51,7 @@ class OtherFragment : BaseFragment() {
 
     private fun setUpUserUi(tUserModel: TUserModel) {
         tv_nickname.text = tUserModel.nickName
-        Glide.with(ctx).load(tUserModel.avatar).bitmapTransform(CropCircleTransformation(ctx))
+        Glide.with(ctx).load(tUserModel.avatar).apply(bitmapTransform(CircleCrop()))
                 .into(iv_avatar)
     }
 

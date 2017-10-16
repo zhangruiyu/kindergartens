@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.modular.eat.data.EatEntity
@@ -16,13 +18,11 @@ import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener
-import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_eat.*
 import moe.feng.common.stepperview.IStepperAdapter
 import moe.feng.common.stepperview.VerticalStepperItemView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.ctx
-
 /**
  * Created by zhangruiyu on 2017/9/22.
  */
@@ -47,12 +47,12 @@ class EatFragment : BaseFragment(), IStepperAdapter, OnRefreshListener {
     override fun onCreateCustomView(index: Int, context: Context?, parent: VerticalStepperItemView?): View {
         val inflateView = LayoutInflater.from(context).inflate(R.layout.fragment_eat_adapter_item, parent, false);
         val contentView = inflateView.findViewById<ImageView>(R.id.item_content);
-        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=809943721,3434341815&fm=27&gp=0.jpg").bitmapTransform(CropCircleTransformation(ctx))
+        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=809943721,3434341815&fm=27&gp=0.jpg").apply(bitmapTransform(CircleCrop()))
                 .into(contentView)
 
-        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1903235548,795322350&fm=200&gp=0.jpg").bitmapTransform(CropCircleTransformation(ctx))
+        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1903235548,795322350&fm=200&gp=0.jpg").apply(bitmapTransform(CircleCrop()))
                 .into(inflateView.find(R.id.item_content2))
-        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1669158391,872664803&fm=27&gp=0.jpg").bitmapTransform(CropCircleTransformation(ctx))
+        Glide.with(ctx).load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1669158391,872664803&fm=27&gp=0.jpg").apply(bitmapTransform(CircleCrop()))
                 .into(inflateView.find(R.id.item_content3))
         val nextButton = inflateView.findViewById<Button>(R.id.button_next)
         nextButton.text = if (index == size() - 1) "确认" else "下一步"

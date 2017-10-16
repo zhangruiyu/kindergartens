@@ -14,6 +14,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
@@ -23,9 +25,7 @@ import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
 import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.TimeUtil
 import com.kindergartens.android.kindergartens.ext.getWidth
-import jp.wasabeef.glide.transformations.CropCircleTransformation
 import org.jetbrains.anko.dimen
-
 
 /**
  * Created by zhangruiyu on 2017/7/26.
@@ -33,7 +33,7 @@ import org.jetbrains.anko.dimen
 class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, Int) -> Unit) : BaseQuickAdapter<DynamicEntity.Data, BaseViewHolder>(R.layout.layout_item_dynamic) {
 
     override fun convert(helper: BaseViewHolder, item: DynamicEntity.Data) {
-        Glide.with(ctx).load(R.drawable.ic_face_primary_24dp).bitmapTransform(CropCircleTransformation(ctx)).into(helper.getView<ImageView>(R.id.iv_dynamic_head_pic))
+        Glide.with(ctx).load(R.drawable.ic_face_primary_24dp).apply(bitmapTransform(CircleCrop())).into(helper.getView<ImageView>(R.id.iv_dynamic_head_pic))
         helper.setText(R.id.tv_dynamic_create_time, TimeUtil.getTimeFormatText(item.createTime))
                 .setText(R.id.tv_dynamic_content, item.content)
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
