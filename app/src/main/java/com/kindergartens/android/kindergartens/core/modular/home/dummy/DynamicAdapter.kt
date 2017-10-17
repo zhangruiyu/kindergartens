@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens.core.modular.home.dummy
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -25,6 +26,7 @@ import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
 import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.TimeUtil
 import com.kindergartens.android.kindergartens.ext.getWidth
+import me.iwf.photopicker.PhotoPreview
 import org.jetbrains.anko.dimen
 
 /**
@@ -39,7 +41,16 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
                 .setTag(R.id.iv_reply, item.id)
         helper.getView<View>(R.id.iv_liked).isFocusable = true
-
+        if (item.kgDynamicLiked !== null && item.kgDynamicLiked!!.size > 0) {
+            SchoolmateHelper.getALlSchoolmateAndRun { data ->
+                helper.setText(R.id.tv_liked, item.kgDynamicLiked!!.fold(StringBuffer(), { total, next ->
+                    total.append(data[next.userId] + "、")
+                }))
+            }
+            helper.setVisible(R.id.ll_liked, true)
+        } else {
+            helper.setVisible(R.id.ll_liked, false)
+        }
 
         //设置图片start
         val fl_dynamic_video = helper.getView<View>(R.id.fl_dynamic_video)
@@ -90,14 +101,14 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         if (adapter is DynamicPicAdapter) {
             adapter.openLoadAnimation()
             adapter.setNewData(item.kgDynamicPics)
-            adapter.setOnItemClickListener({ adapter, _, position ->
-
-                if (position == adapter!!.itemCount - 1) {
-                    //打开相册页面
-                    //                    startPickerActivity()
-                } else {
-                    //                    toast("22")
-                }
+            adapter.setOnItemClickListener({ _, _, position ->
+                val preImages = ArrayList<String>()
+                preImages.addAll(item.kgDynamicPics.map { it.picUrl })
+                PhotoPreview.builder()
+                        .setPhotos(preImages)
+                        .setCurrentItem(position)
+                        .setShowDeleteButton(false)
+                        .start(ctx as Activity);
             })
         }
         //设置图片end
