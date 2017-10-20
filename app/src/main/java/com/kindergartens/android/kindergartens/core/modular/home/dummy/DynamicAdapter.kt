@@ -46,11 +46,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
                 .setTag(R.id.iv_reply, item.id)
 
-        if (UserdataHelper.getOnlineUser() == null) {
-            helper.getView<View>(R.id.iv_liked).isEnabled = true
-        } else {
-            helper.getView<View>(R.id.iv_liked).isEnabled = item.kgDynamicLiked.map { it.userId }.contains(UserdataHelper.getOnlineUser()!!.id) != true
-        }
+
         helper.getView<View>(R.id.iv_liked)?.setOnClickListener {
             if (UserdataHelper.getOnlineUser() == null) {
                 ctx.startActivity<LoginActivity>()
@@ -59,21 +55,11 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                     override fun onNext(t: Any) {}
                 })
                 item.kgDynamicLiked.add(DynamicEntity.KgDynamicLiked(UserdataHelper.getOnlineUser()!!.id!!))
-                notifyItemChanged(helper.layoutPosition)
+                refreshLiked(helper, item)
             }
         }
 
-        helper.getView<View>(R.id.iv_liked).isFocusable = true
-        if (item.kgDynamicLiked.size > 0) {
-            SchoolmateHelper.getALlSchoolmateAndRun { data ->
-                helper.setText(R.id.tv_liked, item.kgDynamicLiked.fold(StringBuffer(), { total, next ->
-                    total.append(data[next.userId] + "、")
-                }))
-            }
-            helper.setVisible(R.id.ll_liked, true)
-        } else {
-            helper.setVisible(R.id.ll_liked, false)
-        }
+        refreshLiked(helper, item)
 
         //设置图片start
         val fl_dynamic_video = helper.getView<View>(R.id.fl_dynamic_video)
@@ -94,6 +80,24 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
             fl_dynamic_video.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             setUpDynamicImage(recyclerView, item, helper)
+        }
+    }
+
+    private fun refreshLiked(helper: BaseViewHolder, item: DynamicEntity.Data) {
+        if (UserdataHelper.getOnlineUser() == null) {
+            helper.getView<View>(R.id.iv_liked).isEnabled = true
+        } else {
+            helper.getView<View>(R.id.iv_liked).isEnabled = item.kgDynamicLiked.map { it.userId }.contains(UserdataHelper.getOnlineUser()!!.id) != true
+        }
+        if (item.kgDynamicLiked.size > 0) {
+            SchoolmateHelper.getALlSchoolmateAndRun { data ->
+                helper.setText(R.id.tv_liked, item.kgDynamicLiked.fold(StringBuffer(), { total, next ->
+                    total.append(data[next.userId] + "、")
+                }))
+            }
+            helper.setVisible(R.id.ll_liked, true)
+        } else {
+            helper.setVisible(R.id.ll_liked, false)
         }
     }
 
@@ -131,7 +135,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                         .setPhotos(preImages)
                         .setCurrentItem(position)
                         .setShowDeleteButton(false)
-                        .start(ctx as Activity);
+                        .start(ctx as Activity)
             })
         }
         //设置图片end
