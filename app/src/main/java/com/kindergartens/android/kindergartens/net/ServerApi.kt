@@ -151,6 +151,14 @@ class ServerApi {
             return converter(request)
         }
 
+        fun commitDynamicLiked(dynamicId: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitLiked")
+            val params = HttpParams()
+            params.put("dynamicId", dynamicId)
+            request.params(params)
+            return converter(request)
+        }
+
         //评论动态
         fun getAccountProfile(): Observable<UserProfileEntity> {
             val request = OkGo.post<UserProfileEntity>("$baseUrl/user/profile")
@@ -187,5 +195,7 @@ class ServerApi {
             request.params(params)
             return converter(request)
         }
+
+
     }
 }

@@ -163,6 +163,9 @@ class MainActivity : BaseFragmentActivity() {
         }
         fragmentTransaction.show(mFragments!![index]).commit()
         currentTabIndex = index
+        if (currentTabIndex == 1) {
+            (mFragments!![1] as DynamicFragment).initData()
+        }
 
     }
 

@@ -21,13 +21,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
+import com.kindergartens.android.kindergartens.core.database.UserdataHelper
+import com.kindergartens.android.kindergartens.core.modular.auth.LoginActivity
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.modular.video.TCConstants
 import com.kindergartens.android.kindergartens.core.modular.video.preview.TCVideoPreviewActivity
 import com.kindergartens.android.kindergartens.core.tools.TimeUtil
 import com.kindergartens.android.kindergartens.ext.getWidth
+import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
+import com.kindergartens.android.kindergartens.net.ServerApi
 import me.iwf.photopicker.PhotoPreview
 import org.jetbrains.anko.dimen
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by zhangruiyu on 2017/7/26.
@@ -40,10 +45,28 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 .setText(R.id.tv_dynamic_content, item.content)
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
                 .setTag(R.id.iv_reply, item.id)
+
+        if (UserdataHelper.getOnlineUser() == null) {
+            helper.getView<View>(R.id.iv_liked).isEnabled = true
+        } else {
+            helper.getView<View>(R.id.iv_liked).isEnabled = item.kgDynamicLiked.map { it.userId }.contains(UserdataHelper.getOnlineUser()!!.id) != true
+        }
+        helper.getView<View>(R.id.iv_liked)?.setOnClickListener {
+            if (UserdataHelper.getOnlineUser() == null) {
+                ctx.startActivity<LoginActivity>()
+            } else {
+                ServerApi.commitDynamicLiked(item.id).subscribe(object : CustomNetErrorWrapper<Any>() {
+                    override fun onNext(t: Any) {}
+                })
+                item.kgDynamicLiked.add(DynamicEntity.KgDynamicLiked(UserdataHelper.getOnlineUser()!!.id!!))
+                notifyItemChanged(helper.layoutPosition)
+            }
+        }
+
         helper.getView<View>(R.id.iv_liked).isFocusable = true
-        if (item.kgDynamicLiked !== null && item.kgDynamicLiked!!.size > 0) {
+        if (item.kgDynamicLiked.size > 0) {
             SchoolmateHelper.getALlSchoolmateAndRun { data ->
-                helper.setText(R.id.tv_liked, item.kgDynamicLiked!!.fold(StringBuffer(), { total, next ->
+                helper.setText(R.id.tv_liked, item.kgDynamicLiked.fold(StringBuffer(), { total, next ->
                     total.append(data[next.userId] + "、")
                 }))
             }
