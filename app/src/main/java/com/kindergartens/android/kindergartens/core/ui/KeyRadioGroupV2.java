@@ -13,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 /**
- * Created by zhangruiyu on 2017/8/6.
+ *
+ * @author zhangruiyu
+ * @date 2017/8/6
  */
 
 public class KeyRadioGroupV2 extends LinearLayout {
@@ -262,6 +264,7 @@ public class KeyRadioGroupV2 extends LinearLayout {
     }
 
     private class CheckedStateTracker implements CompoundButton.OnCheckedChangeListener {
+        @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // prevents from infinite recursion
             if (mProtectFromCheckedChange) {
@@ -286,6 +289,7 @@ public class KeyRadioGroupV2 extends LinearLayout {
         /**
          * 为了不出意料之外的BUG。所以强行规定了。RadioGroup内必须加一层布局
          */
+        @Override
         public void onChildViewAdded(View parent, View child) {
             if (parent == KeyRadioGroupV2.this && child instanceof ViewGroup) {
                 int childCount = ((ViewGroup) child).getChildCount();
@@ -314,6 +318,7 @@ public class KeyRadioGroupV2 extends LinearLayout {
         /**
          * 移除同上
          */
+        @Override
         public void onChildViewRemoved(View parent, View child) {
             if (parent == KeyRadioGroupV2.this && child instanceof ViewGroup) {
                 int childCount = ((ViewGroup) child).getChildCount();

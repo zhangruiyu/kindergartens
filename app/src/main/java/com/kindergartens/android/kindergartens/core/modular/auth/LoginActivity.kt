@@ -2,7 +2,6 @@ package com.kindergartens.android.kindergartens.core.modular.auth
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.annotation.TargetApi
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -124,7 +123,6 @@ class LoginActivity : BaseToolbarActivity() {
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private fun showProgress(show: Boolean) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in

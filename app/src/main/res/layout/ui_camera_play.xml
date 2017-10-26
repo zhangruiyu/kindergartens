@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:layout_height="200dp">
 
     <SurfaceView
@@ -12,22 +12,28 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         />
+
     <android.support.v7.widget.AppCompatImageView
-        app:srcCompat="@drawable/banner_normal"
         android:id="@+id/iv_classroom_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/banner_normal"/>
 
-     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+
+    <com.freedom.lauzy.playpauseviewlib.PlayPauseView
+        android:id="@+id/play_pause_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        app:anim_direction="positive"
+        app:anim_duration="300"
+        app:bg_color="#E0E0E0"
+        app:btn_color="@color/primary"
+        app:gap_width="30"/>
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/mpb_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
-    <ImageView
-        android:id="@+id/iv_play"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_play_circle_outline_18dp"/>
-
 </FrameLayout>

@@ -8,7 +8,7 @@ noArg {
 }
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "android.kindergartens.com"
         minSdkVersion 17
@@ -38,7 +38,7 @@ android {
     }
 }
 
-def dbflow_version = "4.0.5"
+def dbflow_version = "4.1.2"
 def support_version = '26.1.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -70,7 +70,6 @@ dependencies {
     compile "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
     compile "org.jetbrains.anko:anko-coroutines:$anko_version"
     //dbflow
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"

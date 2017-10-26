@@ -29,9 +29,7 @@ import com.kindergartens.android.kindergartens.net.ServerApi
 import com.videogo.exception.BaseException
 import com.videogo.openapi.EZOpenSDK
 import com.videogo.openapi.bean.EZDeviceInfo
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_class_room.*
-import kotlinx.android.synthetic.main.ui_camera_play.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import java.util.*
@@ -62,14 +60,10 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        iv_play.setOnClickListener(this)
         ServerApi.getYSToken().flatMap {
             EZOpenSDK.getInstance().setAccessToken(it.data.accessToken)
             ServerApi.getClassrooms()
         }.subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
-            override fun onSubscribe(d: Disposable) {
-                super.onSubscribe(d)
-            }
 
             override fun onNext(classroomEntity: ClassroomEntity) {
                 mSectionsPagerAdapter.setNewData(classroomEntity.data)
@@ -81,7 +75,7 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
                         val deviceInfo = list[0]
                         val classroomImage = classroomEntity.data[0].classroomImage
                         val verifyCode = classroomEntity.data[0].kgCamera[0].verifyCode
-                        preparePlay(deviceInfo, verifyCode,classroomImage)
+                        preparePlay(deviceInfo, verifyCode, classroomImage)
                     } catch (e: BaseException) {
                         toast(e.localizedMessage + e.errorCode)
                     }
@@ -123,7 +117,7 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
         //设置播放资源参数
         cpv_play.mEzUIPlayerCallBack = this
         val cameraInfoFromDevice = EZUtils.getCameraInfoFromDevice(deviceInfo, 0)
-        cpv_play.setParameters(deviceInfo, cameraInfoFromDevice, verifyCode,classroomImage)
+        cpv_play.setParameters(deviceInfo, cameraInfoFromDevice, verifyCode, classroomImage)
     }
 
     override fun onPlaySuccess() {
@@ -170,19 +164,6 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.iv_play -> {
-//                if (player_ui.status == EZUIPlayer.STATUS_PLAY) {
-//                    //播放状态，点击停止播放
-////                    mBtnPlay.setText("播放")
-//                    iv_play.setImageResource(R.drawable.ic_play_circle_outline_18dp)
-//                    player_ui.stopPlay()
-//                } else if (player_ui.status == EZUIPlayer.STATUS_STOP) {
-//                    //停止状态，点击播放
-////                    mBtnPlay.setText("停止")
-//                    iv_play.setImageResource(R.drawable.ic_pause_circle_outline_white_18dp)
-//                    player_ui.startPlay()
-//                }
-            }
         }
     }
 

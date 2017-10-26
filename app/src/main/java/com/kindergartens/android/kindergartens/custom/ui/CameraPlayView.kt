@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.ezvizuikit.open.EZUIPlayer
+import com.freedom.lauzy.playpauseviewlib.PlayPauseView
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.ext.getWidth
 import com.videogo.openapi.EZConstants
@@ -94,13 +95,17 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
 
                 }
                 EZConstants.EZRealPlayConstants.MSG_REALPLAY_ENCRYPT_PASSWORD_ERROR -> {
+                    stopPlay()
                     Toast.makeText(context, "安全密码错误,请联系幼儿园", Toast.LENGTH_SHORT).show()
                 }
                 EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL -> {
+                    stopPlay()
                     Toast.makeText(context, "播放失败,请联系幼儿园", Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {
+                    stopPlay()
+                    Toast.makeText(context, msg.what.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -115,7 +120,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
             it.release()
             mEZPlayer = null
         }
-        mEZPlayer = EZOpenSDK.getInstance().createPlayer(cameraInfoFromDevice.deviceSerial, cameraInfoFromDevice.cameraNo)
+        mEZPlayer = eZOpenSDK.createPlayer(cameraInfoFromDevice.deviceSerial, cameraInfoFromDevice.cameraNo)
         mEZPlayer?.setSurfaceHold(mHolder)
         mEZPlayer?.setHandler(mHandler)
         iv_classroom_image.setBackgroundResource(R.drawable.dynamic_selected_add)
@@ -156,9 +161,16 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
                 }
             })
         }
-        iv_play.setOnClickListener {
-            startPlay()
-        }
+        play_pause_view.setPlayPauseListener(object : PlayPauseView.PlayPauseListener {
+            override fun pause() {
+                stopPlay()
+            }
+
+            override fun play() {
+                startPlay()
+            }
+
+        })
         sfv_camera_play.setOnClickListener {
             stopPlay()
         }
@@ -212,20 +224,21 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private fun showLoading() {
         mpb_loading.visibility = View.VISIBLE
-        iv_classroom_image.visibility = View.VISIBLE
-        iv_play.visibility = View.INVISIBLE
+        iv_classroom_image.visibility = View.INVISIBLE
+        play_pause_view.visibility = View.VISIBLE
 
     }
 
     private fun dismissLoading() {
         mpb_loading.visibility = View.INVISIBLE
-        iv_play.visibility = View.INVISIBLE
-        iv_classroom_image.visibility = View.VISIBLE
+        play_pause_view.visibility = View.INVISIBLE
+        iv_classroom_image.visibility = View.INVISIBLE
     }
 
     private fun showStopUi() {
         mpb_loading.visibility = View.INVISIBLE
-        iv_play.visibility = View.VISIBLE
+        play_pause_view.visibility = View.VISIBLE
+        play_pause_view.pause()
         iv_classroom_image.visibility = View.VISIBLE
     }
 
