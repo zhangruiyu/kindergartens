@@ -1,1 +1,1 @@
-include ':app', ':okrxkotlin', ':kotlin_ext'
+include ':app'

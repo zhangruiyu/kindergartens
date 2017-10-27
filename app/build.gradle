@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
+
 apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'kotlin-kapt'
-apply plugin: "kotlin-noarg"
-noArg {
-    annotation("com.kindergartens.android.kindergartens.base")
-}
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -42,90 +42,90 @@ def dbflow_version = "4.1.2"
 def support_version = '26.1.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':kotlin_ext')
+//    compile project(':kotlin_ext')
     //    compile project(':okrxkotlin')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //    ui相关
-    compile "com.android.support:recyclerview-v7:${support_version}"
-    compile "com.android.support:appcompat-v7:${support_version}"
-    compile "com.android.support:design:${support_version}"
-    compile "com.android.support:cardview-v7:${support_version}"
+    implementation "com.android.support:recyclerview-v7:${support_version}"
+    implementation "com.android.support:appcompat-v7:${support_version}"
+    implementation "com.android.support:design:${support_version}"
+    implementation "com.android.support:cardview-v7:${support_version}"
     //
-    compile 'com.lzy.net:okrx2:2.0.1'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.lzy.net:okrx2:2.0.1'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     //
     //状态布局
     //kotlin anko
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
     // Anko Layouts
-    compile "org.jetbrains.anko:anko-sdk25:$anko_version"
+    implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     // sdk15, sdk19, sdk21, sdk23 are also available
-    compile "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
+    implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
     // 主要为兼容一些控件事件的协程，不过协程coroutines目前还不是kotlin的正式内容
-    compile "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
-    compile "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
-    compile "org.jetbrains.anko:anko-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-appcompat-v7-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-coroutines:$anko_version"
     //dbflow
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
     //rx系列
-    //    compile 'com.lzy.net:okserver:2.0.1'
+    //    implementation 'com.lzy.net:okserver:2.0.1'
     //    tools
     //权限
     //支持emojicon的view
     //动画支持
     //图片选择
-    compile 'com.tencent.cos:cos:4.3.2+@aar'
-    //    compile files('libs/sha1utils.jar')
-    //    compile files('libs/okio-1.6.0.jar')
-    //    compile files('libs/cos-sdk-android.1.4.3.10.jar')
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.trycatch.android:mysnackbar:1.2.2'
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.afollestad.material-dialogs:commons:0.9.4.5'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-    compile 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
-    compile "com.android.support:support-vector-drawable:${support_version}"
-    compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.3'
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'
-    compile 'com.youth.banner:banner:1.4.9'
-    compile 'am.widget:stateframelayout:2.0.2'
-    compile 'io.reactivex.rxjava2:rxkotlin:2.0.3'
-    compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
-    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
-    compile 'com.github.mazouri:AndroidTools:1.0'
-    compile 'com.yanzhenjie:permission:1.0.8'
-    compile 'io.github.rockerhieu:emojicon:1.4.2'
-    compile 'com.andkulikov:transitionseverywhere:1.7.4'
+    implementation 'com.tencent.cos:cos:4.3.2+@aar'
+    //    implementation files('libs/sha1utils.jar')
+    //    implementation files('libs/okio-1.6.0.jar')
+    //    implementation files('libs/cos-sdk-android.1.4.3.10.jar')
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.trycatch.android:mysnackbar:1.2.2'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.4.5'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    implementation 'com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0'
+    implementation "com.android.support:support-vector-drawable:${support_version}"
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:1.4.3'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'com.youth.banner:banner:1.4.9'
+    implementation 'am.widget:stateframelayout:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.0.3'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+    implementation 'com.github.mazouri:AndroidTools:1.0'
+    implementation 'com.yanzhenjie:permission:1.1.2'
+    implementation 'io.github.rockerhieu:emojicon:1.4.2'
+    implementation 'com.andkulikov:transitionseverywhere:1.7.4'
     //图片选择
-    compile 'me.iwf.photopicker:PhotoPicker:0.9.10@aar'
-    compile 'com.github.bumptech.glide:glide:4.1.1'
+    implementation 'me.iwf.photopicker:PhotoPicker:0.9.10@aar'
+    implementation 'com.github.bumptech.glide:glide:4.1.1'
     //报错可能版本不对
-    compile 'jp.wasabeef:glide-transformations:3.0.1'
-    compile 'ch.halcyon:squareprogressbar:1.6.2'
-    compile 'com.apkfuns.logutils:library:1.5.1.1'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'
+    implementation 'ch.halcyon:squareprogressbar:1.6.2'
+    implementation 'com.apkfuns.logutils:library:1.5.1.1'
     //萤石云sdk
-    compile 'com.hikvision.ezviz:ezuikit:1.2'
+    implementation 'com.hikvision.ezviz:ezuikit:1.2'
     //校验edittext这样的
-    //    compile 'com.github.yoojia:next-inputs-android:1.6'
+    //    implementation 'com.github.yoojia:next-inputs-android:1.6'
     //刷新库
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     //没有使用特殊Header，可以不加这行
     //饮食页进度库
-    compile 'com.github.fython:MaterialStepperView:0.2.2'
+    implementation 'com.github.fython:MaterialStepperView:0.2.2'
     //播放页面暂停播放按钮
-    compile 'com.github.Lauzy:PlayPauseView:1.0.4'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.github.Lauzy:PlayPauseView:1.0.4'
+    testImplementation 'junit:junit:4.12'
     // 导入短视频SDK aar
-    compile(name: 'LiteAVSDK_UGC_3.4.1797', ext: 'aar')
+    implementation(name: 'LiteAVSDK_UGC_3.4.1797', ext: 'aar')
 }
 kotlin {
     experimental {
