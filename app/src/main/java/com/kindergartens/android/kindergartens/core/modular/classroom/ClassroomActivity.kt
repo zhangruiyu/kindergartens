@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import com.apkfuns.logutils.LogUtils
 import com.ezvizuikit.open.EZUIError
 import com.ezvizuikit.open.EZUIPlayer
 import com.kindergartens.android.kindergartens.R
@@ -67,6 +68,8 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
                 doAsync {
                     try {
                         val deviceInfo = classroomEntity.data[0].kgCamera
+                        val deviceInfo1 = EZOpenSDK.getInstance().getDeviceInfo(deviceInfo.deviceSerial)
+                        LogUtils.d(deviceInfo1)
                         val classroomImage = classroomEntity.data[0].classroomImage
                         preparePlay(deviceInfo, classroomImage)
                     } catch (e: BaseException) {
