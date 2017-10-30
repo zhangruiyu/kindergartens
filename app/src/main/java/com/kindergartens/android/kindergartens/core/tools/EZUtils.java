@@ -128,8 +128,8 @@ public class EZUtils {
      *  密码需要开发者自己存储，图片信息获取以及缓存策略需要开发者自己设计缓存规则
      *
      * *//*
-    public static void loadImage(final Context context, final ImageView imageView, final String url, final String deviceSerial, final VerifyCodeInput.VerifyCodeErrorListener verifyCodeErrorListener) {
-        final String verifyCode = DataManager.getInstance().getDeviceSerialVerifyCode(deviceSerial);
+    public static void loadImage(final Context context, final ImageView imageView, final String url, final String deviceInfo, final VerifyCodeInput.VerifyCodeErrorListener verifyCodeErrorListener) {
+        final String verifyCode = DataManager.getInstance().getDeviceSerialVerifyCode(deviceInfo);
         if (!isEncrypt(url)){
             Glide.with(context).load(url)
                     .placeholder(R.drawable.notify_bg)

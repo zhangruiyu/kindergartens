@@ -14,13 +14,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import com.apkfuns.logutils.LogUtils
 import com.ezvizuikit.open.EZUIError
 import com.ezvizuikit.open.EZUIPlayer
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseToolbarActivity
 import com.kindergartens.android.kindergartens.core.modular.classroom.data.ClassroomEntity
-import com.kindergartens.android.kindergartens.core.tools.EZUtils
 import com.kindergartens.android.kindergartens.core.tools.SystemBarHelper
 import com.kindergartens.android.kindergartens.custom.ui.AppBarStateChangeEvent
 import com.kindergartens.android.kindergartens.ext.width
@@ -28,7 +26,6 @@ import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.videogo.exception.BaseException
 import com.videogo.openapi.EZOpenSDK
-import com.videogo.openapi.bean.EZDeviceInfo
 import kotlinx.android.synthetic.main.activity_class_room.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
@@ -69,13 +66,9 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
                 mSectionsPagerAdapter.setNewData(classroomEntity.data)
                 doAsync {
                     try {
-                        val deviceList = EZOpenSDK.getInstance().getDeviceList(0, 20)
-                        val list = deviceList + deviceList + deviceList
-                        LogUtils.e(list)
-                        val deviceInfo = list[0]
+                        val deviceInfo = classroomEntity.data[0].kgCamera
                         val classroomImage = classroomEntity.data[0].classroomImage
-                        val verifyCode = classroomEntity.data[0].kgCamera[0].verifyCode
-                        preparePlay(deviceInfo, verifyCode, classroomImage)
+                        preparePlay(deviceInfo, classroomImage)
                     } catch (e: BaseException) {
                         toast(e.localizedMessage + e.errorCode)
                     }
@@ -113,11 +106,10 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
     /**
      * 准备播放资源参数
      */
-    private fun preparePlay(deviceInfo: EZDeviceInfo, verifyCode: String, classroomImage: String) {
+    private fun preparePlay(deviceSerial: ClassroomEntity.Data.KgCamera, classroomImage: String) {
         //设置播放资源参数
         cpv_play.mEzUIPlayerCallBack = this
-        val cameraInfoFromDevice = EZUtils.getCameraInfoFromDevice(deviceInfo, 0)
-        cpv_play.setParameters(deviceInfo, cameraInfoFromDevice, verifyCode, classroomImage)
+        cpv_play.setParameters(deviceSerial, classroomImage)
     }
 
     override fun onPlaySuccess() {

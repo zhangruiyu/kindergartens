@@ -7,23 +7,19 @@ import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.SurfaceHolder
-import android.view.SurfaceView
-import android.view.View
+import android.view.*
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.ezvizuikit.open.EZUIPlayer
 import com.freedom.lauzy.playpauseviewlib.PlayPauseView
 import com.kindergartens.android.kindergartens.R
+import com.kindergartens.android.kindergartens.core.modular.classroom.data.ClassroomEntity
 import com.kindergartens.android.kindergartens.ext.getWidth
 import com.videogo.openapi.EZConstants
 import com.videogo.openapi.EZOpenSDK
 import com.videogo.openapi.EZPlayer
-import com.videogo.openapi.bean.EZCameraInfo
-import com.videogo.openapi.bean.EZDeviceInfo
 import com.videogo.util.LogUtil
 import kotlinx.android.synthetic.main.ui_camera_play.view.*
 import org.jetbrains.anko.find
@@ -41,8 +37,8 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private val TAG = "CameraPlayView"
-    var deviceInfo: EZDeviceInfo? = null
-    private var cameraInfo: EZCameraInfo? = null
+    var deviceInfo: ClassroomEntity.Data.KgCamera? = null
+    private var cameraInfo: String? = null
     private var verifyCode: String? = null
     private var mVideoWidth = 0
     private var mVideoHeight = 0
@@ -59,82 +55,86 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     private var mEZPlayer: EZPlayer? = null
     private var mHolder: SurfaceHolder? = null
     private val isSurfaceInit = AtomicBoolean(false)
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            if ((context as Activity).isFinishing) {
-                return
-            }
-            val e: String?
-            LogUtil.e(TAG, msg.what.toString())
-            when (msg.what) {
-                EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS, EZConstants.EZPlaybackConstants.MSG_REMOTEPLAYBACK_PLAY_SUCCUSS -> {
-                    LogUtil.e(TAG, "MSG_REALPLAY_PLAY_SUCCESS")
-                    dismissLoading()
+    private var mHandler: Handler
+
+    init {
+        class PlayResultHandler : Handler() {
+            override fun handleMessage(msg: Message) {
+                if ((context as Activity).isFinishing) {
+                    return
+                }
+                val e: String?
+                LogUtil.e(TAG, msg.what.toString())
+                when (msg.what) {
+                    EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS, EZConstants.EZPlaybackConstants.MSG_REMOTEPLAYBACK_PLAY_SUCCUSS -> {
+                        LogUtil.e(TAG, "MSG_REALPLAY_PLAY_SUCCESS")
+                        dismissLoading()
 //                optionSound()
-                    if (mStatus != STATUS_STOP) {
-                        mStatus = STATUS_PLAY
-                        mEzUIPlayerCallBack?.onPlaySuccess()
+                        if (mStatus != STATUS_STOP) {
+                            mStatus = STATUS_PLAY
+                            mEzUIPlayerCallBack?.onPlaySuccess()
+                        }
+
+                        sendEmptyMessage(8888)
                     }
+                    EZConstants.MSG_VIDEO_SIZE_CHANGED -> {
+                        LogUtil.e(TAG, "MSG_VIDEO_SIZE_CHANGED")
+                        dismissLoading()
 
-                    sendEmptyMessage(8888)
-                }
-                EZConstants.MSG_VIDEO_SIZE_CHANGED -> {
-                    LogUtil.e(TAG, "MSG_VIDEO_SIZE_CHANGED")
-                    dismissLoading()
+                        try {
+                            e = msg.obj as String
+                            val strings = e.split(":".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                            mEzUIPlayerCallBack?.onVideoSizeChange(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]))
+                            mVideoWidth = Integer.parseInt(strings[0])
+                            mVideoHeight = Integer.parseInt(strings[1])
+                            setSurfaceSize(mWidth, mHeight)
+                        } catch (var4: Exception) {
+                            var4.printStackTrace()
+                        }
 
-                    try {
-                        e = msg.obj as String
-                        val strings = e.split(":".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-                        mEzUIPlayerCallBack?.onVideoSizeChange(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]))
-                        mVideoWidth = Integer.parseInt(strings[0])
-                        mVideoHeight = Integer.parseInt(strings[1])
-                        setSurfaceSize(mWidth, mHeight)
-                    } catch (var4: Exception) {
-                        var4.printStackTrace()
                     }
-
-                }
-                EZConstants.EZRealPlayConstants.MSG_REALPLAY_ENCRYPT_PASSWORD_ERROR -> {
-                    stopPlay()
-                    Toast.makeText(context, "安全密码错误,请联系幼儿园", Toast.LENGTH_SHORT).show()
-                }
-                EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL -> {
-                    stopPlay()
-                    Toast.makeText(context, "播放失败,请联系幼儿园", Toast.LENGTH_SHORT).show()
-                }
-
-                else -> {
-                    stopPlay()
-                    Toast.makeText(context, msg.what.toString(), Toast.LENGTH_SHORT).show()
+                    EZConstants.EZRealPlayConstants.MSG_REALPLAY_STOP_SUCCESS -> {
+                        showStopUi()
+                    }
+                    EZConstants.EZRealPlayConstants.MSG_REALPLAY_ENCRYPT_PASSWORD_ERROR -> {
+                        stopPlay()
+                        Toast.makeText(context, "安全密码错误,请联系幼儿园", Toast.LENGTH_SHORT).show()
+                    }
+                    EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL -> {
+                        stopPlay()
+                        Toast.makeText(context, "播放失败,请联系幼儿园", Toast.LENGTH_SHORT).show()
+                    }
+                    EZConstants.EZPlaybackConstants.MSG_REMOTEPLAYBACK_PLAY_FINISH -> {
+                        LogUtil.d("EZUIPlayer", "MSG_REMOTEPLAYBACK_PLAY_FINISH")
+//                        this@EZUIPlayer.handlePlayFinish()
+                    }
                 }
             }
         }
+
+        mHandler = PlayResultHandler()
+
     }
 
-
-    fun setParameters(deviceInfo: EZDeviceInfo, cameraInfoFromDevice: EZCameraInfo, verifyCode: String, classroomImage: String) {
+    fun setParameters(deviceInfo: ClassroomEntity.Data.KgCamera, classroomImage: String) {
         this.deviceInfo = deviceInfo
-        this.cameraInfo = cameraInfoFromDevice
         this.verifyCode = verifyCode
         mEZPlayer?.let {
             it.release()
             mEZPlayer = null
         }
-        mEZPlayer = eZOpenSDK.createPlayer(cameraInfoFromDevice.deviceSerial, cameraInfoFromDevice.cameraNo)
+        mEZPlayer = eZOpenSDK.createPlayer(deviceInfo.deviceSerial, 1)
         mEZPlayer?.setSurfaceHold(mHolder)
         mEZPlayer?.setHandler(mHandler)
-        iv_classroom_image.setBackgroundResource(R.drawable.dynamic_selected_add)
-        Glide.with(context).load(classroomImage).into(find<ImageView>(R.id.iv_classroom_image))
+        Glide.with(context).load(classroomImage).apply(RequestOptions().centerCrop()).into(find(R.id.iv_classroom_image))
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var widthMeasureSpec = widthMeasureSpec
-        var heightMeasureSpec = heightMeasureSpec
+    override fun onMeasure(widthMeasureSpecP: Int, heightMeasureSpecP: Int) {
         val mDefaultHeight = (context.getWidth().toDouble() * 0.562).toInt()
 
         LogUtil.d("EZUIPlayer", "onMeasure  mDefaultWidth = " + context.getWidth() + "  mDefaultHeight= " + mDefaultHeight)
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(context.getWidth(), MeasureSpec.getMode(widthMeasureSpec))
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(mDefaultHeight, MeasureSpec.getMode(heightMeasureSpec))
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(context.getWidth(), MeasureSpec.getMode(widthMeasureSpecP))
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(mDefaultHeight, MeasureSpec.getMode(heightMeasureSpecP))
         if (sfv_camera_play != null && this.mHolder == null) {
             this.mHolder = sfv_camera_play.holder
             this.mHolder?.addCallback(object : SurfaceHolder.Callback {
@@ -199,7 +199,6 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
         if (this.mStatus != STATUS_STOP) {
             mStatus = STATUS_STOP
             this.mEZPlayer?.stopRealPlay()
-            showStopUi()
         }
     }
 
