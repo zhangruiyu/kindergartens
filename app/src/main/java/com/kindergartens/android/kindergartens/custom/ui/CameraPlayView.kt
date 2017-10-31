@@ -183,7 +183,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
                 if (isSurfaceInit.get()) {
                     mStatus = STATUS_START
                     showLoading()
-                    if (deviceInfo?.isEncrypt == 1 && deviceInfo?.verifyCode.isNullOrEmpty()) {
+                    if (deviceInfo?.isEncrypt == 1 && !deviceInfo?.verifyCode.isNullOrEmpty()) {
                         mEZPlayer?.setPlayVerifyCode(deviceInfo!!.verifyCode)
                     }
                     mEZPlayer?.startRealPlay()
