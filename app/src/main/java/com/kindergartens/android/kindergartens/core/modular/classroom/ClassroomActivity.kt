@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import com.apkfuns.logutils.LogUtils
 import com.ezvizuikit.open.EZUIError
 import com.ezvizuikit.open.EZUIPlayer
 import com.kindergartens.android.kindergartens.R
@@ -28,7 +27,6 @@ import com.kindergartens.android.kindergartens.net.ServerApi
 import com.videogo.exception.BaseException
 import com.videogo.openapi.EZOpenSDK
 import kotlinx.android.synthetic.main.activity_class_room.*
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import java.util.*
 
@@ -65,17 +63,17 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
 
             override fun onNext(classroomEntity: ClassroomEntity) {
                 mSectionsPagerAdapter.setNewData(classroomEntity.data)
-                doAsync {
-                    try {
-                        val deviceInfo = classroomEntity.data[0].kgCamera
-                        val deviceInfo1 = EZOpenSDK.getInstance().getDeviceInfo(deviceInfo.deviceSerial)
-                        LogUtils.d(deviceInfo1)
-                        val classroomImage = classroomEntity.data[0].classroomImage
-                        preparePlay(deviceInfo, classroomImage)
-                    } catch (e: BaseException) {
-                        toast(e.localizedMessage + e.errorCode)
-                    }
+//                doAsync {
+                try {
+                    val deviceInfo = classroomEntity.data[0].kgCamera
+//                        val deviceInfo1 = EZOpenSDK.getInstance().getDeviceInfo(deviceInfo.deviceSerial)
+//                        LogUtils.d(deviceInfo1)
+                    val classroomImage = classroomEntity.data[0].classroomImage
+                    preparePlay(deviceInfo, classroomImage)
+                } catch (e: BaseException) {
+                    toast(e.localizedMessage + e.errorCode)
                 }
+//                }
 
             }
         })
@@ -205,7 +203,7 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return ClassroomFragment.newInstance(position + 1)
+            return ClassroomFragment.newInstance(position + 1, devices[position])
         }
 
         override fun getCount(): Int = devices.size

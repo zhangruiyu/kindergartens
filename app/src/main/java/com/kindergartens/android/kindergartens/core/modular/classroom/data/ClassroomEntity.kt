@@ -12,6 +12,7 @@ data class ClassroomEntity(var code: Int,
                     var classroomImage: String,
                     var showName: String,
                     var isCorridor: Int,
+                    var synopsis: String,
                     var kgCamera: KgCamera) : BaseEntity {
         data class KgCamera(var deviceName: String,
                             var deviceSerial: String,
