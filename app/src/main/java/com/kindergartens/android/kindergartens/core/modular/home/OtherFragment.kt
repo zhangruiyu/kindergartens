@@ -14,6 +14,7 @@ import com.kindergartens.android.kindergartens.core.database.TUserModel
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.auth.LoginActivity
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
+import com.kindergartens.android.kindergartens.core.modular.setting.SettingActivity
 import com.kindergartens.android.kindergartens.core.modular.userinfo.UserInfoActivity
 import com.kindergartens.android.kindergartens.ext.applyAndSave
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
@@ -45,8 +46,10 @@ class OtherFragment : BaseFragment() {
         }
         TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.TOP))
         card_noLogin.visibility = if (haveOnlineUser) View.INVISIBLE else View.VISIBLE
-        bt_login_out.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
         card_login.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
+        acb_setting.setOnClickListener({
+            startActivity<SettingActivity>()
+        })
     }
 
     private fun setUpUserUi(tUserModel: TUserModel) {
@@ -62,9 +65,6 @@ class OtherFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bt_login_out.setOnClickListener {
-            UserdataHelper.loginOut { onVisible() }
-        }
         bt_go_login.setOnClickListener {
             startActivity<LoginActivity>()
         }
@@ -74,9 +74,6 @@ class OtherFragment : BaseFragment() {
     }
 
     companion object {
-        fun newInstance(): OtherFragment {
-            val fragment = OtherFragment()
-            return fragment
-        }
+        fun newInstance(): OtherFragment = OtherFragment()
     }
 }

@@ -163,6 +163,7 @@
                 android:textColor="@color/secondary_text"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/acb_setting"
                 style="@style/Widget.AppCompat.ActionButton.CloseMode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,11 +178,4 @@
     </android.support.v7.widget.CardView>
 
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/bt_login_out"
-        style="@style/Widget.AppCompat.ActionButton.CloseMode"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="退出登录"/>
 </LinearLayout>

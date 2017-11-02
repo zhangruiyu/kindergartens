@@ -96,6 +96,11 @@
             android:name=".core.modular.video.preview.TCVideoPreviewActivity"
             android:label="">
         </activity>
+        <activity
+            android:name=".core.modular.setting.SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/KGAppTheme">
+        </activity>
     </application>
 
 </manifest>
