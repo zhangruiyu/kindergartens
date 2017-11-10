@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
+import com.kindergartens.android.kindergartens.core.modular.safe.SafeActivity
 import kotlinx.android.synthetic.main.fragment_setting.*
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * A placeholder fragment containing a simple view.
@@ -27,5 +29,9 @@ class SettingActivityFragment : BaseFragment() {
             activity.finish()
         }
         bt_login_out.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
+        bt_account_safe.setOnClickListener({
+            UserdataHelper.haveNoOnlineLet { startActivity<SafeActivity>() }
+
+        })
     }
 }

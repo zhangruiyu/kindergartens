@@ -7,16 +7,19 @@ import com.kindergartens.android.kindergartens.base.BaseEntity
  */
 data class ClassroomEntity(var code: Int,
                            var msg: String,
-                           var data: List<Data>) : BaseEntity {
-    data class Data(var childCount: Int,
-                    var classroomImage: String,
-                    var showName: String,
-                    var isCorridor: Int,
-                    var synopsis: String,
-                    var kgCamera: KgCamera) : BaseEntity {
-        data class KgCamera(var deviceName: String,
-                            var deviceSerial: String,
-                            var model: String,
-                            var verifyCode: String, var isEncrypt: Int) : BaseEntity
+                           var data: ClassroomEntity.WrapperData) : BaseEntity {
+    data class WrapperData(var data: List<Data>, var addition: String) {
+        data class Data(var childCount: Int,
+                        var classroomImage: String,
+                        var showName: String,
+                        var isCorridor: Int,
+                        var synopsis: String,
+                        var kgCamera: KgCamera) : BaseEntity {
+            data class KgCamera(var deviceName: String,
+                                var deviceSerial: String,
+                                var model: String,
+                                var verifyCode: String, var isEncrypt: Int) : BaseEntity
+        }
     }
+
 }

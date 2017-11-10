@@ -98,8 +98,11 @@
         </activity>
         <activity
             android:name=".core.modular.setting.SettingActivity"
-            android:label="@string/title_activity_setting"
-            android:theme="@style/KGAppTheme">
+            android:label="@string/title_activity_setting">
+        </activity>
+        <activity
+            android:name=".core.modular.safe.SafeActivity"
+            android:label="修改密码">
         </activity>
     </application>
 

@@ -37,7 +37,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private val TAG = "CameraPlayView"
-    var deviceInfo: ClassroomEntity.Data.KgCamera? = null
+    var deviceInfo: ClassroomEntity.WrapperData.Data.KgCamera? = null
     private var mVideoWidth = 0
     private var mVideoHeight = 0
     private var mWidth = 0
@@ -115,7 +115,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     }
 
-    fun setParameters(deviceInfo: ClassroomEntity.Data.KgCamera, classroomImage: String) {
+    fun setParameters(deviceInfo: ClassroomEntity.WrapperData.Data.KgCamera, classroomImage: String) {
         this.deviceInfo = deviceInfo
         mEZPlayer?.let {
             it.release()

@@ -23,7 +23,7 @@ class ClassroomFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val data = arguments.getSerializable(ARG_SECTION_DATA) as ClassroomEntity.Data
+        val data = arguments.getSerializable(ARG_SECTION_DATA) as ClassroomEntity.WrapperData.Data
         if (data.isCorridor == 0) {
             tv_classroom_student_count.text = data.childCount.toString()
         }
@@ -45,7 +45,7 @@ class ClassroomFragment : BaseFragment() {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        fun newInstance(sectionNumber: Int, data: ClassroomEntity.Data): ClassroomFragment {
+        fun newInstance(sectionNumber: Int, data: ClassroomEntity.WrapperData.Data): ClassroomFragment {
             val fragment = ClassroomFragment()
             val args = Bundle()
             args.putInt(ARG_SECTION_NUMBER, sectionNumber)

@@ -1,11 +1,14 @@
 package com.kindergartens.android.kindergartens.core.database
 
+import com.kindergartens.android.kindergartens.base.BaseActivity
+import com.kindergartens.android.kindergartens.core.modular.auth.LoginActivity
 import com.kindergartens.android.kindergartens.ext.applyAndSave
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.raizlabs.android.dbflow.kotlinextensions.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by zhangruiyu on 2017/7/12.
@@ -56,6 +59,16 @@ class UserdataHelper {
             val onlineUser = getOnlineUser()
             if (onlineUser != null) {
                 block(onlineUser)
+            }
+        }
+
+        //如果有用户执行闭包
+        fun haveNoOnlineLet(block: () -> Unit) {
+            val onlineUser = getOnlineUser()
+            if (onlineUser == null) {
+                BaseActivity.runActivity?.startActivity<LoginActivity>()
+            } else {
+                block()
             }
         }
 

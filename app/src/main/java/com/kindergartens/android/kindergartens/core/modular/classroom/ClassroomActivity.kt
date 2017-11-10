@@ -56,19 +56,21 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        ServerApi.getYSToken().flatMap {
+       /* ServerApi.getYSToken().flatMap {
             EZOpenSDK.getInstance().setAccessToken(it.data.accessToken)
             ServerApi.getClassrooms()
-        }.subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
+        }*/
+        ServerApi.getClassrooms().subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
 
             override fun onNext(classroomEntity: ClassroomEntity) {
-                mSectionsPagerAdapter.setNewData(classroomEntity.data)
+                EZOpenSDK.getInstance().setAccessToken(classroomEntity.data.addition)
+                mSectionsPagerAdapter.setNewData(classroomEntity.data.data)
 //                doAsync {
                 try {
-                    val deviceInfo = classroomEntity.data[0].kgCamera
+                    val deviceInfo = classroomEntity.data.data[0].kgCamera
 //                        val deviceInfo1 = EZOpenSDK.getInstance().getDeviceInfo(deviceInfo.deviceSerial)
 //                        LogUtils.d(deviceInfo1)
-                    val classroomImage = classroomEntity.data[0].classroomImage
+                    val classroomImage = classroomEntity.data.data[0].classroomImage
                     preparePlay(deviceInfo, classroomImage)
                 } catch (e: BaseException) {
                     toast(e.localizedMessage + e.errorCode)
@@ -107,7 +109,7 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
     /**
      * 准备播放资源参数
      */
-    private fun preparePlay(deviceSerial: ClassroomEntity.Data.KgCamera, classroomImage: String) {
+    private fun preparePlay(deviceSerial: ClassroomEntity.WrapperData.Data.KgCamera, classroomImage: String) {
         //设置播放资源参数
         cpv_play.mEzUIPlayerCallBack = this
         cpv_play.setParameters(deviceSerial, classroomImage)
@@ -193,8 +195,8 @@ class ClassroomActivity : BaseToolbarActivity(), View.OnClickListener, EZUIPlaye
      * one of the sections/tabs/pages.
      */
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-        private val devices: ArrayList<ClassroomEntity.Data> = arrayListOf()
-        fun setNewData(data: List<ClassroomEntity.Data>) {
+        private val devices: ArrayList<ClassroomEntity.WrapperData.Data> = arrayListOf()
+        fun setNewData(data: List<ClassroomEntity.WrapperData.Data>) {
             devices.clear()
             devices.addAll(data)
             notifyDataSetChanged()

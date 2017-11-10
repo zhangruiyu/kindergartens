@@ -4,7 +4,7 @@ import android.content.Context
 import com.apkfuns.logutils.LogUtils
 import com.kindergartens.android.kindergartens.KGApplication
 import com.kindergartens.android.kindergartens.base.BaseActivity
-import com.kindergartens.android.kindergartens.ext.TSnackbarUitils
+import com.kindergartens.android.kindergartens.ext.TSnackbarUtils
 import org.jetbrains.anko.toast
 
 /**
@@ -16,7 +16,7 @@ abstract class CustomNetErrorWrapper<T>(val context: Context? = null) : ErrorWra
         super.onError(e)
         if (e is ApiException) {
             if (BaseActivity.runActivity != null) {
-                TSnackbarUitils.toFail(BaseActivity.runActivity!!, e.errorMessage).show()
+                TSnackbarUtils.toFail(BaseActivity.runActivity!!, e.errorMessage).show()
                 return@onError
             }
         }

@@ -127,6 +127,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     // 导入短视频SDK aar
     implementation(name: 'LiteAVSDK_UGC_3.4.1797', ext: 'aar')
+    implementation 'com.github.yoojia:next-inputs-android:1.6-Final'
+    implementation 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+
 }
 kotlin {
     experimental {

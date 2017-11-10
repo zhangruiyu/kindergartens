@@ -126,7 +126,7 @@ class UserInfoActivity : BaseToolbarActivity() {
                                     override fun onFailed(cosRequest: COSRequest, cosResult: COSResult) {
                                         super.onFailed(cosRequest, cosResult)
                                         dialog.safeDismiss()
-                                        TSnackbarUitils.toFail(this@UserInfoActivity, "服务器图片错误,请稍后再试!").show()
+                                        TSnackbarUtils.toFail(this@UserInfoActivity, "服务器图片错误,请稍后再试!").show()
 
                                     }
                                 }
@@ -161,7 +161,7 @@ class UserInfoActivity : BaseToolbarActivity() {
                     gender = p.data.checkGender
                     relation = p.data.relationCheck
                 }
-                TSnackbarUitils.toSuccess(this@UserInfoActivity, "资料修改成功").setCallback(object : TSnackbar.Callback() {
+                TSnackbarUtils.toSuccess(this@UserInfoActivity, "资料修改成功").setCallback(object : TSnackbar.Callback() {
                     override fun onDismissed(snackBar: TSnackbar?, event: Int) {
                         finish()
                     }

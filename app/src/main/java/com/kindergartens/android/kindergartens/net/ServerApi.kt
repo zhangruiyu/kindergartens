@@ -17,6 +17,7 @@ import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.request.PostRequest
 import com.lzy.okrx2.adapter.ObservableBody
 import io.reactivex.Observable
+import java.util.*
 
 
 /**
@@ -25,8 +26,8 @@ import io.reactivex.Observable
 class ServerApi {
     companion object {
         //手机
-//        val baseUrl = "http://192.168.43.20:8080"
-        val baseUrl = "http://192.168.31.150:8080"
+        val baseUrl = "http://192.168.43.20:8080"
+//        val baseUrl = "http://192.168.31.151:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -47,6 +48,16 @@ class ServerApi {
             params.put("tel", tel)
             params.put("password", password)
             params.put("authCode", authCode)
+            request.params(params)
+
+            return converter(request)
+        }
+
+        fun changePassword(oldPassword: String, newPassword: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/auth/changePassword")
+            val params = HttpParams()
+            params.put("oldPassword", oldPassword)
+            params.put("newPassword", newPassword)
             request.params(params)
 
             return converter(request)

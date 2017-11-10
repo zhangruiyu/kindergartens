@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
               android:id="@+id/ll_root"
+              android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
     <!-- Login progress -->
@@ -36,8 +36,8 @@
                     android:inputType="textEmailAddress"
                     android:maxLength="11"
                     android:maxLines="1"
-                    android:text="15201231805"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:text="15201231805"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -56,8 +56,8 @@
                     android:inputType="textPassword"
                     android:maxLength="20"
                     android:maxLines="1"
-                    android:text="123123123"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:text="123123123"/>
 
             </android.support.design.widget.TextInputLayout>
 
