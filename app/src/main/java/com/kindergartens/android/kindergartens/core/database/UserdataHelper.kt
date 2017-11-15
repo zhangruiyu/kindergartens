@@ -36,7 +36,7 @@ class UserdataHelper {
                         .result
                 debug { tUser }
             }
-            if (tUser?.isOnline == false) {
+            if (tUser?.isOnline == false || tUser?.token?.isEmpty() == true) {
                 return null
             }
             return tUser

@@ -15,6 +15,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
+import com.kindergartens.android.kindergartens.core.database.UserdataHelper
+import com.kindergartens.android.kindergartens.core.modular.album.AlbumActivity
 import com.kindergartens.android.kindergartens.core.modular.classroom.ClassroomActivity
 import com.kindergartens.android.kindergartens.core.modular.eat.EatActivity
 import com.kindergartens.android.kindergartens.core.modular.home.data.HomepageItemBean
@@ -58,25 +60,13 @@ open class HomepageFragment : BaseFragment() {
     }
 
     //摄像头放中间 方便老师看见
-    val itemBeans = mutableListOf(HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "校园消息"),
-            HomepageItemBean(R.drawable.home_fab_icon, "校园消息"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "在线视频"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"),
-            HomepageItemBean(R.drawable.home_fab_icon, "宝贝饮食"))
+    val itemBeans = mutableListOf(
+            HomepageItemBean(R.drawable.homepage_all_message, "校园消息"),
+            HomepageItemBean(R.drawable.homepage_school_message, "班级消息"),
+            HomepageItemBean(R.drawable.homepage_eat, "宝贝饮食"),
+            HomepageItemBean(R.drawable.homepage_album, "班级相册"),
+            HomepageItemBean(R.drawable.homepage_video, "在线视频")
+    )
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -89,7 +79,7 @@ open class HomepageFragment : BaseFragment() {
 
         banner.setImages(mutableListOf("http://desk.fd.zol-img.com.cn/t_s960x600c5/g5/M00/0C/0E/ChMkJ1j1gQ6ILskaADPWcgfgSeYAAbvmQAADeEAM9aK508.jpg", "http://avatar.csdn.net/4/E/F/1_lyhhj.jpg", "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2885786814,3634989667&fm=80&w=179&h=119&img.JPEG"))
                 .start()
-        val homepageAdapter = HomepageAdapter()
+        val homepageAdapter = HomepageAdapter(ctx)
         homepageAdapter.setNewData(itemBeans)
         srf_homepage_refresh.setScrollUpChild(rl_homepage_content)
         rl_homepage_content.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
@@ -98,12 +88,16 @@ open class HomepageFragment : BaseFragment() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 toast(position.toString())
                 when (position) {
-                    1 -> startActivity<SchoolMessageActivity>()
-                    4 -> {
-                        startActivity<ClassroomActivity>()
+                    0, 1 -> startActivity<SchoolMessageActivity>()
+                    2 -> {
+                        UserdataHelper.haveNoOnlineLet { startActivity<EatActivity>() }
+
                     }
-                    5 -> {
-                        startActivity<EatActivity>()
+                    3 -> {
+                        UserdataHelper.haveNoOnlineLet { startActivity<AlbumActivity>() }
+                    }
+                    4 -> {
+                        UserdataHelper.haveNoOnlineLet { startActivity<ClassroomActivity>() }
                     }
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]

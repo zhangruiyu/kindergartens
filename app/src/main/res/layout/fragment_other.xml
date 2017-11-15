@@ -1,181 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    >
 
-    <FrameLayout
-        android:id="@+id/fl_login_state_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_noLogin"
+        <FrameLayout
+            android:id="@+id/fl_login_state_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_marginTop="10dp">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_noLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:visibility="gone">
 
-                <TextView
-                    style="@style/default_text_title"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/default_text_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:text="登陆小助手,体验更多功能"/>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/bt_go_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/transparent"
+                        android:text="注册/登陆"
+                        android:textColor="@color/accent"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_login"
+                style="@style/default_click_view"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_avatar"
+                    style="@style/ImageViewSelect"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/other_marleft"
+                    android:clickable="true"/>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:text="登陆小助手,体验更多功能"/>
+                    android:layout_marginLeft="90dp"
+                    android:orientation="vertical">
+
+                    <io.github.rockerhieu.emojicon.EmojiconTextView
+                        android:id="@+id/tv_nickname"
+                        style="@style/default_text_subhead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="大王八"/>
+
+                    <io.github.rockerhieu.emojicon.EmojiconTextView
+                        android:id="@+id/tv_call"
+                        style="@style/default_text_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="好好学习"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/line"
+                app:dividerPadding="50dp"
+                app:showDividers="middle">
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/bt_go_login"
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/transparent"
-                    android:text="注册/登陆"
-                    android:textColor="@color/accent"/>
-            </LinearLayout>
+                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawablePadding="20dp"
+                    android:gravity="start|center_vertical"
+                    android:text="积分商城(暂未开放)"
+                    android:textColor="@color/secondary_text"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawablePadding="20dp"
+                    android:gravity="left|center_vertical"
+                    android:text="积分商城"
+                    android:textColor="@color/secondary_text"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawablePadding="20dp"
+                    android:gravity="left|center_vertical"
+                    android:text="积分商城"
+                    android:textColor="@color/secondary_text"/>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
         </android.support.v7.widget.CardView>
+
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_login"
-            style="@style/default_click_view"
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_avatar"
-                style="@style/ImageViewSelect"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/other_marleft"
-                android:clickable="true"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:divider="@drawable/line"
+                app:dividerPadding="50dp"
+                app:showDividers="middle">
 
-                <io.github.rockerhieu.emojicon.EmojiconTextView
-                    android:id="@+id/tv_nickname"
-                    style="@style/default_text_subhead"
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.AppCompatButton
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="大王八"/>
+                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawablePadding="20dp"
+                    android:gravity="left|center_vertical"
+                    android:text="充值"
+                    android:textColor="@color/secondary_text"/>
 
-                <io.github.rockerhieu.emojicon.EmojiconTextView
-                    android:id="@+id/tv_call"
-                    style="@style/default_text_small"
-                    android:layout_width="wrap_content"
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/acb_setting"
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="好好学习"/>
-            </LinearLayout>
+                    android:drawableLeft="@drawable/ic_settings_black"
+                    android:drawablePadding="20dp"
+                    android:gravity="left|center_vertical"
+                    android:text="设置"
+                    android:textColor="@color/secondary_text"/>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
         </android.support.v7.widget.CardView>
-    </FrameLayout>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:divider="@drawable/line"
-            app:dividerPadding="50dp"
-            app:showDividers="middle">
-
-            <android.support.v7.widget.AppCompatButton
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="积分商城"
-                android:textColor="@color/secondary_text"/>
-
-            <android.support.v7.widget.AppCompatButton
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="积分商城"
-                android:textColor="@color/secondary_text"/>
-
-            <android.support.v7.widget.AppCompatButton
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="积分商城"
-                android:textColor="@color/secondary_text"/>
 
 
-        </android.support.v7.widget.LinearLayoutCompat>
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:divider="@drawable/line"
-            app:dividerPadding="50dp"
-            app:showDividers="middle">
-
-            <android.support.v7.widget.AppCompatButton
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="充值"
-                android:textColor="@color/secondary_text"/>
-
-            <android.support.v7.widget.AppCompatButton
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="夜间模式"
-                android:textColor="@color/secondary_text"/>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/acb_setting"
-                style="@style/Widget.AppCompat.ActionButton.CloseMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_local_grocery_store"
-                android:drawablePadding="20dp"
-                android:gravity="left|center_vertical"
-                android:text="设置"
-                android:textColor="@color/secondary_text"/>
-
-
-        </android.support.v7.widget.LinearLayoutCompat>
-    </android.support.v7.widget.CardView>
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

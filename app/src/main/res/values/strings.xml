@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kindergartens</string>
+    <string name="app_name">幼儿园小助手</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -26,4 +26,5 @@
     <string name="music_loading">正在加载本地音乐...</string>
     <string name="delete">删除</string>
     <string name="title_activity_setting">设置</string>
+    <string name="title_activity_album">班级相册</string>
 </resources>
