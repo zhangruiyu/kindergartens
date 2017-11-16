@@ -1,5 +1,6 @@
 package com.kindergartens.android.kindergartens.net
 
+import com.kindergartens.android.kindergartens.core.modular.album.data.AlbumEntity
 import com.kindergartens.android.kindergartens.core.modular.auth.data.LoginUserEntity
 import com.kindergartens.android.kindergartens.core.modular.classroom.data.ClassroomEntity
 import com.kindergartens.android.kindergartens.core.modular.classroom.data.YSToken
@@ -203,6 +204,13 @@ class ServerApi {
             val request = OkGo.post<EatEntity>("$baseUrl/user/eat/eatList")
             val params = HttpParams()
             params.put("index", index)
+            request.params(params)
+            return converter(request)
+        }
+
+        fun getSchoolAlbum(): Observable<AlbumEntity>  {
+            val request = OkGo.post<AlbumEntity>("$baseUrl/user/album/schoolAlbum")
+            val params = HttpParams()
             request.params(params)
             return converter(request)
         }
