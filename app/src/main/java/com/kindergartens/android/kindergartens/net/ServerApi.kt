@@ -8,6 +8,7 @@ import com.kindergartens.android.kindergartens.core.modular.classroom.data.YsHel
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.eat.data.EatEntity
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
+import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.CommentEntity
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.modular.schoolmessage.data.MessageEntity
 import com.kindergartens.android.kindergartens.core.modular.userinfo.data.ProfileAlteredInfo
@@ -28,7 +29,7 @@ class ServerApi {
     companion object {
         //手机
 //        val baseUrl = "http://192.168.43.20:8080"
-        val baseUrl = "http://192.168.31.151:8080"
+        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -152,8 +153,8 @@ class ServerApi {
         }
 
         //评论动态
-        fun commitDynamicComment(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<Any> {
-            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitComment")
+        fun commitDynamicComment(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<CommentEntity> {
+            val request = OkGo.post<CommentEntity>("$baseUrl/user/dynamic/commitComment")
             val params = HttpParams()
             params.put("commentContent", commentContent)
             params.put("dynamicId", dynamicId)
@@ -208,7 +209,7 @@ class ServerApi {
             return converter(request)
         }
 
-        fun getSchoolAlbum(): Observable<AlbumEntity>  {
+        fun getSchoolAlbum(): Observable<AlbumEntity> {
             val request = OkGo.post<AlbumEntity>("$baseUrl/user/album/schoolAlbum")
             val params = HttpParams()
             request.params(params)

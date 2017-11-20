@@ -9,15 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.SchoolmateHelper
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
+import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.CommentEntity
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
 import com.kindergartens.android.kindergartens.core.ui.CustomLoadMoreView
-import com.kindergartens.android.kindergartens.ext.*
+import com.kindergartens.android.kindergartens.ext.getColorSource
+import com.kindergartens.android.kindergartens.ext.getWaitDialog
+import com.kindergartens.android.kindergartens.ext.safeDismiss
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
 import com.scwang.smartrefresh.header.PhoenixHeader
@@ -29,7 +30,6 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import org.jetbrains.anko.find
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.toast
@@ -47,27 +47,34 @@ class DynamicFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         bsw_dynamic_refresh.setOnRefreshListener {
+            page_index = 0
+            refreshData()
+        }
+        bsw_dynamic_refresh.isEnableAutoLoadmore = true
+        bsw_dynamic_refresh.setOnLoadmoreListener {
             refreshData()
         }
         bsw_dynamic_refresh.refreshHeader = PhoenixHeader(context)
         rcv_dynamic_content.addItemDecoration(DynamicItemDecoration(ctx))
         rcv_dynamic_content.layoutManager = LinearLayoutManager(ctx)
-        val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
+        /* val headView = View.inflate(ctx, R.layout.layout_dynamic_head, null)
 
-        Glide.with(ctx).load("http://img5.imgtn.bdimg.com/it/u=561855009,461918882&fm=27&gp=0.jpg").apply(RequestOptions()
-                .override(width, (height / 6.5).toInt()).centerCrop())
-                .into(headView.find(R.id.iv_dynamic_head_pic))
-
+         Glide.with(ctx).load("http://img5.imgtn.bdimg.com/it/u=561855009,461918882&fm=27&gp=0.jpg").apply(RequestOptions()
+                 .override(width, (height / 6.5).toInt()).centerCrop())
+                 .into(headView.find(R.id.iv_dynamic_head_pic))
+ */
         dynamicAdapter = DynamicAdapter(ctx, childClickListener)
         dynamicAdapter?.apply {
             openLoadAnimation()
-            addHeaderView(headView)
+//            addHeaderView(headView)
+            setEnableLoadMore(true)
+            setPreLoadNumber(2)
             setOnLoadMoreListener({
                 refreshData()
             }, rcv_dynamic_content)
             setLoadMoreView(CustomLoadMoreView())
             disableLoadMoreIfNotFullPage()
-            setEnableLoadMore(true)
+
             setOnItemChildClickListener { adapter, view, position ->
                 LogUtils.e("评论的动态位置====$position")
 
@@ -83,16 +90,16 @@ class DynamicFragment : BaseFragment() {
                                                 waitDialog.safeDismiss()
                                                 dialog.safeDismiss()
                                             }
-                                            .subscribe(object : CustomNetErrorWrapper<Any>() {
-                                                override fun onNext(t: Any) {
+                                            .subscribe(object : CustomNetErrorWrapper<CommentEntity>() {
+                                                override fun onNext(t: CommentEntity) {
                                                     adapter.data[position]?.let {
-                                                        UserdataHelper.haveOnlineLet { onlineUser ->
-                                                            val data = it as DynamicEntity.Data
-                                                            data.kgDynamicComment.add(DynamicEntity.KgDynamicComment(input.toString(), onlineUser.id!!))
-                                                            ctx.runOnUiThread {
-                                                                //因为有头部 所有要pisition加1
-                                                                adapter.notifyItemChanged(position + 1)
-                                                            }
+                                                        val data = it as DynamicEntity.Data
+                                                        val data1 = t.data
+                                                        data.kgDynamicComment.add(DynamicEntity.KgDynamicComment(t.data.id, t.data.userId, t.data.dynamicId, t.data.commentContent, t.data.createTime, t.data.groupTag, t.data.parentCommentId))
+                                                        ctx.runOnUiThread {
+                                                            //因为有头部 所有要pisition加1
+//                                                                adapter.notifyItemChanged(position + 1)
+                                                            adapter.notifyItemChanged(position)
                                                         }
                                                     }
                                                 }
@@ -127,15 +134,16 @@ class DynamicFragment : BaseFragment() {
                                         .doOnTerminate {
                                             waitDialog.safeDismiss()
                                         }
-                                        .subscribe(object : CustomNetErrorWrapper<Any>() {
-                                            override fun onNext(t: Any) {
+                                        .subscribe(object : CustomNetErrorWrapper<CommentEntity>() {
+                                            override fun onNext(t: CommentEntity) {
                                                 dialog.safeDismiss()
                                                 adapter.data[position]?.let { dynamicEntity ->
                                                     UserdataHelper.haveOnlineLet { onlineUser ->
-                                                        dynamicEntity.kgDynamicComment.add(DynamicEntity.KgDynamicComment(input.toString(), onlineUser.id!!, tag.groupTag, tag.id))
+                                                        dynamicEntity.kgDynamicComment.add(DynamicEntity.KgDynamicComment(t.data.id, t.data.userId, t.data.dynamicId, t.data.commentContent, t.data.createTime, t.data.groupTag, t.data.parentCommentId))
                                                         ctx.runOnUiThread {
                                                             //因为有头部 所有要pisition加1
-                                                            adapter.notifyItemChanged(position + 1)
+
+                                                            adapter.notifyItemChanged(position + adapter.headerLayoutCount)
                                                         }
                                                     }
                                                 }
@@ -181,7 +189,10 @@ class DynamicFragment : BaseFragment() {
 
     //获取动态
     private fun refreshData() {
-        ServerApi.getDynamics(page_index).doOnTerminate { bsw_dynamic_refresh?.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<DynamicEntity>() {
+        ServerApi.getDynamics(page_index).doOnTerminate {
+            bsw_dynamic_refresh?.finishRefresh()
+            bsw_dynamic_refresh.finishLoadmore()
+        }.subscribe(object : CustomNetErrorWrapper<DynamicEntity>() {
             override fun onNext(it: DynamicEntity) {
                 if (page_index == 0) {
                     dynamicAdapter?.data?.clear()
@@ -216,9 +227,9 @@ class DynamicFragment : BaseFragment() {
 
 class DynamicItemDecoration(val ctx: Context) : Y_DividerItemDecoration(ctx) {
     override fun getDivider(itemPosition: Int): Y_Divider {
-        if (itemPosition == 0) {
+        /*if (itemPosition == 0) {
             return Y_DividerBuilder().create()
-        }
+        }*/
         return Y_DividerBuilder().setBottomSideLine(true, ctx.getColorSource(R.color.recycle_divider), 10f, 0f, 0f).create()
     }
 

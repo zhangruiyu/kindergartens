@@ -21,6 +21,8 @@ import com.kindergartens.android.kindergartens.core.modular.album.data.AlbumSect
 import com.kindergartens.android.kindergartens.ext.getWidth
 import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
 import com.kindergartens.android.kindergartens.net.ServerApi
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_album.*
 import me.iwf.photopicker.PhotoPreview
 import org.jetbrains.anko.dip
@@ -29,19 +31,10 @@ import org.jetbrains.anko.support.v4.ctx
 /**
  * A placeholder fragment containing a simple view.
  */
-class AlbumActivityFragment : BaseFragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_album, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val albumAdapter = AlbumAdapter(this)
-        rv_album.layoutManager = LinearLayoutManager(ctx)
-        rv_album.adapter = albumAdapter
-        ServerApi.getSchoolAlbum().subscribe(object : CustomNetErrorWrapper<AlbumEntity>() {
+class AlbumActivityFragment : BaseFragment(), OnRefreshListener {
+    lateinit var albumAdapter: AlbumAdapter
+    override fun onRefresh(p0: RefreshLayout?) {
+        ServerApi.getSchoolAlbum().doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<AlbumEntity>() {
             override fun onNext(t: AlbumEntity) {
                 val albumList = ArrayList<AlbumSection>()
                 t.data.forEach {
@@ -51,7 +44,23 @@ class AlbumActivityFragment : BaseFragment() {
                 albumAdapter.setNewData(albumList)
             }
 
+
         })
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_album, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        albumAdapter = AlbumAdapter(this)
+        rv_album.layoutManager = LinearLayoutManager(ctx)
+        rv_album.adapter = albumAdapter
+        srl_refresh.setOnRefreshListener(this)
+        srl_refresh.autoRefresh()
 
     }
 }

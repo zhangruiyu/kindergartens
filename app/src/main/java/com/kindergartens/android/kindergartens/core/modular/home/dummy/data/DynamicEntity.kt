@@ -16,7 +16,7 @@ class DynamicEntity(var data: WrapperDynamic) {
             var userId: Int,
             var kgDynamicPics: List<KgDynamicPics>,
             var kgDynamicComment: ArrayList<KgDynamicComment>,
-            var kgDynamicLiked: ArrayList<KgDynamicLiked>,
+            var kgDynamicLiked: ArrayList<String>,
             var kgDynamicVideo: KgDynamicVideo)
 
     data class KgDynamicPics(var dynamicId: Int,
@@ -28,7 +28,6 @@ class DynamicEntity(var data: WrapperDynamic) {
                               var videoUrl: String,
                               var videoPic: String)
 
-    data class KgDynamicLiked(var userId: String)
 
     data class KgDynamicComment(var id: String, var userId: String, var dynamicId: String, var commentContent: String,
                                 var createTime: String, var groupTag: String, var parentCommentId: String) {

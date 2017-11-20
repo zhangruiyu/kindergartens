@@ -54,7 +54,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                 ServerApi.commitDynamicLiked(item.id).subscribe(object : CustomNetErrorWrapper<Any>() {
                     override fun onNext(t: Any) {}
                 })
-                item.kgDynamicLiked.add(DynamicEntity.KgDynamicLiked(UserdataHelper.getOnlineUser()!!.id!!))
+                item.kgDynamicLiked.add(UserdataHelper.getOnlineUser()!!.id!!)
                 refreshLiked(helper, item)
             }
         }
@@ -87,17 +87,17 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         if (UserdataHelper.getOnlineUser() == null) {
             helper.getView<View>(R.id.iv_liked).isEnabled = true
         } else {
-            helper.getView<View>(R.id.iv_liked).isEnabled = item.kgDynamicLiked.map { it.userId }.contains(UserdataHelper.getOnlineUser()!!.id) != true
+            helper.getView<View>(R.id.iv_liked).isEnabled = item.kgDynamicLiked.contains(UserdataHelper.getOnlineUser()!!.id) != true
         }
         if (item.kgDynamicLiked.size > 0) {
             SchoolmateHelper.getALlSchoolmateAndRun { data ->
                 helper.setText(R.id.tv_liked, item.kgDynamicLiked.fold(StringBuffer(), { total, next ->
-                    total.append(data[next.userId] + "、")
+                    total.append(data[next] + "、")
                 }))
             }
-            helper.setVisible(R.id.ll_liked, true)
+            helper.setGone(R.id.ll_liked, true)
         } else {
-            helper.setVisible(R.id.ll_liked, false)
+            helper.setGone(R.id.ll_liked, false)
         }
     }
 

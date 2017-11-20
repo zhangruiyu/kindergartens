@@ -8,8 +8,17 @@
     tools:context="com.kindergartens.android.kindergartens.core.modular.album.AlbumActivityFragment"
     tools:showIn="@layout/activity_album">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_album"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:id="@+id/srl_refresh"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_album"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </android.support.constraint.ConstraintLayout>

@@ -12,7 +12,7 @@ import com.raizlabs.android.dbflow.config.FlowConfig
 import com.raizlabs.android.dbflow.config.FlowManager
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader
 import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
@@ -78,7 +78,7 @@ class KGApplication : Application() {
             //设置全局的Footer构建器
             SmartRefreshLayout.setDefaultRefreshFooterCreater({ context, _ ->
                 //指定为经典Footer，默认是 BallPulseFooter
-                ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate)
+                BallPulseFooter(context).setSpinnerStyle(SpinnerStyle.Translate)
             })
         }
     }
