@@ -10,18 +10,21 @@
 
     <include layout="@layout/layout_toolbar"/>
 
-    <com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout
-        android:id="@+id/bswr_school_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:id="@+id/bswr_school_message"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_school_message"
-            android:background="@color/recycle_divider"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/recycle_divider"
             android:paddingLeft="@dimen/item_normal_margin"
             android:paddingRight="@dimen/item_normal_margin"
             android:paddingTop="@dimen/divider_height"/>
-    </com.kindergartens.android.kindergartens.core.ui.BaseSwipeRefreshLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

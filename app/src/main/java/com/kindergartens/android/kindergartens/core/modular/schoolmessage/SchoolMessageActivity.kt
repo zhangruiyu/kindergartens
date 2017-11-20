@@ -25,12 +25,12 @@ class SchoolMessageActivity : BaseToolbarActivity() {
         bswr_school_message.setOnRefreshListener {
             getData()
         }
-        bswr_school_message.isRefreshing = true
+        bswr_school_message.autoRefresh()
         getData()
     }
 
     fun getData() {
-        ServerApi.getSchoolMessage().doOnTerminate { bswr_school_message.isRefreshing = false }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
+        ServerApi.getSchoolMessage().doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
             override fun onNext(t: MessageEntity) {
                 schoolAdapter.setNewData(t.data)
             }
