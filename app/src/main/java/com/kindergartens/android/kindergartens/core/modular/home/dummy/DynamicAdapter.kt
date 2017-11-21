@@ -81,6 +81,8 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
             recyclerView.visibility = View.VISIBLE
             setUpDynamicImage(recyclerView, item, helper)
         }
+        //设置图片end
+        setUpComment(helper, item)
     }
 
     private fun refreshLiked(helper: BaseViewHolder, item: DynamicEntity.Data) {
@@ -138,8 +140,10 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
                         .start(ctx as Activity)
             })
         }
-        //设置图片end
 
+    }
+
+    private fun setUpComment(helper: BaseViewHolder, item: DynamicEntity.Data) {
         //设置评论start
         val commentLinearLayout = helper.getView<LinearLayout>(R.id.ll_dynamic_comment)
         commentLinearLayout.removeAllViews()
