@@ -106,9 +106,19 @@
         </activity>
         <activity
             android:name=".core.modular.album.AlbumActivity"
-            android:label="@string/title_activity_album"
-            >
+            android:label="@string/title_activity_album">
         </activity>
+        <activity
+            android:theme="@style/versionCheckLibvtransparentTheme"
+            android:name=".core.modular.checkupdate.CustomVersionDialogActivity"
+            android:label="">
+        </activity>
+
+        <service
+            android:name=".service.CheckUpdateService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

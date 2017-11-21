@@ -5,10 +5,15 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.widget.TextView
+import com.allenliu.versionchecklib.core.AllenChecker
+import com.allenliu.versionchecklib.core.VersionParams
+import com.allenliu.versionchecklib.core.http.HttpParams
+import com.allenliu.versionchecklib.core.http.HttpRequestMethod
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragmentActivity
+import com.kindergartens.android.kindergartens.core.modular.checkupdate.CustomVersionDialogActivity
 import com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity
 import com.kindergartens.android.kindergartens.core.modular.home.HomepageFragment
 import com.kindergartens.android.kindergartens.core.modular.home.OtherFragment
@@ -17,6 +22,9 @@ import com.kindergartens.android.kindergartens.core.modular.video.MediaRecorderA
 import com.kindergartens.android.kindergartens.core.modular.video.TCVideoSettingActivity
 import com.kindergartens.android.kindergartens.ext.hideButton
 import com.kindergartens.android.kindergartens.ext.showButton
+import com.kindergartens.android.kindergartens.net.ServerApi
+import com.kindergartens.android.kindergartens.service.CheckUpdateService
+import com.mazouri.tools.Tools
 import com.tencent.ugc.TXRecordCommon
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
@@ -57,10 +65,22 @@ class MainActivity : BaseFragmentActivity() {
         setContentView(R.layout.activity_main)
         initBottomNavigationBar()
         initFragments()
+        val httpParams = HttpParams()
+        httpParams.put("version", Tools.appTool().getAppVersionCode(ctx))
+        httpParams.put("os", "Android")
+        //服务不需要关闭,检查更新完后自动会关闭
+        val builder = VersionParams.Builder().setRequestMethod(HttpRequestMethod.POST).setRequestUrl(ServerApi.baseUrl + "/checkUpdate").setRequestParams(httpParams)
+                .setService(CheckUpdateService::class.java).setCustomDownloadActivityClass(
+                CustomVersionDialogActivity::class.java
+        )
+        AllenChecker.startVersionCheck(this, builder.build())
+
+
 //        val queryList = SQLite.select().from(TUserWrapper::class.java).where(TUserWrapper_Table.token.eq("kgg")).queryList()
 //        val navigation = findViewById(R.id.navigation) as BottomNavigationView
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 //        print(queryList)
+
     }
 
     private fun initFragments() {
