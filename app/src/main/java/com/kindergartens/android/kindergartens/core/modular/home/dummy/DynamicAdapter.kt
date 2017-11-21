@@ -64,6 +64,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
         //设置图片start
         val fl_dynamic_video = helper.getView<View>(R.id.fl_dynamic_video)
         val recyclerView = helper.getView<RecyclerView>(R.id.rcy_dynamic_pic)
+        //1是视频
         if (item.dynamicType == 1) {
             fl_dynamic_video.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
@@ -82,6 +83,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
             setUpDynamicImage(recyclerView, item, helper)
         }
         //设置图片end
+        //设置评论
         setUpComment(helper, item)
     }
 
