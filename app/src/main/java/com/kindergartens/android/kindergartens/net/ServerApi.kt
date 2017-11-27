@@ -7,6 +7,7 @@ import com.kindergartens.android.kindergartens.core.modular.classroom.data.YSTok
 import com.kindergartens.android.kindergartens.core.modular.classroom.data.YsHelper
 import com.kindergartens.android.kindergartens.core.modular.dynamic.data.DynamicSelectedPic
 import com.kindergartens.android.kindergartens.core.modular.eat.data.EatEntity
+import com.kindergartens.android.kindergartens.core.modular.home.data.BannerEntity
 import com.kindergartens.android.kindergartens.core.modular.home.data.UserProfileEntity
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.CommentEntity
 import com.kindergartens.android.kindergartens.core.modular.home.dummy.data.DynamicEntity
@@ -211,6 +212,13 @@ class ServerApi {
 
         fun getSchoolAlbum(): Observable<AlbumEntity> {
             val request = OkGo.post<AlbumEntity>("$baseUrl/user/album/schoolAlbum")
+            val params = HttpParams()
+            request.params(params)
+            return converter(request)
+        }
+
+        fun getBanner(): Observable<BannerEntity> {
+            val request = OkGo.post<BannerEntity>("$baseUrl/public/getBanner")
             val params = HttpParams()
             request.params(params)
             return converter(request)

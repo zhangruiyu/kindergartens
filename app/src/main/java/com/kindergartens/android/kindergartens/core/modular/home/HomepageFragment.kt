@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -17,19 +18,22 @@ import com.kindergartens.android.kindergartens.R
 import com.kindergartens.android.kindergartens.base.BaseFragment
 import com.kindergartens.android.kindergartens.core.database.UserdataHelper
 import com.kindergartens.android.kindergartens.core.modular.album.AlbumActivity
+import com.kindergartens.android.kindergartens.core.modular.browser.BrowserActivity
 import com.kindergartens.android.kindergartens.core.modular.classroom.ClassroomActivity
 import com.kindergartens.android.kindergartens.core.modular.eat.EatActivity
+import com.kindergartens.android.kindergartens.core.modular.home.data.BannerEntity
 import com.kindergartens.android.kindergartens.core.modular.home.data.HomepageItemBean
 import com.kindergartens.android.kindergartens.core.modular.schoolmessage.SchoolMessageActivity
 import com.kindergartens.android.kindergartens.core.ui.NGGuidePageTransformer
 import com.kindergartens.android.kindergartens.ext.width
+import com.kindergartens.android.kindergartens.net.CustomNetErrorWrapper
+import com.kindergartens.android.kindergartens.net.ServerApi
 import com.youth.banner.Banner
 import com.youth.banner.loader.ImageLoader
+import com.youth.banner.view.BannerViewPager
 import kotlinx.android.synthetic.main.fragment_homepage.*
-import org.jetbrains.anko.support.v4.ctx
-import org.jetbrains.anko.support.v4.dimen
-import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.*
 
 
 /**
@@ -38,11 +42,11 @@ import org.jetbrains.anko.support.v4.toast
 open class HomepageFragment : BaseFragment() {
     lateinit private var bannerOptions: RequestOptions
     lateinit private var banner: Banner
-
+    var bannerData = ArrayList<BannerEntity.Data>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bannerOptions = RequestOptions()/*.placeholder(R.drawable.banner_normal).error(R.drawable.banner_normal)*/
-                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).override(width, dimen(R.dimen.general_banner_height))
+        bannerOptions = RequestOptions().placeholder(R.drawable.banner_normal).error(R.drawable.banner_normal)
+                .priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).fitCenter().override(width, dimen(R.dimen.general_banner_height))
         banner = Banner(ctx)
                 .setImageLoader(object : ImageLoader() {
                     override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
@@ -55,11 +59,17 @@ open class HomepageFragment : BaseFragment() {
                     }
 
                 }).setPageTransformer(true, NGGuidePageTransformer()).setDelayTime(4000).start()
-        banner.setBackgroundResource(R.drawable.banner_normal)
+//        banner.setBackgroundResource(R.drawable.banner_normal)
         banner.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, resources.getDimension(R.dimen.general_banner_height).toInt())
+        val viewPager = banner.find<BannerViewPager>(R.id.bannerViewPager)
+        banner.setOnBannerListener {
+            LogUtils.d("viewPager.currentItem==="+viewPager.currentItem)
+            val data = bannerData[viewPager.currentItem-1]
+            BrowserActivity.launch(act, data.url, data.title)
+        }
     }
 
-    //摄像头放中间 方便老师看见
+    //摄像头放中间 方便看见
     val itemBeans = mutableListOf(
             HomepageItemBean(R.drawable.homepage_all_message, "校园消息"),
             HomepageItemBean(R.drawable.homepage_school_message, "班级消息"),
@@ -76,12 +86,9 @@ open class HomepageFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        banner.setImages(mutableListOf("http://desk.fd.zol-img.com.cn/t_s960x600c5/g5/M00/0C/0E/ChMkJ1j1gQ6ILskaADPWcgfgSeYAAbvmQAADeEAM9aK508.jpg", "http://avatar.csdn.net/4/E/F/1_lyhhj.jpg", "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2885786814,3634989667&fm=80&w=179&h=119&img.JPEG"))
-                .start()
         val homepageAdapter = HomepageAdapter(ctx)
         homepageAdapter.setNewData(itemBeans)
-        srf_homepage_refresh.setScrollUpChild(rl_homepage_content)
+//        srf_homepage_refresh.setScrollUpChild(rl_homepage_content)
         rl_homepage_content.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         rl_homepage_content.adapter = homepageAdapter
         rl_homepage_content.addOnItemTouchListener(object : OnItemClickListener() {
@@ -108,12 +115,26 @@ open class HomepageFragment : BaseFragment() {
             }
         })
         homepageAdapter.addHeaderView(banner)
+        srf_homepage_refresh.autoRefresh()
+        srf_homepage_refresh.setOnRefreshListener {
+            refreshData()
+        }
+    }
 
+    private fun refreshData() {
+        ServerApi.getBanner().doOnTerminate { srf_homepage_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<BannerEntity>() {
+            override fun onNext(t: BannerEntity) {
+                this@HomepageFragment.bannerData = t.data
+                banner.setImages(this@HomepageFragment.bannerData.map { it.picUrl })
+                        .start()
+            }
+
+        })
     }
 
     override fun onInVisible() {
         super.onInVisible()
-        srf_homepage_refresh.isRefreshing = false
+        srf_homepage_refresh.finishRefresh()
         banner.stopAutoPlay()
     }
 

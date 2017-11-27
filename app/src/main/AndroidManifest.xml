@@ -109,8 +109,12 @@
             android:label="@string/title_activity_album">
         </activity>
         <activity
-            android:theme="@style/versionCheckLibvtransparentTheme"
             android:name=".core.modular.checkupdate.CustomVersionDialogActivity"
+            android:label=""
+            android:theme="@style/versionCheckLibvtransparentTheme">
+        </activity>
+        <activity
+            android:name=".core.modular.browser.BrowserActivity"
             android:label="">
         </activity>
 

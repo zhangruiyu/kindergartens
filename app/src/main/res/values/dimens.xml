@@ -11,7 +11,7 @@
     <dimen name="navigation_avatar_marginTop">20dp</dimen>
     <dimen name="navigation_nitght_margin">20dp</dimen>
     <dimen name="navigation_relation_marginLeft">3dp</dimen>
-    <dimen name="general_banner_height">146dp</dimen>
+    <dimen name="general_banner_height">196dp</dimen>
     <dimen name="default_general_margin">10dp</dimen>
     <dimen name="card_margin">10dp</dimen>
     <dimen name="card_corner_radius">2dp</dimen>
