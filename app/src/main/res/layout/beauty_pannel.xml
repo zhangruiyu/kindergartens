@@ -72,7 +72,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.kindergartens.android.kindergartens.core.modular.video.ui.TXHorizontalPickerView
+                    <android.kindergartens.com.core.modular.video.ui.TXHorizontalPickerView
                         android:id="@+id/secondGradePicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center" />
-                    </com.kindergartens.android.kindergartens.core.modular.video.ui.TXHorizontalPickerView>
+                    </android.kindergartens.com.core.modular.video.ui.TXHorizontalPickerView>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -97,7 +97,7 @@
                 android:background="#33000000"
                 android:weightSum="2">
 
-                <com.kindergartens.android.kindergartens.core.modular.video.ui.TXHorizontalPickerView
+                <android.kindergartens.com.core.modular.video.ui.TXHorizontalPickerView
                     android:id="@+id/FirstGradePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center" />
-                </com.kindergartens.android.kindergartens.core.modular.video.ui.TXHorizontalPickerView>
+                </android.kindergartens.com.core.modular.video.ui.TXHorizontalPickerView>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

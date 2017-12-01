@@ -6,7 +6,7 @@
                                             android:paddingLeft="@dimen/activity_horizontal_margin"
                                             android:paddingRight="@dimen/activity_horizontal_margin"
                                             android:paddingTop="@dimen/activity_vertical_margin"
-                                            tools:context="com.kindergartens.android.kindergartens.core.modular.classroom.ClassroomActivity">
+                                            tools:context="com.kindergartens.android.com.core.modular.classroom.ClassroomActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

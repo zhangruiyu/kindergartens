@@ -145,7 +145,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/bgm_wave_voice"/>
 
-                <com.kindergartens.android.kindergartens.core.modular.video.bgm.RangeSlider
+                <android.kindergartens.com.core.modular.video.bgm.RangeSlider
                     android:id="@+id/bgm_range_slider"
                     android:layout_width="match_parent"
                     android:layout_height="66dp"
@@ -183,7 +183,7 @@
                     android:layout_marginLeft="30dp"
                     android:src="@drawable/bgm_icon_mic"/>
 
-                <com.kindergartens.android.kindergartens.core.modular.video.bgm.TCReversalSeekBar
+                <android.kindergartens.com.core.modular.video.bgm.TCReversalSeekBar
                     android:id="@+id/bgm_sb_voice"
                     android:layout_width="0dp"
                     android:layout_height="15dp"
@@ -232,7 +232,7 @@
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
-        <com.kindergartens.android.kindergartens.core.modular.video.bgm.TCBGMRecordChooseLayout
+        <android.kindergartens.com.core.modular.video.bgm.TCBGMRecordChooseLayout
             android:id="@+id/bgm_rl_chose"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

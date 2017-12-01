@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
-    <com.kindergartens.android.kindergartens.core.modular.video.ui.TCActivityTitle
+    <android.kindergartens.com.core.modular.video.ui.TCActivityTitle
         android:id="@+id/xml_music_select_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,11 +31,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp" />
-    <com.kindergartens.android.kindergartens.core.modular.video.ui.MusicListView
+    <android.kindergartens.com.core.modular.video.ui.MusicListView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/xml_music_list_view">
 
-    </com.kindergartens.android.kindergartens.core.modular.video.ui.MusicListView>
+    </android.kindergartens.com.core.modular.video.ui.MusicListView>
 
 </LinearLayout>

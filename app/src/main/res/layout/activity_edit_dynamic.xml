@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kindergartens.android.kindergartens.core.modular.dynamic.EditDynamicActivity">
+    tools:context="com.kindergartens.android.com.core.modular.dynamic.EditDynamicActivity">
 
     <include layout="@layout/layout_toolbar"/>
 

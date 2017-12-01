@@ -257,16 +257,16 @@
 
     </LinearLayout>
 
-    <com.kindergartens.android.kindergartens.core.modular.video.ui.TCMusicSelectView
+    <android.kindergartens.com.core.modular.video.ui.TCMusicSelectView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/xml_music_select_view"
         android:visibility="gone"
         android:clickable="true"
         android:background="@color/white">
-    </com.kindergartens.android.kindergartens.core.modular.video.ui.TCMusicSelectView>
+    </android.kindergartens.com.core.modular.video.ui.TCMusicSelectView>
 
-    <com.kindergartens.android.kindergartens.core.modular.video.bgm.TCBGMRecordView
+    <android.kindergartens.com.core.modular.video.bgm.TCBGMRecordView
         android:id="@+id/layout_record_select_bgm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

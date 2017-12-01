@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <com.kindergartens.android.kindergartens.core.ui.CircleImageView
+                <android.kindergartens.com.core.ui.CircleImageView
                     android:layout_width="@dimen/circle_user_small_size"
                     android:layout_height="@dimen/circle_user_small_size"
                     android:layout_gravity="center_vertical"

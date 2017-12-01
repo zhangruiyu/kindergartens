@@ -7,7 +7,7 @@
               android:layout_height="match_parent"
               android:fitsSystemWindows="true"
               android:orientation="vertical"
-              tools:context="com.kindergartens.android.kindergartens.core.modular.eat.EatActivity">
+              tools:context="com.kindergartens.android.com.core.modular.eat.EatActivity">
 
 
     <android.support.v7.widget.Toolbar

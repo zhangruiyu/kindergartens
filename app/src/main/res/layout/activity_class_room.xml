@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.kindergartens.android.kindergartens.core.modular.classroom.ClassroomActivity">
+        tools:context="com.kindergartens.android.com.core.modular.classroom.ClassroomActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -38,7 +38,7 @@
                     app:layout_collapseParallaxMultiplier="0.7">
 
 
-                    <com.kindergartens.android.kindergartens.custom.ui.CameraPlayView
+                    <android.kindergartens.com.custom.ui.CameraPlayView
                         android:id="@+id/cpv_play"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

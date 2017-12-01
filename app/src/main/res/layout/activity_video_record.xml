@@ -46,7 +46,7 @@
         android:layout_alignParentBottom="true"
         android:background="#4D000000">
 
-        <com.kindergartens.android.kindergartens.core.modular.video.ui.RecordProgressView
+        <android.kindergartens.com.core.modular.video.ui.RecordProgressView
             android:id="@+id/record_progress_view"
             android:layout_width="match_parent"
             android:layout_height="3dp"/>
@@ -68,7 +68,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="35dp">
 
-            <com.kindergartens.android.kindergartens.core.modular.video.ui.ComposeRecordBtn
+            <android.kindergartens.com.core.modular.video.ui.ComposeRecordBtn
                 android:id="@+id/compose_record_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
         </RadioGroup>
     </RelativeLayout>
 
-    <com.kindergartens.android.kindergartens.core.modular.video.ui.BeautySettingPannel
+    <android.kindergartens.com.core.modular.video.ui.BeautySettingPannel
         android:id="@+id/beauty_pannel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -386,7 +386,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <com.kindergartens.android.kindergartens.core.modular.video.ui.TCAudioControl
+    <android.kindergartens.com.core.modular.video.ui.TCAudioControl
         android:id="@+id/layoutAudioControl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

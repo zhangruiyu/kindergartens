@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kindergartens.android.kindergartens.core.modular.setting.SettingActivityFragment"
+    tools:context="android.kindergartens.com.core.modular.setting.SettingActivityFragment"
     tools:showIn="@layout/activity_setting">
 
     <LinearLayout
