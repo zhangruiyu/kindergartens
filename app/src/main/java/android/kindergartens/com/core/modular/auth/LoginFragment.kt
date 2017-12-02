@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.support.v4.ctx
@@ -113,6 +114,8 @@ class LoginFragment : BaseFragment() {
         } else {
             ServerApi.login(tel.toText(), et_password.toText()).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
                 override fun onNext(it: LoginUserEntity) {
+                    //统计用户id  第三方登陆请看友盟文档
+                    MobclickAgent.onProfileSignIn(it.data.id)
                     UserdataHelper.selectUserByTel(it.data.tel).applyAndSave {
                         isOnline = true
                         tel = it.data.tel

@@ -1,8 +1,8 @@
 package android.kindergartens.com.core.modular.browser
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.kindergartens.com.Constants
@@ -184,7 +184,7 @@ class BrowserActivity : BaseToolbarActivity() {
 
     companion object {
 
-        fun launch(activity: Activity, url: String, title: String) {
+        fun launch(activity: Context, url: String, title: String) {
             if (url.isNotEmpty()) {
                 val intent = Intent(activity, BrowserActivity::class.java)
                 intent.putExtra(Constants.EXTRA_URL, url)

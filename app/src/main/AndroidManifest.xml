@@ -115,6 +115,7 @@
         </activity>
         <activity
             android:name="android.kindergartens.com.core.modular.browser.BrowserActivity"
+            android:launchMode="singleTask"
             android:label="">
         </activity>
 
@@ -123,6 +124,18 @@
             android:enabled="true"
             android:exported="true">
         </service>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a1d3c23f29d981667000090">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="79ed2aeb63fc7dc9cb001917ff84f08f">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Main" >
+        </meta-data>
     </application>
 
 </manifest>

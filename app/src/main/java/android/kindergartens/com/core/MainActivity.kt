@@ -1,6 +1,7 @@
 package android.kindergartens.com.core
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragmentActivity
@@ -63,6 +64,7 @@ class MainActivity : BaseFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        instance = this
         initBottomNavigationBar()
         initFragments()
         val httpParams = HttpParams()
@@ -187,6 +189,16 @@ class MainActivity : BaseFragmentActivity() {
             (mFragments!![1] as DynamicFragment).initData()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        instance = null
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        var instance: MainActivity? = null
     }
 
 }

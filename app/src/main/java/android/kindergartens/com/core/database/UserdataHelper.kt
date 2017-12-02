@@ -6,6 +6,7 @@ import android.kindergartens.com.ext.applyAndSave
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
 import com.raizlabs.android.dbflow.kotlinextensions.*
+import com.umeng.analytics.MobclickAgent
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.startActivity
@@ -77,6 +78,8 @@ class UserdataHelper {
 
         //退出登陆
         fun loginOut(block: () -> Unit = {}) {
+            //友盟退出统计用户
+            MobclickAgent.onProfileSignOff()
             val onlineUser = getOnlineUser()
             onlineUser?.applyAndSave {
                 isOnline = false
