@@ -1,13 +1,13 @@
 package android.kindergartens.com
 
 //import com.videogo.openapi.EZOpenSDK
-import android.app.Application
+import android.annotation.SuppressLint
 import android.content.Context
 import android.kindergartens.com.core.ali.BizService
 import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.core.modular.browser.BrowserActivity
 import android.kindergartens.com.ext.OkRxInit
-import android.os.Environment
+import android.support.multidex.MultiDexApplication
 import com.apkfuns.logutils.LogUtils
 import com.mazouri.tools.Tools
 import com.raizlabs.android.dbflow.config.FlowConfig
@@ -29,7 +29,7 @@ import org.jetbrains.anko.ctx
 /**
  * Created by zhangruiyu on 2017/6/21.
  */
-class KGApplication : Application() {
+class KGApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -44,7 +44,6 @@ class KGApplication : Application() {
         //查询出当前用户
         UserdataHelper.getOnlineUser()
         initEzOpen()
-        initSmallVideo()
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.setDebugMode(true)
 //注册推送服务，每次调用register方法都会回调该接口
@@ -90,13 +89,9 @@ class KGApplication : Application() {
 
     }
 
-    fun initSmallVideo() {
-        // 设置拍摄视频缓存路径
-        val dcim = Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-    }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var kgApplication: KGApplication
         lateinit var okInit: OkHttpClient.Builder
 

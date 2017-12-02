@@ -12,5 +12,5 @@ data class EatEntity(var code: Int,
     data class Data(var breakfast: String,
                     var lunch: String,
                     var supper: String,
-                    var createTime: Date)
+                    var createTime: Date):BaseEntity
 }

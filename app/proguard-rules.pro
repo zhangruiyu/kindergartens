@@ -1,58 +1,60 @@
 -basedirectory proguard-pro
+-include proguard-banner.pro
+-include proguard-baseadapter.pro
+-include proguard-glide.pro
+-include proguard-okgo.pro
+-include proguard-permission.pro
+-include proguard-photopicker.pro
+-include proguard-statistics.pro
 -include proguard-umeng.pro
 -include proguard-umeng-push.pro
+-include proguard-yinshi.pro
 
+-keep class * extends com.raizlabs.android.dbflow.config.DatabaseHolder { *; }
 
-# start ------BaseRecyclerViewAdapterHelper
--keep class com.chad.library.adapter.** {
-   *;
+-dontwarn javax.annotation.**
+
+-keep public class * extends android.app.Service { *; }
+
+-keep class * implements android.kindergartens.com.base.BaseEntity { *; }
+
+#指定压缩级别
+-optimizationpasses 5
+
+#不跳过非公共的库的类成员
+-dontskipnonpubliclibraryclassmembers
+
+#混淆时采用的算法
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+
+#把混淆类中的方法名也混淆了
+-useuniqueclassmembernames
+
+#优化时允许访问并修改有修饰符的类和类的成员
+-allowaccessmodification
+
+#将文件来源重命名为“SourceFile”字符串
+-renamesourcefileattribute SourceFile
+#保留行号
+-keepattributes SourceFile,LineNumberTable
+
+#保持所有实现 Serializable 接口的类成员
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
 }
-# end ------BaseRecyclerViewAdapterHelper
 
-# start ------glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.AppGlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
+#Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
+-keep public class * extends android.support.v4.app.Fragment
+-keep public class * extends android.app.Fragment
 
-# end ------glide
-
-# start ------ali oss
--keep class com.alibaba.sdk.android.oss.** { *; }
--dontwarn okio.**
--dontwarn org.apache.commons.codec.binary.**
-# start ------ali oss
-
-# start ------萤石云
--dontwarn com.ezviz.player.**
--keep class com.ezviz.player.** { *;}
-
--dontwarn com.ezviz.statistics.**
--keep class com.ezviz.statistics.** { *;}
-
--dontwarn com.ezviz.stream.**
--keep class com.ezviz.stream.** { *;}
-
--dontwarn com.hik.**
--keep class com.hik.** { *;}
-
--dontwarn com.hikvision.**
--keep class com.hikvision.** { *;}
-
--dontwarn com.videogo.**
--keep class com.videogo.** { *;}
-
--dontwarn com.videogo.**
--keep class org.MediaPlayer.PlayM4.** { *;}
-
-#Gson混淆配置
--keepattributes Annotation
--keep class sun.misc.Unsafe { *; }
--keep class com.idea.fifaalarmclock.entity.*
--keep class com.google.gson.stream.* { *; }
-
--dontwarn com.videogo.**
--keep class org.MediaPlayer.PlayM4.** { *;}
-# start ------萤石云
+# 保持测试相关的代码
+-dontnote junit.framework.**
+-dontnote junit.runner.**
+-dontwarn android.test.**
+-dontwarn android.support.test.**
+-dontwarn org.junit.**

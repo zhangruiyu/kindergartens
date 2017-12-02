@@ -1,5 +1,6 @@
 package android.kindergartens.com.core.database
 
+import android.kindergartens.com.base.BaseEntity
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
@@ -10,7 +11,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel
  */
 
 @Table(database = AppDatabase::class)
-class TUserModel : BaseModel() {
+class TUserModel : BaseModel(), BaseEntity {
     @PrimaryKey
     var tel: String? = null
     @Column

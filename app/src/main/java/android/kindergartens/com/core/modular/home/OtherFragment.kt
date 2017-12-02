@@ -12,6 +12,8 @@ import android.kindergartens.com.ext.applyAndSave
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
+import android.support.transition.Slide
+import android.support.transition.TransitionManager
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +21,6 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
-import com.transitionseverywhere.Slide
-import com.transitionseverywhere.TransitionManager
 import kotlinx.android.synthetic.main.fragment_other.*
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
@@ -30,26 +30,31 @@ class OtherFragment : BaseFragment() {
 
     override fun onVisible() {
         super.onVisible()
-        val haveOnlineUser = UserdataHelper.haveOnlineUser()
-        UserdataHelper.haveOnlineLet {
+        try {
+            val haveOnlineUser = UserdataHelper.haveOnlineUser()
+            UserdataHelper.haveOnlineLet {
 
-            ServerApi.getAccountProfile().subscribe(object : CustomNetErrorWrapper<UserProfileEntity>() {
-                override fun onNext(t: UserProfileEntity) {
-                    //重新设置
-                    setUpUserUi(UserdataHelper.selectUserByTel(it.tel!!).applyAndSave {
-                        nickName = t.data.nickName
-                    })
-                }
+                ServerApi.getAccountProfile().subscribe(object : CustomNetErrorWrapper<UserProfileEntity>() {
+                    override fun onNext(t: UserProfileEntity) {
+                        //重新设置
+                        setUpUserUi(UserdataHelper.selectUserByTel(it.tel!!).applyAndSave {
+                            nickName = t.data.nickName
+                        })
+                    }
 
+                })
+                setUpUserUi(it)
+            }
+            TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.TOP))
+            card_noLogin.visibility = if (haveOnlineUser) View.INVISIBLE else View.VISIBLE
+            card_login.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
+            acb_setting.setOnClickListener({
+                startActivity<SettingActivity>()
             })
-            setUpUserUi(it)
+        } catch (e: NullPointerException) {
+            //可能这个页面还没初始化就已经踢下线了
         }
-        TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.TOP))
-        card_noLogin.visibility = if (haveOnlineUser) View.INVISIBLE else View.VISIBLE
-        card_login.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
-        acb_setting.setOnClickListener({
-            startActivity<SettingActivity>()
-        })
+
     }
 
     private fun setUpUserUi(tUserModel: TUserModel) {

@@ -1,17 +1,17 @@
 package android.kindergartens.com.core.database
 
+import android.kindergartens.com.base.BaseEntity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
 import com.raizlabs.android.dbflow.annotation.Column
 import com.raizlabs.android.dbflow.annotation.PrimaryKey
 import com.raizlabs.android.dbflow.annotation.Table
-import org.jetbrains.anko.custom.async
 import com.raizlabs.android.dbflow.kotlinextensions.*
 
 /**
  * Created by zhangruiyu on 2017/7/30.
  */
 @Table(database = AppDatabase::class)
-class TSchoolmateModel() {
+class TSchoolmateModel(): BaseEntity {
     constructor(userId: String, nickName: String) : this() {
         this.userId = userId
         this.nickName = nickName

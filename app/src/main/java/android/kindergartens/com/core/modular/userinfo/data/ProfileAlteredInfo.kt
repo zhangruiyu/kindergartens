@@ -8,5 +8,5 @@ import android.kindergartens.com.base.BaseEntity
 class ProfileAlteredInfo(var code: Int,
                          var data: Data,
                          var msg: String) : BaseEntity {
-    class Data(var checkGender: Int, var relationCheck: Int, var address: String, var avatarUrl: String)
+    class Data(var checkGender: Int, var relationCheck: Int, var address: String, var avatarUrl: String):BaseEntity
 }

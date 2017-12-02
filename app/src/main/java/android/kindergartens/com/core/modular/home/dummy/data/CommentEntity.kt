@@ -10,7 +10,7 @@ data class CommentEntity(var code: Int,
                             var msg: String,
                             var data: KgDynamicComment) : BaseEntity {
     data class KgDynamicComment(var id: String, var userId: String, var dynamicId: String, var commentContent: String,
-                                var createTime: String, var groupTag: String, var parentCommentId: String) {
+                                var createTime: String, var groupTag: String, var parentCommentId: String):BaseEntity {
         //回复动态最顶层评论
         constructor(commentContent: String, userId: String) :
                 this("0", userId, "0", commentContent, Tools.time().nowTimeString, Tools.time().nowTimeMills.toString(), "0")
