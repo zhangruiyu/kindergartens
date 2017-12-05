@@ -29,8 +29,8 @@ import java.util.*
 class ServerApi {
     companion object {
         //手机
-        val baseUrl = "http://192.168.43.20:8080"
-//        val baseUrl = "http://192.168.31.150:8080"
+//        val baseUrl = "http://192.168.43.20:8080"
+        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -101,7 +101,7 @@ class ServerApi {
 
         //单次sign
         fun getOCSOneEffectiveSignSign(type: Int): Observable<SignInfo> {
-            val request = OkGo.post<SignInfo>("${baseUrl}/user/cos/oneEffectiveSign")
+            val request = OkGo.post<SignInfo>("$baseUrl/user/cos/oneEffectiveSign")
             val params = HttpParams()
             params.put("type", type)
             request.params(params)
@@ -110,11 +110,12 @@ class ServerApi {
         }
 
         //登陆
-        fun login(tel: String, password: String): Observable<LoginUserEntity> {
-            val request = OkGo.post<LoginUserEntity>("${baseUrl}/public/auth/login")
+        fun login(tel: String, password: String, pushToken: String): Observable<LoginUserEntity> {
+            val request = OkGo.post<LoginUserEntity>("$baseUrl/public/auth/login")
             val params = HttpParams()
             params.put("tel", tel)
             params.put("password", password)
+            params.put("pushToken", pushToken)
             request.params(params)
             return converter(request)
         }
@@ -130,7 +131,7 @@ class ServerApi {
 
         //发布视频动态
         fun commitDynamicVideo(dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): Observable<Any> {
-            val request = OkGo.post<Any>("${baseUrl}/user/dynamic/commitDynamicVideo")
+            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitDynamicVideo")
             val params = HttpParams()
             params.put("type", 1)
             params.put("dynamic_content", dynamic_content)

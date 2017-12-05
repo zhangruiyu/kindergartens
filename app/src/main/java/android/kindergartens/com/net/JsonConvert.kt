@@ -1,5 +1,6 @@
 package android.kindergartens.com.net
 
+import com.apkfuns.logutils.LogUtils
 import com.lzy.okgo.convert.Converter
 import okhttp3.Response
 
@@ -40,6 +41,7 @@ open class JsonConvert<T> : Converter<T> {
             val lzyResponse = Convert.fromJson(string, LzyResponse::class.java)
             response.close()
             val code = lzyResponse.code
+            LogUtils.e(lzyResponse.msg + code)
             //这里的0是以下意思
             //一般来说服务器会和客户端约定一个数表示成功，其余的表示失败，这里根据实际情况修改
             if (code == 200) {

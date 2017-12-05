@@ -2,6 +2,8 @@ package android.kindergartens.com.core.tools;
 
 import com.mazouri.tools.Tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,7 +11,7 @@ import java.util.Date;
  * Created by zhangruiyu on 2017/7/27.
  */
 
-public class TimeUtil {
+public class CustomTimeUtil {
     private final static long minute = 60 * 1000;// 1分钟
     private final static long hour = 60 * minute;// 1小时
     private final static long day = 24 * hour;// 1天
@@ -68,6 +70,26 @@ public class TimeUtil {
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
         if (w < 0)
             w = 0;
+
+
+
         return weekDays[w];
+    }
+
+    public static Date getDate(int hour, int minute, int second, int milliSecond) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.SECOND, second);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.MILLISECOND, milliSecond);
+
+        Date date = new Date(cal.getTimeInMillis());
+        try {
+            return format.parse(format.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

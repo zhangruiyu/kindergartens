@@ -1,5 +1,6 @@
 package android.kindergartens.com.core.modular.auth
 
+import android.kindergartens.com.Constants
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragment
 import android.kindergartens.com.core.database.UserdataHelper
@@ -112,7 +113,7 @@ class LoginFragment : BaseFragment() {
         if (cancel) {
             focusView!!.requestFocus()
         } else {
-            ServerApi.login(tel.toText(), et_password.toText()).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
+            ServerApi.login(tel.toText(), et_password.toText(),Constants.PushToken).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
                 override fun onNext(it: LoginUserEntity) {
                     //统计用户id  第三方登陆请看友盟文档
                     MobclickAgent.onProfileSignIn(it.data.id)

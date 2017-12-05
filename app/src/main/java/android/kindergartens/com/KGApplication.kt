@@ -45,18 +45,23 @@ class KGApplication : MultiDexApplication() {
         UserdataHelper.getOnlineUser()
         initEzOpen()
         val mPushAgent = PushAgent.getInstance(this)
+//        mPushAgent.setDebugMode(Tools.apk().isAppDebug(this))
         mPushAgent.setDebugMode(true)
-//注册推送服务，每次调用register方法都会回调该接口
+        //错误统计 debug模式下不开启
+//        MobclickAgent.setCatchUncaughtExceptions(!Tools.apk().isAppDebug(this))
+        //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
 
             override fun onSuccess(deviceToken: String) {
                 //注册成功会返回device token
+                Constants.PushToken = deviceToken
             }
 
             override fun onFailure(s: String, s1: String) {
 
             }
         })
+
         mPushAgent.notificationClickHandler = object : UmengNotificationClickHandler() {
             override fun dealWithCustomAction(context: Context, msg: UMessage?) {
                 if (msg != null && msg.extra.isNotEmpty()) {

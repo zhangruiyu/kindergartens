@@ -10,5 +10,6 @@ class Constants {
         const val EXTRA_URL = "url"
 
         const val EXTRA_TITLE = "title"
+        var PushToken: String = ""
     }
 }

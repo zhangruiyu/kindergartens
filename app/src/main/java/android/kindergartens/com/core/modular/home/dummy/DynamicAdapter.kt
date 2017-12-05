@@ -11,7 +11,7 @@ import android.kindergartens.com.core.modular.auth.LoginActivity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
 import android.kindergartens.com.core.modular.video.TCConstants
 import android.kindergartens.com.core.modular.video.preview.TCVideoPreviewActivity
-import android.kindergartens.com.core.tools.TimeUtil
+import android.kindergartens.com.core.tools.CustomTimeUtil
 import android.kindergartens.com.ext.getWidth
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
@@ -41,7 +41,7 @@ class DynamicAdapter(val ctx: Context, val childClick: (DynamicAdapter, View, In
 
     override fun convert(helper: BaseViewHolder, item: DynamicEntity.Data) {
         Glide.with(ctx).load(R.drawable.ic_face_primary_24dp).apply(bitmapTransform(CircleCrop())).into(helper.getView<ImageView>(R.id.iv_dynamic_head_pic))
-        helper.setText(R.id.tv_dynamic_create_time, TimeUtil.getTimeFormatText(item.createTime))
+        helper.setText(R.id.tv_dynamic_create_time, CustomTimeUtil.getTimeFormatText(item.createTime))
                 .setText(R.id.tv_dynamic_content, item.content)
                 .setText(R.id.tv_dynamic_nick_name, item.nickName).addOnClickListener(R.id.iv_reply).addOnClickListener(R.id.iv_share).addOnClickListener(R.id.iv_liked)
                 .setTag(R.id.iv_reply, item.id)
