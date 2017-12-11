@@ -203,10 +203,10 @@ class ServerApi {
 
 
         //饮食信息
-        fun getEatInfoList(index: Int = 0): Observable<EatEntity> {
+        fun getEatInfoList(date: String): Observable<EatEntity> {
             val request = OkGo.post<EatEntity>("${baseUrl}/user/eat/eatList")
             val params = HttpParams()
-            params.put("index", index)
+            params.put("date", date)
             request.params(params)
             return converter(request)
         }
@@ -224,7 +224,6 @@ class ServerApi {
             request.params(params)
             return converter(request)
         }
-
 
     }
 }

@@ -73,7 +73,7 @@ open class HomepageFragment : BaseFragment() {
     val itemBeans = mutableListOf(
             HomepageItemBean(R.drawable.homepage_all_message, "校园消息"),
             HomepageItemBean(R.drawable.homepage_school_message, "班级消息"),
-            HomepageItemBean(R.drawable.homepage_eat, "宝贝饮食"),
+            HomepageItemBean(R.drawable.homepage_eat, "饮食日历"),
             HomepageItemBean(R.drawable.homepage_album, "班级相册"),
             HomepageItemBean(R.drawable.homepage_video, "在线视频")
     )
