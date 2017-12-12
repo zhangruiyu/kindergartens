@@ -21,6 +21,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mazouri.tools.Tools
+import com.scwang.smartrefresh.header.MaterialHeader
 import kotlinx.android.synthetic.main.activity_eat.*
 import me.iwf.photopicker.PhotoPreview
 import org.jetbrains.anko.*
@@ -32,13 +33,14 @@ class EatActivity : BaseToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eat)
-//        val waveSwipeHeader = WaveSwipeHeader(this)
-//        waveSwipeHeader.setColorSchemeColors(getColor(R.color.white), getColor(R.color.bangumi_index_green_bg))
-//        srf_eat_refresh.refreshHeader = waveSwipeHeader
-        srf_eat_refresh.autoRefresh()
-        srf_eat_refresh.setOnRefreshListener {
+        val waveSwipeHeader = MaterialHeader(this)
+        waveSwipeHeader.setColorSchemeColors(R.color.primary_dark,R.color.bangumi_index_green_bg)
+        srf_eat_refresh.refreshHeader = waveSwipeHeader
+        srf_eat_refresh.setEnableHeaderTranslationContent(false)
+        refreshData(Tools.time().nowTimeString)
+      /*  srf_eat_refresh.setOnRefreshListener {
             refreshData(Tools.time().nowTimeString)
-        }
+        }*/
         /* spinner.adapter = MyAdapter(
                  toolbar.context,
                  arrayOf("本周", "上周", "上上周"))*/
@@ -80,7 +82,8 @@ class EatActivity : BaseToolbarActivity() {
     }
 
     private fun refreshData(date: String) {
-        ServerApi.getEatInfoList(date).doOnTerminate { srf_eat_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<EatEntity>() {
+        srf_eat_refresh.autoRefresh(0)
+        ServerApi.getEatInfoList(date).doOnTerminate { srf_eat_refresh.finishRefresh(100) }.subscribe(object : CustomNetErrorWrapper<EatEntity>() {
             override fun onNext(t: EatEntity) {
                 eatData.clear()
                 t.data.forEach {
