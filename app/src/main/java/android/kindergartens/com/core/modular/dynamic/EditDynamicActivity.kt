@@ -37,6 +37,7 @@ import java.io.File
 class EditDynamicActivity : BaseToolbarActivity() {
     private val select_pic = DynamicSelectedPic(R.drawable.dynamic_selected_add)
     var dynamic_type = PIC_TYPE //0是图片动态 1是视频动态
+    val photos = ArrayList<String>()
     private lateinit var selectedAdapter: SelectedDynamicAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +84,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                 .setPhotoCount(9)
                 .setShowCamera(true)
                 .setShowGif(true)
-                .setPreviewEnabled(false)
+                .setPreviewEnabled(false).setSelected(photos)
                 .start(this, PhotoPicker.REQUEST_CODE)
     }
 
@@ -91,7 +92,8 @@ class EditDynamicActivity : BaseToolbarActivity() {
 
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {
-                val photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS)
+                photos.clear()
+                photos.addAll(data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS))
                 LogUtils.d(photos)
                 selectedAdapter.setNewData(photos.map { DynamicSelectedPic(File(it)) } + select_pic)
             }
@@ -132,7 +134,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
 
                 override fun onError(e: Throwable) {
                     super.onError(e)
-                    dialog?.safeDismiss()
+                    dialog.safeDismiss()
                 }
 
             })
@@ -146,17 +148,17 @@ class EditDynamicActivity : BaseToolbarActivity() {
             if (it.isSucceed) {
                 //成功后回调
                 ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
-                        .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                        .doOnTerminate { dialog.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
                     override fun onNext(any: Any) {
                         toast("消息发布成功!")
-                        dialog?.safeDismiss()
+                        dialog.safeDismiss()
                         finish()
                     }
 
                 })
             } else {
                 //失败
-                dialog?.safeDismiss()
+                dialog.safeDismiss()
             }
 
         })

@@ -15,7 +15,6 @@
     <string name="error_incorrect_password">账号或者密码错误</string>
     <string name="error_field_required">手机号不能为空</string>
     <string name="please_wait">请稍等...</string>
-    <string name="title_activity_class_room">ClassRoomActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="content_step_0">diyi</string>

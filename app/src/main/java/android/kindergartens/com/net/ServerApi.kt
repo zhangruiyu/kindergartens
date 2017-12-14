@@ -225,5 +225,18 @@ class ServerApi {
             return converter(request)
         }
 
+        //编辑饮食信息
+        fun commitEat(breakfast: String, lunch: String, supper: String, urls: String, date: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/user/teacher/eat/addEat")
+            val params = HttpParams()
+            params.put("breakfast", breakfast)
+            params.put("lunch", lunch)
+            params.put("supper", supper)
+            params.put("urls", urls)
+            params.put("date", date)
+            request.params(params)
+            return converter(request)
+        }
+
     }
 }

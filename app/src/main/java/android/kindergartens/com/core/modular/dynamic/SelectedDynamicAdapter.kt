@@ -27,8 +27,6 @@ class SelectedDynamicAdapter(val ctx: Context) : BaseQuickAdapter<DynamicSelecte
 
     override fun convert(helper: BaseViewHolder, item: DynamicSelectedPic) {
         val view = helper.getView<SquareProgressBar>(R.id.iv_selected_pic_one)
-        view.setHoloColor(R.color.primary)
-        view.width = 2
         view.layoutParams = params
 
         item.squareProgressBar = view

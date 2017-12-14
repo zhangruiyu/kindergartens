@@ -151,8 +151,10 @@
             android:value="Main">
         </meta-data>
 
-        <activity android:name=".core.modular.notification.NotificationActivity">
-        </activity>
+        <activity android:name=".core.modular.notification.NotificationActivity"/>
+        <activity
+            android:name=".core.modular.eat.EditEatActivity"
+            android:label="食谱"/>
     </application>
 
 </manifest>

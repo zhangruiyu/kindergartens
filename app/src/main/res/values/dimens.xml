@@ -64,4 +64,5 @@
     <dimen name="ugc_aspect_width">44dp</dimen>
     <dimen name="ugc_aspect_divider">18dp</dimen>
     <dimen name="live_btn_size">35dp</dimen>
+    <dimen name="edit_eat_image_width">70dp</dimen>
 </resources>

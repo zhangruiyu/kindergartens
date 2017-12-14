@@ -8,7 +8,6 @@ import android.kindergartens.com.core.modular.eat.data.EatEntity
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.ThemedSpinnerAdapter
 import android.view.LayoutInflater
 import android.view.View
@@ -34,13 +33,13 @@ class EatActivity : BaseToolbarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eat)
         val waveSwipeHeader = MaterialHeader(this)
-        waveSwipeHeader.setColorSchemeColors(R.color.primary_dark,R.color.bangumi_index_green_bg)
+        waveSwipeHeader.setColorSchemeColors(R.color.primary_dark, R.color.bangumi_index_green_bg)
         srf_eat_refresh.refreshHeader = waveSwipeHeader
         srf_eat_refresh.setEnableHeaderTranslationContent(false)
         refreshData(Tools.time().nowTimeString)
-      /*  srf_eat_refresh.setOnRefreshListener {
-            refreshData(Tools.time().nowTimeString)
-        }*/
+        /*  srf_eat_refresh.setOnRefreshListener {
+              refreshData(Tools.time().nowTimeString)
+          }*/
         /* spinner.adapter = MyAdapter(
                  toolbar.context,
                  arrayOf("本周", "上周", "上上周"))*/
@@ -56,25 +55,24 @@ class EatActivity : BaseToolbarActivity() {
               override fun onNothingSelected(parent: AdapterView<*>) {}
           }
   */
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "点赞,或者建议", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        fab.setOnClickListener { _ ->
+            startActivity<EditEatActivity>()
         }
 
         calendar_view.shouldAnimateOnEnter(true)
                 .setFirstDayOfWeek(Calendar.MONDAY)
                 .setOnDateClickListener({
-                    toast(Tools.time().date2String(it).toString() + "aa")
+                    //                    toast(Tools.time().date2String(it).toString() + "aa")
                     refreshView(Tools.time().date2String(it, "yyyy-MM-dd"))
                 })
                 .setOnMonthChangeListener({
                     refreshData(Tools.time().date2String(it).toString())
                 })
                 .setOnDateLongClickListener({
-                    toast(it.toString() + "cc")
+                    //                    toast(it.toString() + "cc")
                 })
                 .setOnMonthTitleClickListener({
-                    toast(it.toString() + "dd")
+                    //                    toast(it.toString() + "dd")
                 })
 
 
@@ -103,13 +101,13 @@ class EatActivity : BaseToolbarActivity() {
         if (currentData == null) {
             toast("当天暂无数据")
         } else {
-            hsv_eat.visibility = if (currentData.eatUrls.size > 0) View.VISIBLE else GONE
+            hsv_eat.visibility = if (currentData.eatUrls.isNotEmpty()) View.VISIBLE else GONE
             setUpText("早餐", currentData.breakfast)
-            setUpText("午饭", currentData.lunch)
+            setUpText("午餐", currentData.lunch)
             setUpText("下午加餐", currentData.supper)
             currentData.eatUrls.forEachIndexed { index, s ->
                 val imageView = ImageView(ctx)
-                val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                val layoutParams = LinearLayout.LayoutParams(dimen(R.dimen.edit_eat_image_width), ViewGroup.LayoutParams.MATCH_PARENT)
                 layoutParams.margin = dip(10)
                 imageView.layoutParams = layoutParams
                 Glide.with(ctx)
