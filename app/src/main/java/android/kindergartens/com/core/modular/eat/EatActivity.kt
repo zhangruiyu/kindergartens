@@ -1,19 +1,16 @@
 package android.kindergartens.com.core.modular.eat
 
-import android.content.Context
-import android.content.res.Resources.Theme
+import android.content.Intent
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
 import android.kindergartens.com.core.modular.eat.data.EatEntity
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
-import android.support.v7.widget.ThemedSpinnerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -29,6 +26,9 @@ import kotlin.collections.HashMap
 
 class EatActivity : BaseToolbarActivity() {
     var eatData: HashMap<String, EatEntity.Data> = HashMap()
+    //当前选择的天
+    var currentDay: String = Tools.time().getNowTimeString("yyyy-MM-dd")
+    var currentMonth: String = Tools.time().getNowTimeString("yyyy-MM-dd")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_eat)
@@ -36,7 +36,7 @@ class EatActivity : BaseToolbarActivity() {
         waveSwipeHeader.setColorSchemeColors(R.color.primary_dark, R.color.bangumi_index_green_bg)
         srf_eat_refresh.refreshHeader = waveSwipeHeader
         srf_eat_refresh.setEnableHeaderTranslationContent(false)
-        refreshData(Tools.time().nowTimeString)
+        refreshData(currentDay)
         /*  srf_eat_refresh.setOnRefreshListener {
               refreshData(Tools.time().nowTimeString)
           }*/
@@ -56,38 +56,41 @@ class EatActivity : BaseToolbarActivity() {
           }
   */
         fab.setOnClickListener { _ ->
-            startActivity<EditEatActivity>()
+            startActivityForResult<EditEatActivity>(100, "currentDay" to currentDay)
         }
 
         calendar_view.shouldAnimateOnEnter(true)
                 .setFirstDayOfWeek(Calendar.MONDAY)
                 .setOnDateClickListener({
-                    //                    toast(Tools.time().date2String(it).toString() + "aa")
-                    refreshView(Tools.time().date2String(it, "yyyy-MM-dd"))
+                    currentDay = Tools.time().date2String(it, "yyyy-MM-dd")
+                    refreshView(currentDay)
                 })
                 .setOnMonthChangeListener({
-                    refreshData(Tools.time().date2String(it).toString())
+                    currentMonth = Tools.time().date2String(it, "yyyy-MM-dd")
+                    currentDay = currentMonth
+                    refreshData(currentMonth)
                 })
-                .setOnDateLongClickListener({
-                    //                    toast(it.toString() + "cc")
-                })
-                .setOnMonthTitleClickListener({
-                    //                    toast(it.toString() + "dd")
-                })
+
 
 
         calendar_view.update(Calendar.getInstance(Locale.getDefault()))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        refreshData(currentDay)
     }
 
     private fun refreshData(date: String) {
         srf_eat_refresh.autoRefresh(0)
         ServerApi.getEatInfoList(date).doOnTerminate { srf_eat_refresh.finishRefresh(100) }.subscribe(object : CustomNetErrorWrapper<EatEntity>() {
             override fun onNext(t: EatEntity) {
-                eatData.clear()
+//                eatData.clear()
                 t.data.forEach {
                     eatData.put(it.createTime, it)
                 }
-
+                calendar_view.markDateAsSelected(Tools.time().string2Date(currentDay, "yyyy-MM-dd"))
+                refreshView(currentDay)
             }
 
         })
@@ -136,34 +139,5 @@ class EatActivity : BaseToolbarActivity() {
         llc_rcv_eat.addView(inflate)
     }
 
-
-    private class MyAdapter(context: Context, objects: Array<String>) : ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, objects), ThemedSpinnerAdapter {
-        private val mDropDownHelper: ThemedSpinnerAdapter.Helper = ThemedSpinnerAdapter.Helper(context)
-
-        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val view: View
-
-            view = if (convertView == null) {
-                // Inflate the drop down using the helper's LayoutInflater
-                val inflater = mDropDownHelper.dropDownViewInflater
-                inflater.inflate(android.R.layout.simple_list_item_1, parent, false)
-            } else {
-                convertView
-            }
-
-            val textView = view.findViewById<View>(android.R.id.text1) as TextView
-            textView.text = getItem(position)
-
-            return view
-        }
-
-        override fun setDropDownViewTheme(theme: Theme?) {
-            mDropDownHelper.dropDownViewTheme = theme
-        }
-
-        override fun getDropDownViewTheme(): Theme? {
-            return mDropDownHelper.dropDownViewTheme
-        }
-    }
 
 }
