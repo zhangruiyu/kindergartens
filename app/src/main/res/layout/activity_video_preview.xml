@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 tools:ignore="contentDescription">
 
-    <com.kindergartens.com.core.modular.video.preview.ui.TCVideoView
+    <android.kindergartens.com.core.modular.video.preview.ui.TCVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

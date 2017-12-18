@@ -5,9 +5,10 @@ import android.content.Context
 import android.graphics.Point
 import android.kindergartens.com.R
 import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
-import android.kindergartens.com.ext.getWidth
 import android.os.Handler
 import android.os.Message
+import android.support.transition.Fade
+import android.support.transition.TransitionManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.*
@@ -21,6 +22,7 @@ import com.freedom.lauzy.playpauseviewlib.PlayPauseView
 import com.videogo.openapi.EZConstants
 import com.videogo.openapi.EZOpenSDK
 import com.videogo.openapi.EZPlayer
+import com.videogo.util.LogUtil
 import kotlinx.android.synthetic.main.ui_camera_play.view.*
 import org.jetbrains.anko.find
 import java.util.concurrent.atomic.AtomicBoolean
@@ -42,6 +44,8 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     private var mVideoHeight = 0
     private var mWidth = 0
     private var mHeight = 0
+    private var mDefaultWidth: Int = 0
+    private var mDefaultHeight: Int = 0
     var mStatus = 0
     val STATUS_INIT = 0
     val STATUS_START = 1
@@ -50,7 +54,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     val STATUS_PAUSE = 4
     val eZOpenSDK = EZOpenSDK.getInstance()
     var mEzUIPlayerCallBack: EZUIPlayer.EZUIPlayerCallBack? = null
-    private var mEZPlayer: EZPlayer? = null
+    var mEZPlayer: EZPlayer? = null
     private var mHolder: SurfaceHolder? = null
     private val isSurfaceInit = AtomicBoolean(false)
     private var mHandler: Handler
@@ -127,12 +131,19 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
         Glide.with(context).load(classroomImage).apply(RequestOptions().centerCrop()).into(find(R.id.iv_classroom_image))
     }
 
-    override fun onMeasure(widthMeasureSpecP: Int, heightMeasureSpecP: Int) {
-        val mDefaultHeight = (context.getWidth().toDouble() * 0.562).toInt()
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
-        LogUtils.d("EZUIPlayer", "onMeasure  mDefaultWidth = " + context.getWidth() + "  mDefaultHeight= " + mDefaultHeight)
-        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(context.getWidth(), MeasureSpec.getMode(widthMeasureSpecP))
-        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(mDefaultHeight, MeasureSpec.getMode(heightMeasureSpecP))
+
+        this.mDefaultWidth = MeasureSpec.getSize(widthMeasureSpec)
+        this.mDefaultHeight = MeasureSpec.getSize(heightMeasureSpec)
+        val layoutParams = this.layoutParams
+        if (layoutParams.height == -2) {
+            this.mDefaultHeight = (this.mDefaultWidth.toDouble() * proportion).toInt()
+        }
+
+        LogUtil.d("EZUIPlayer", "onMeasure  mDefaultWidth = " + this.mDefaultWidth + "  mDefaultHeight= " + this.mDefaultHeight)
+        val widthMeasureSpecP = MeasureSpec.makeMeasureSpec(this.mDefaultWidth, MeasureSpec.getMode(widthMeasureSpec))
+        val heightMeasureSpecP = MeasureSpec.makeMeasureSpec(this.mDefaultHeight, MeasureSpec.getMode(heightMeasureSpec))
         if (sfv_camera_play != null && this.mHolder == null) {
             this.mHolder = sfv_camera_play.holder
             this.mHolder?.addCallback(object : SurfaceHolder.Callback {
@@ -172,7 +183,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
         sfv_camera_play.setOnClickListener {
             stopPlay()
         }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        super.onMeasure(widthMeasureSpecP, heightMeasureSpecP)
     }
 
     fun startPlay() {
@@ -220,6 +231,7 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun showLoading() {
+        TransitionManager.beginDelayedTransition(fl_camera_play, Fade(Fade.IN))
         mpb_loading.visibility = View.VISIBLE
         iv_classroom_image.visibility = View.INVISIBLE
         play_pause_view.visibility = View.VISIBLE
@@ -227,12 +239,14 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun dismissLoading() {
+        TransitionManager.beginDelayedTransition(fl_camera_play, Fade(Fade.IN))
         mpb_loading.visibility = View.INVISIBLE
         play_pause_view.visibility = View.INVISIBLE
         iv_classroom_image.visibility = View.INVISIBLE
     }
 
     private fun showStopUi() {
+        TransitionManager.beginDelayedTransition(fl_camera_play, Fade(Fade.IN))
         mpb_loading.visibility = View.INVISIBLE
         play_pause_view.visibility = View.VISIBLE
         play_pause_view.pause()
@@ -277,7 +291,16 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         }
 
+        TransitionManager.beginDelayedTransition(fl_camera_play, Fade(Fade.IN))
         this.layoutParams = lp
+        try {
+            val imageLayoutParams = iv_classroom_image.layoutParams
+            imageLayoutParams.width = lp.width
+            imageLayoutParams.height = lp.height
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         this.changeSurfaceSize(sfv_camera_play, this.mVideoWidth, this.mVideoHeight)
     }
 
@@ -333,6 +356,10 @@ class CameraPlayView @JvmOverloads constructor(context: Context, attrs: Attribut
                 return pt
             }
         }
+    }
+
+    companion object {
+        val proportion: Double = 0.562
     }
 }
 //interface

@@ -113,7 +113,7 @@ dependencies {
     implementation 'ch.halcyon:squareprogressbar:1.6.2'
     implementation 'com.apkfuns.logutils:library:1.5.1.1'
     //萤石云sdk
-    implementation 'com.hikvision.ezviz:ezuikit:1.2'
+    implementation 'com.hikvision.ezviz:ezuikit:1.4'
     //校验edittext这样的
     //    implementation 'com.github.yoojia:next-inputs-android:1.6'
     //刷新库

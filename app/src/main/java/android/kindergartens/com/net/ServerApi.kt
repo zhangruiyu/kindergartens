@@ -57,7 +57,7 @@ class ServerApi {
         }
 
         fun changePassword(oldPassword: String, newPassword: String): Observable<Any> {
-            val request = OkGo.post<Any>("${baseUrl}/user/auth/changePassword")
+            val request = OkGo.post<Any>("${baseUrl}/user/normal/auth/changePassword")
             val params = HttpParams()
             params.put("oldPassword", oldPassword)
             params.put("newPassword", newPassword)
@@ -70,7 +70,7 @@ class ServerApi {
         fun getYSToken(): Observable<YSToken> {
             val localToken = YsHelper.getLocalToken()
             return if (localToken.isNullOrEmpty()) {
-                converter(OkGo.post<YSToken>("${baseUrl}/user/ys/registerAndGenerateToken")).map {
+                converter(OkGo.post<YSToken>("${baseUrl}/user/normal/ys/registerAndGenerateToken")).map {
                     YsHelper.saveYSToken(it.data.accessToken!!)
                     it
                 }
@@ -83,7 +83,7 @@ class ServerApi {
         fun geLocationYSToken(): String? = YsHelper.getLocalToken()
 
         fun getClassrooms(): Observable<ClassroomEntity> {
-            val request = OkGo.post<ClassroomEntity>("${baseUrl}/user/ys/classroom/list")
+            val request = OkGo.post<ClassroomEntity>("${baseUrl}/user/normal/ys/classroom/list")
             val params = HttpParams()
             request.params(params)
             return converter(request)
@@ -91,7 +91,7 @@ class ServerApi {
 
         //多次sign
         fun getOCSPeriodEffectiveSignSign(type: Int): Observable<SignInfo> {
-            val request = OkGo.post<SignInfo>("${baseUrl}/user/cos/periodEffectiveSign")
+            val request = OkGo.post<SignInfo>("${baseUrl}/user/normal/cos/periodEffectiveSign")
             val params = HttpParams()
             params.put("type", type)
             request.params(params)
@@ -101,7 +101,7 @@ class ServerApi {
 
         //单次sign
         fun getOCSOneEffectiveSignSign(type: Int): Observable<SignInfo> {
-            val request = OkGo.post<SignInfo>("$baseUrl/user/cos/oneEffectiveSign")
+            val request = OkGo.post<SignInfo>("$baseUrl/user/normal/cos/oneEffectiveSign")
             val params = HttpParams()
             params.put("type", type)
             request.params(params)
@@ -122,7 +122,7 @@ class ServerApi {
 
         //获取动态
         fun getDynamics(page_index: Int): Observable<DynamicEntity> {
-            val request = OkGo.post<DynamicEntity>("${baseUrl}/user/dynamic/list")
+            val request = OkGo.post<DynamicEntity>("${baseUrl}/user/normal/dynamic/list")
             val params = HttpParams()
             params.put("page_index", page_index)
             request.params(params)
@@ -131,7 +131,7 @@ class ServerApi {
 
         //发布视频动态
         fun commitDynamicVideo(dynamic_content: String, screenshot_server_url: String, video_server_url: String, video_long: String): Observable<Any> {
-            val request = OkGo.post<Any>("$baseUrl/user/dynamic/commitDynamicVideo")
+            val request = OkGo.post<Any>("$baseUrl/user/normal/dynamic/commitDynamicVideo")
             val params = HttpParams()
             params.put("type", 1)
             params.put("dynamic_content", dynamic_content)
@@ -144,7 +144,7 @@ class ServerApi {
 
         //发布视频动态
         fun commitDynamicPic(dynamic_content: String, urls: ArrayList<DynamicSelectedPic.PicOrderInfo>): Observable<Any> {
-            val request = OkGo.post<Any>("${baseUrl}/user/dynamic/commitDynamicPic")
+            val request = OkGo.post<Any>("${baseUrl}/user/normal/dynamic/commitDynamicPic")
             val params = HttpParams()
             params.put("type", 0)
             params.put("dynamic_content", dynamic_content)
@@ -156,7 +156,7 @@ class ServerApi {
 
         //评论动态
         fun commitDynamicComment(commentContent: String, dynamicId: String, parentCommentId: String = "0", groupTag: String = ""): Observable<CommentEntity> {
-            val request = OkGo.post<CommentEntity>("${baseUrl}/user/dynamic/commitComment")
+            val request = OkGo.post<CommentEntity>("${baseUrl}/user/normal/dynamic/commitComment")
             val params = HttpParams()
             params.put("commentContent", commentContent)
             params.put("dynamicId", dynamicId)
@@ -167,7 +167,7 @@ class ServerApi {
         }
 
         fun commitDynamicLiked(dynamicId: String): Observable<Any> {
-            val request = OkGo.post<Any>("${baseUrl}/user/dynamic/commitLiked")
+            val request = OkGo.post<Any>("${baseUrl}/user/normal/dynamic/commitLiked")
             val params = HttpParams()
             params.put("dynamicId", dynamicId)
             request.params(params)
@@ -176,13 +176,13 @@ class ServerApi {
 
         //评论动态
         fun getAccountProfile(): Observable<UserProfileEntity> {
-            val request = OkGo.post<UserProfileEntity>("${baseUrl}/user/profile")
+            val request = OkGo.post<UserProfileEntity>("${baseUrl}/user/normal/profile")
             return converter(request)
         }
 
         //修改个人信息
         fun reviseProfile(checkGender: Int, relationCheck: Int, address: String, avatar: String): Observable<ProfileAlteredInfo> {
-            val request = OkGo.post<ProfileAlteredInfo>("${baseUrl}/user/reviseProfile")
+            val request = OkGo.post<ProfileAlteredInfo>("${baseUrl}/user/normal/reviseProfile")
             val params = HttpParams()
             params.put("checkGender", checkGender)
             params.put("relationCheck", relationCheck)
@@ -195,7 +195,7 @@ class ServerApi {
 
         //校园消息
         fun getSchoolMessage(): Observable<MessageEntity> {
-            val request = OkGo.post<MessageEntity>("${baseUrl}/user/messageList/schoolMessage")
+            val request = OkGo.post<MessageEntity>("${baseUrl}/user/normal/messageList/schoolMessage")
             val params = HttpParams()
             request.params(params)
             return converter(request)
@@ -204,7 +204,7 @@ class ServerApi {
 
         //饮食信息
         fun getEatInfoList(date: String): Observable<EatEntity> {
-            val request = OkGo.post<EatEntity>("${baseUrl}/user/eat/eatList")
+            val request = OkGo.post<EatEntity>("${baseUrl}/user/normal/eat/eatList")
             val params = HttpParams()
             params.put("date", date)
             request.params(params)
@@ -212,7 +212,7 @@ class ServerApi {
         }
 
         fun getSchoolAlbum(): Observable<AlbumEntity> {
-            val request = OkGo.post<AlbumEntity>("${baseUrl}/user/album/schoolAlbum")
+            val request = OkGo.post<AlbumEntity>("${baseUrl}/user/normal/album/schoolAlbum")
             val params = HttpParams()
             request.params(params)
             return converter(request)

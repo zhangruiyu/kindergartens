@@ -18,7 +18,7 @@ open class BaseToolbarActivity : BaseActivity() {
         super.onAttachedToWindow()
         setUpToolbar()
     }
-    private fun setUpToolbar() {
+    open fun setUpToolbar() {
         toolbar = find(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)

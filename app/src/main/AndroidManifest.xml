@@ -87,6 +87,8 @@
             android:label="校园消息"/>
         <activity
             android:name=".core.modular.classroom.ClassroomActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
             android:label="">
         </activity>
         <activity
