@@ -3,6 +3,7 @@ package android.kindergartens.com.core.modular.eat
 import android.content.Intent
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
+import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.core.modular.eat.data.EatEntity
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -55,9 +57,17 @@ class EatActivity : BaseToolbarActivity() {
               override fun onNothingSelected(parent: AdapterView<*>) {}
           }
   */
-        fab.setOnClickListener { _ ->
-            startActivityForResult<EditEatActivity>(100, "currentDay" to currentDay)
+        UserdataHelper.haveOnlineLet {
+            if (it.roleCode != null && it.roleCode!!.toInt() < 1) {
+                fab.visibility = GONE
+            } else {
+                fab.visibility = VISIBLE
+                fab.setOnClickListener { _ ->
+                    startActivityForResult<EditEatActivity>(100, "currentDay" to currentDay)
+                }
+            }
         }
+
 
         calendar_view.shouldAnimateOnEnter(true)
                 .setFirstDayOfWeek(Calendar.MONDAY)

@@ -10,5 +10,6 @@ data class UserProfileEntity(var code: Int,
                              var msg: String) : BaseEntity {
     data class Data(var classroomId: Int,
                     var nickName: String,
-                    var schoolId: Int) : BaseEntity
+                    var schoolId: Int,
+                    var roleCode: String) : BaseEntity
 }

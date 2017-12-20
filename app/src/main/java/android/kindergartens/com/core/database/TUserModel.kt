@@ -23,6 +23,8 @@ class TUserModel : BaseModel(), BaseEntity {
     @Column
     var nickName: String? = null
     @Column
+    var roleCode: String? = null
+    @Column
     var avatar: String? = null
         get() {
             return if (field?.isEmpty() != false) {

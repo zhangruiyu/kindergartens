@@ -39,6 +39,7 @@ class OtherFragment : BaseFragment() {
                         //重新设置
                         setUpUserUi(UserdataHelper.selectUserByTel(it.tel!!).applyAndSave {
                             nickName = t.data.nickName
+                            roleCode = t.data.roleCode
                         })
                     }
 
@@ -74,6 +75,9 @@ class OtherFragment : BaseFragment() {
             startActivity<LoginActivity>()
         }
         card_login.setOnClickListener {
+            startActivity<UserInfoActivity>()
+        }
+        acb_store.setOnClickListener {
             startActivity<UserInfoActivity>()
         }
     }
