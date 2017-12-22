@@ -11,6 +11,7 @@ import android.kindergartens.com.core.modular.eat.EatActivity
 import android.kindergartens.com.core.modular.home.data.BannerEntity
 import android.kindergartens.com.core.modular.home.data.HomepageItemBean
 import android.kindergartens.com.core.modular.schoolmessage.SchoolMessageActivity
+import android.kindergartens.com.ext.TSnackbarUtils
 import android.kindergartens.com.ext.width
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
@@ -42,7 +43,7 @@ import org.jetbrains.anko.support.v4.*
 open class HomepageFragment : BaseFragment() {
     lateinit private var bannerOptions: RequestOptions
     lateinit private var banner: Banner
-    var bannerData = ArrayList<BannerEntity.Data>()
+    var bannerData = ArrayList<BannerEntity.WrapperInfo.Data>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bannerOptions = RequestOptions().placeholder(R.drawable.banner_normal).error(R.drawable.banner_normal)
@@ -63,8 +64,8 @@ open class HomepageFragment : BaseFragment() {
         banner.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, resources.getDimension(R.dimen.general_banner_height).toInt())
         val viewPager = banner.find<BannerViewPager>(R.id.bannerViewPager)
         banner.setOnBannerListener {
-            LogUtils.d("viewPager.currentItem==="+viewPager.currentItem)
-            val data = bannerData[viewPager.currentItem-1]
+            LogUtils.d("viewPager.currentItem===" + viewPager.currentItem)
+            val data = bannerData[viewPager.currentItem - 1]
             BrowserActivity.launch(act, data.url, data.title)
         }
     }
@@ -124,9 +125,13 @@ open class HomepageFragment : BaseFragment() {
     private fun refreshData() {
         ServerApi.getBanner().doOnTerminate { srf_homepage_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<BannerEntity>() {
             override fun onNext(t: BannerEntity) {
-                this@HomepageFragment.bannerData = t.data
+                this@HomepageFragment.bannerData = t.data.data
                 banner.setImages(this@HomepageFragment.bannerData.map { it.picUrl })
                         .start()
+                val addition = t.data.addition
+                if (addition > 0) {
+                    TSnackbarUtils.toSuccess(act, "每日登陆积分 +$addition").show()
+                }
             }
 
         })
