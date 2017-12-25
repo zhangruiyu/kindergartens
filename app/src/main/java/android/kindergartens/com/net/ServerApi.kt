@@ -11,7 +11,7 @@ import android.kindergartens.com.core.modular.home.data.BannerEntity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
 import android.kindergartens.com.core.modular.home.dummy.data.CommentEntity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
-import android.kindergartens.com.core.modular.schoolmessage.data.MessageEntity
+import android.kindergartens.com.core.modular.classroommessage.data.MessageEntity
 import android.kindergartens.com.core.modular.userinfo.data.ProfileAlteredInfo
 import android.kindergartens.com.core.tools.cos.data.SignInfo
 import android.kindergartens.com.ext.composeMain
@@ -196,6 +196,14 @@ class ServerApi {
         //校园消息
         fun getSchoolMessage(): Observable<MessageEntity> {
             val request = OkGo.post<MessageEntity>("${baseUrl}/user/normal/messageList/schoolMessage")
+            val params = HttpParams()
+            request.params(params)
+            return converter(request)
+        }
+
+        //班级消息
+        fun getClassroomMessage(): Observable<MessageEntity> {
+            val request = OkGo.post<MessageEntity>("${baseUrl}/user/normal/messageList/classroomMessage")
             val params = HttpParams()
             request.params(params)
             return converter(request)

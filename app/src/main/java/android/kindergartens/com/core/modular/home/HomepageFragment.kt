@@ -7,6 +7,7 @@ import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.core.modular.album.AlbumActivity
 import android.kindergartens.com.core.modular.browser.BrowserActivity
 import android.kindergartens.com.core.modular.classroom.ClassroomActivity
+import android.kindergartens.com.core.modular.classroommessage.ClassroomMessageActivity
 import android.kindergartens.com.core.modular.eat.EatActivity
 import android.kindergartens.com.core.modular.home.data.BannerEntity
 import android.kindergartens.com.core.modular.home.data.HomepageItemBean
@@ -72,11 +73,12 @@ open class HomepageFragment : BaseFragment() {
 
     //摄像头放中间 方便看见
     val itemBeans = mutableListOf(
-            HomepageItemBean(R.drawable.homepage_all_message, "校园消息"),
-            HomepageItemBean(R.drawable.homepage_school_message, "班级消息"),
+            HomepageItemBean(R.drawable.homepage_all_message, "通知"),
+            HomepageItemBean(R.drawable.homepage_school_message, "校园消息"),
             HomepageItemBean(R.drawable.homepage_eat, "饮食日历"),
             HomepageItemBean(R.drawable.homepage_album, "班级相册"),
-            HomepageItemBean(R.drawable.homepage_video, "在线视频")
+            HomepageItemBean(R.drawable.homepage_video, "在线视频"),
+            HomepageItemBean(R.drawable.homepage_video, "在线抓娃娃")
     )
 
 
@@ -96,16 +98,17 @@ open class HomepageFragment : BaseFragment() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
                 toast(position.toString())
                 when (position) {
-                    0, 1 -> startActivity<SchoolMessageActivity>()
-                    2 -> {
-                        UserdataHelper.haveNoOnlineLet { startActivity<EatActivity>() }
-
-                    }
+                    0 -> startActivity<SchoolMessageActivity>()
+                    1 -> UserdataHelper.haveNoOnlineLet { startActivity<ClassroomMessageActivity>() }
+                    2 -> UserdataHelper.haveNoOnlineLet { startActivity<EatActivity>() }
                     3 -> {
                         UserdataHelper.haveNoOnlineLet { startActivity<AlbumActivity>() }
                     }
                     4 -> {
                         UserdataHelper.haveNoOnlineLet { startActivity<ClassroomActivity>() }
+                    }
+                    5 -> {
+                        toast("暂不可用")
                     }
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]

@@ -1,4 +1,4 @@
-package android.kindergartens.com.core.modular.schoolmessage
+package android.kindergartens.com.core.modular.classroommessage
 
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
@@ -13,11 +13,11 @@ import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.activity_school_message.*
 import org.jetbrains.anko.ctx
 
-class SchoolMessageActivity : BaseToolbarActivity() {
+class ClassroomMessageActivity : BaseToolbarActivity() {
     lateinit var schoolAdapter: SchoolAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_school_message)
+        setContentView(R.layout.activity_classroom_message)
         rv_school_message.layoutManager = LinearLayoutManager(ctx)
         schoolAdapter = SchoolAdapter()
         rv_school_message.addItemDecoration(CustomItemDecoration(ctx))
@@ -30,7 +30,7 @@ class SchoolMessageActivity : BaseToolbarActivity() {
     }
 
     fun getData() {
-        ServerApi.getSchoolMessage().doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
+        ServerApi.getClassroomMessage().doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
             override fun onNext(t: MessageEntity) {
                 schoolAdapter.setNewData(t.data)
             }
