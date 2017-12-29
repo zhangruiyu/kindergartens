@@ -48,6 +48,8 @@ class TUserModel : BaseModel(), BaseEntity {
     var relation: Int? = null
     @Column
     var ysToken: String? = null
+    @Column
+    var schoolName: String? = null
 }
 
 inline fun TUser(init: TUserModel.() -> Unit): TUserModel {

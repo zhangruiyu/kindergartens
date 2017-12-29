@@ -10,5 +10,6 @@ class LoginUserEntity(var data: Data): BaseEntity {
     data class Data(var tel: String, var id: String,
                     var token: String, val gender: Int
                     , val address: String
+                    , val schoolName: String
                     , val relation: Int = 0):BaseEntity
 }

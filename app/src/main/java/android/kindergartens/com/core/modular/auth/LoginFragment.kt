@@ -125,6 +125,7 @@ class LoginFragment : BaseFragment() {
                         gender = it.data.gender
                         address = it.data.address
                         relation = it.data.relation
+                        schoolName = it.data.schoolName
 
                     }
                     activity?.finish()

@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragmentActivity
+import android.kindergartens.com.core.database.UserdataHelper
+import android.kindergartens.com.core.modular.auth.LoginActivity
 import android.kindergartens.com.core.modular.checkupdate.CustomVersionDialogActivity
 import android.kindergartens.com.core.modular.dynamic.EditDynamicActivity
 import android.kindergartens.com.core.modular.home.HomepageFragment
@@ -13,7 +15,9 @@ import android.kindergartens.com.core.modular.home.dummy.DynamicFragment
 import android.kindergartens.com.core.modular.video.MediaRecorderActivity
 import android.kindergartens.com.core.modular.video.TCVideoSettingActivity
 import android.kindergartens.com.ext.hideButton
+import android.kindergartens.com.ext.otherwise
 import android.kindergartens.com.ext.showButton
+import android.kindergartens.com.ext.yes
 import android.kindergartens.com.net.ServerApi
 import android.kindergartens.com.service.CheckUpdateService
 import android.os.Bundle
@@ -84,7 +88,24 @@ class MainActivity : BaseFragmentActivity() {
 //        val navigation = findViewById(R.id.navigation) as BottomNavigationView
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 //        print(queryList)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        tv_school_name.setOnClickListener {
+            startActivity<LoginActivity>()
+        }
+        UserdataHelper.haveOnlineUser().yes {
+            if (UserdataHelper.getOnlineUser()?.schoolName?.isNotEmpty() == true) {
+                tv_school_name.text = UserdataHelper.getOnlineUser()?.schoolName
+                tv_school_name.setOnClickListener {}
+            } else {
+                tv_school_name.text = "点击登录"
+            }
+
+        }.otherwise {
+            tv_school_name.text = "点击登录"
+        }
     }
 
     private fun initFragments() {

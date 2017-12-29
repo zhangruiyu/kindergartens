@@ -21,29 +21,16 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-           <LinearLayout
+
+            <TextView
+                android:id="@+id/tv_school_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <android.kindergartens.com.core.ui.CircleImageView
-                    android:layout_width="@dimen/circle_user_small_size"
-                    android:layout_height="@dimen/circle_user_small_size"
-                    android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/ic_hotbitmapgg_avatar"
-                    app:border_color="@color/white"
-                    app:border_width="@dimen/circle_dafult_width"/>
-
-                <TextView
-                    android:id="@+id/tv_home_city_swtch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:text="天云山幼儿园"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/default_medium_text_size"/>
-            </LinearLayout>
+                android:layout_marginRight="18dp"
+                android:gravity="center"
+                android:text="天云山幼儿园"
+                android:textColor="@color/white"
+                android:textSize="@dimen/default_medium_text_size"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
