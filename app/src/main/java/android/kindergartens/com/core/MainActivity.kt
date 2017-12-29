@@ -15,7 +15,6 @@ import android.kindergartens.com.core.modular.video.TCVideoSettingActivity
 import android.kindergartens.com.ext.hideButton
 import android.kindergartens.com.ext.showButton
 import android.kindergartens.com.net.ServerApi
-import android.kindergartens.com.receiver.AlarmUtils
 import android.kindergartens.com.service.CheckUpdateService
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -65,7 +64,7 @@ class MainActivity : BaseFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AlarmUtils.setAlarm(this)
+//        AlarmUtils.setAlarm(this)
 
         instance = this
         initBottomNavigationBar()

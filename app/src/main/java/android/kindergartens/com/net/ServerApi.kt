@@ -5,13 +5,13 @@ import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
 import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
 import android.kindergartens.com.core.modular.classroom.data.YSToken
 import android.kindergartens.com.core.modular.classroom.data.YsHelper
+import android.kindergartens.com.core.modular.classroommessage.data.MessageEntity
 import android.kindergartens.com.core.modular.dynamic.data.DynamicSelectedPic
 import android.kindergartens.com.core.modular.eat.data.EatEntity
 import android.kindergartens.com.core.modular.home.data.BannerEntity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
 import android.kindergartens.com.core.modular.home.dummy.data.CommentEntity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
-import android.kindergartens.com.core.modular.classroommessage.data.MessageEntity
 import android.kindergartens.com.core.modular.userinfo.data.ProfileAlteredInfo
 import android.kindergartens.com.core.tools.cos.data.SignInfo
 import android.kindergartens.com.ext.composeMain
@@ -209,6 +209,13 @@ class ServerApi {
             return converter(request)
         }
 
+        fun commitMessage(message: String): Observable<Any> {
+            val request = OkGo.post<Any>("${baseUrl}/user/teacher/messageList/addClassroomMessage")
+            val params = HttpParams()
+            params.put("message", message)
+            request.params(params)
+            return converter(request)
+        }
 
         //饮食信息
         fun getEatInfoList(date: String): Observable<EatEntity> {

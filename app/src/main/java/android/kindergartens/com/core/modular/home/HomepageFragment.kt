@@ -96,20 +96,14 @@ open class HomepageFragment : BaseFragment() {
         rl_homepage_content.adapter = homepageAdapter
         rl_homepage_content.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
-                toast(position.toString())
+//                toast(position.toString())
                 when (position) {
                     0 -> startActivity<SchoolMessageActivity>()
                     1 -> UserdataHelper.haveNoOnlineLet { startActivity<ClassroomMessageActivity>() }
                     2 -> UserdataHelper.haveNoOnlineLet { startActivity<EatActivity>() }
-                    3 -> {
-                        UserdataHelper.haveNoOnlineLet { startActivity<AlbumActivity>() }
-                    }
-                    4 -> {
-                        UserdataHelper.haveNoOnlineLet { startActivity<ClassroomActivity>() }
-                    }
-                    5 -> {
-                        toast("暂不可用")
-                    }
+                    3 -> UserdataHelper.haveNoOnlineLet { startActivity<AlbumActivity>() }
+                    4 -> UserdataHelper.haveNoOnlineLet { startActivity<ClassroomActivity>() }
+                    5 -> toast("暂不可用")
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]
 //                val intent = Intent(context, SchoolDetailActivity::class.java)

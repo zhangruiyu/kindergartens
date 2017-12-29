@@ -42,13 +42,13 @@
 
     <uses-feature android:name="android.hardware.Camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
-
+    <!--android:roundIcon="@mipmap/ic_launcher_round"-->
     <application
         android:name=".KGApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
         android:theme="@style/KGAppTheme"
         tools:replace="android:allowBackup">
@@ -91,8 +91,8 @@
         <activity
             android:name=".core.modular.classroom.ClassroomActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="sensor"
-            android:label="">
+            android:label=""
+            android:screenOrientation="sensor">
         </activity>
         <activity
             android:name=".core.modular.eat.EatActivity"

@@ -26,7 +26,7 @@ class SettingActivityFragment : BaseFragment() {
         val haveOnlineUser = UserdataHelper.haveOnlineUser()
         bt_login_out.setOnClickListener {
             UserdataHelper.loginOut()
-            activity.finish()
+            activity?.finish()
         }
         bt_login_out.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
         bt_account_safe.setOnClickListener({
