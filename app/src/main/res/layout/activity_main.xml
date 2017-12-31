@@ -21,16 +21,29 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-
-            <TextView
-                android:id="@+id/tv_school_name"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="18dp"
-                android:gravity="center"
-                android:text="天云山幼儿园"
-                android:textColor="@color/white"
-                android:textSize="@dimen/default_medium_text_size"/>
+                android:layout_marginEnd="18dp">
+
+                <TextView
+                    android:id="@+id/tv_school_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/default_medium_text_size"
+                    tools:text="天云山幼儿园"/>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/aciv_scan_code"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    app:srcCompat="@drawable/scan_code"/>
+            </FrameLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

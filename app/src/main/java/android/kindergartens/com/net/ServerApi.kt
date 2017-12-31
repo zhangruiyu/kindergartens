@@ -9,6 +9,7 @@ import android.kindergartens.com.core.modular.classroommessage.data.MessageEntit
 import android.kindergartens.com.core.modular.dynamic.data.DynamicSelectedPic
 import android.kindergartens.com.core.modular.eat.data.EatEntity
 import android.kindergartens.com.core.modular.home.data.BannerEntity
+import android.kindergartens.com.core.modular.home.data.SchoolEntity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
 import android.kindergartens.com.core.modular.home.dummy.data.CommentEntity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
@@ -29,8 +30,8 @@ import java.util.*
 class ServerApi {
     companion object {
         //手机
-//        val baseUrl = "http://192.168.43.20:8080"
-        val baseUrl = "http://192.168.31.150:8080"
+        val baseUrl = "http://192.168.43.20:8080"
+//        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -234,7 +235,7 @@ class ServerApi {
         }
 
         fun getBanner(): Observable<BannerEntity> {
-            val request = OkGo.post<BannerEntity>("${baseUrl}/public/getBanner")
+            val request = OkGo.post<BannerEntity>("${baseUrl}/canUserToken/getBanner")
             val params = HttpParams()
             request.params(params)
             return converter(request)
@@ -251,6 +252,15 @@ class ServerApi {
             params.put("date", date)
             request.params(params)
             return converter(request)
+        }
+
+        fun getSchoolInfo(schoolId: String): Observable<SchoolEntity> {
+            val request = OkGo.post<SchoolEntity>("$baseUrl/canUserToken/schoolInfo")
+            val params = HttpParams()
+            params.put("schoolId", schoolId)
+            request.params(params)
+            return converter(request)
+
         }
 
     }

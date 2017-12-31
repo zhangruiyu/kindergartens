@@ -23,6 +23,7 @@
     <color name="grey">#607D8B</color>
 
     <color name="error_hint_color">#F4511E</color>
+    <color name="dialog_transparent">#55000000</color>
 
     <color name="yellow_50">#FFD11B</color>
     <color name="yellow_30">#FEA501</color>

@@ -137,6 +137,9 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     //日历
     compile 'com.github.BlackBoxVision:material-calendar-view:v1.5.7'
+    //扫码功能
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
+
 }
 kotlin {
     experimental {

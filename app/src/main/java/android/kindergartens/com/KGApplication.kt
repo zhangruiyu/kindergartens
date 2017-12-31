@@ -21,6 +21,7 @@ import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.PushAgent
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
+import com.uuzuche.lib_zxing.activity.ZXingLibrary
 import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.ctx
@@ -35,6 +36,7 @@ class KGApplication : MultiDexApplication() {
         super.onCreate()
         kgApplication = this
         Tools.init(this)
+        ZXingLibrary.initDisplayOpinion(this)
         FlowManager.init(FlowConfig.Builder(this).build())
         initNet()
         BizService.instance().init(this)

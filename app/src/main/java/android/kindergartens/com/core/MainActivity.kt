@@ -3,6 +3,7 @@ package android.kindergartens.com.core
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragmentActivity
 import android.kindergartens.com.core.database.UserdataHelper
@@ -11,18 +12,23 @@ import android.kindergartens.com.core.modular.checkupdate.CustomVersionDialogAct
 import android.kindergartens.com.core.modular.dynamic.EditDynamicActivity
 import android.kindergartens.com.core.modular.home.HomepageFragment
 import android.kindergartens.com.core.modular.home.OtherFragment
+import android.kindergartens.com.core.modular.home.data.SchoolEntity
 import android.kindergartens.com.core.modular.home.dummy.DynamicFragment
+import android.kindergartens.com.core.modular.scancode.CaptureActivity
+import android.kindergartens.com.core.modular.scancode.CaptureActivity.Companion.CAPTURE_REQUEST_CODE
 import android.kindergartens.com.core.modular.video.MediaRecorderActivity
 import android.kindergartens.com.core.modular.video.TCVideoSettingActivity
+import android.kindergartens.com.core.tools.DialogManager
+import android.kindergartens.com.core.tools.UrlUtils
 import android.kindergartens.com.ext.hideButton
-import android.kindergartens.com.ext.otherwise
 import android.kindergartens.com.ext.showButton
-import android.kindergartens.com.ext.yes
+import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.kindergartens.com.service.CheckUpdateService
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.widget.TextView
+import android.widget.Toast
 import com.allenliu.versionchecklib.core.AllenChecker
 import com.allenliu.versionchecklib.core.VersionParams
 import com.allenliu.versionchecklib.core.http.HttpParams
@@ -31,11 +37,13 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.mazouri.tools.Tools
 import com.tencent.ugc.TXRecordCommon
+import com.uuzuche.lib_zxing.activity.CodeUtils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class MainActivity : BaseFragmentActivity() {
@@ -88,6 +96,58 @@ class MainActivity : BaseFragmentActivity() {
 //        val navigation = findViewById(R.id.navigation) as BottomNavigationView
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 //        print(queryList)
+        aciv_scan_code.setOnClickListener {
+            toast("扫码付学费开发ing")
+            val intent = Intent(this@MainActivity, CaptureActivity::class.java)
+            startActivityForResult(intent, CAPTURE_REQUEST_CODE)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAPTURE_REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                val bundle = data.extras ?: return
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    val result = bundle.getString(CodeUtils.RESULT_STRING)
+                    val urlRequest = UrlUtils.URLRequest(result)
+                    if (urlRequest.containsKey("action")) {
+                        val action = urlRequest["action"]
+                        when (action) {
+                            "join" -> {
+                                urlRequest["school_id"]?.let { showJoinSchoolDialog(it) }
+                            }
+                            "pay" -> toast("开发中")
+                            else -> toast("解析二维码参数出现问题")
+                        }
+                        Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show()
+                    } else {
+                        toast("无效二维码")
+                    }
+
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(this, "解析二维码失败", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun showJoinSchoolDialog(schoolId: String) {
+        val onlineUser = UserdataHelper.getOnlineUser()
+        if (onlineUser != null) {
+            ServerApi.getSchoolInfo(schoolId).subscribe(object : CustomNetErrorWrapper<SchoolEntity>() {
+                override fun onNext(t: SchoolEntity) {
+                    val joinSchoolDialog = DialogManager.getJoinSchoolDialog(ctx, t.data.schoolName, t.data.address, t.data.tel, t.data.shcoolPicture)
+                    joinSchoolDialog.show()
+                }
+
+            })
+        } else {
+
+        }
+
     }
 
     override fun onResume() {
@@ -95,15 +155,15 @@ class MainActivity : BaseFragmentActivity() {
         tv_school_name.setOnClickListener {
             startActivity<LoginActivity>()
         }
-        UserdataHelper.haveOnlineUser().yes {
+        if (UserdataHelper.haveOnlineUser()) {
             if (UserdataHelper.getOnlineUser()?.schoolName?.isNotEmpty() == true) {
                 tv_school_name.text = UserdataHelper.getOnlineUser()?.schoolName
                 tv_school_name.setOnClickListener {}
             } else {
-                tv_school_name.text = "点击登录"
+                tv_school_name.text = "扫码加入校园"
             }
 
-        }.otherwise {
+        } else {
             tv_school_name.text = "点击登录"
         }
     }

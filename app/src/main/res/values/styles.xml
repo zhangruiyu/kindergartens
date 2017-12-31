@@ -135,6 +135,7 @@
         <item name="colorAccent">#0accac</item>
     </style>
 
+    <!--透明dialog-->
     <style name="BaseDialog" parent="android:Theme.Light">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -142,5 +143,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
 
+    </style>
+    <!--半透明dialog-->
+    <style name="Dialog_Translucence" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/dialog_transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimAmount">0.6</item>
     </style>
 </resources>
