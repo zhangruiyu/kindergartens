@@ -21,6 +21,8 @@ import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.PushAgent
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
+import com.umeng.socialize.PlatformConfig
+import com.umeng.socialize.UMShareAPI
 import com.uuzuche.lib_zxing.activity.ZXingLibrary
 import com.videogo.openapi.EZOpenSDK
 import okhttp3.OkHttpClient
@@ -31,11 +33,16 @@ import org.jetbrains.anko.ctx
  * Created by zhangruiyu on 2017/6/21.
  */
 class KGApplication : MultiDexApplication() {
-
+    init {
+        PlatformConfig.setWeixin("wxc61b3dcd7a7b8d0b", "27b14020655a5df2f9881e2f79ea5c68")
+        PlatformConfig.setQQZone("1105658225", "51KsgvmB9drZtkTh");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+    }
     override fun onCreate() {
         super.onCreate()
         kgApplication = this
-        Tools.init(this)
+
+        UMShareAPI.get(this)
         ZXingLibrary.initDisplayOpinion(this)
         FlowManager.init(FlowConfig.Builder(this).build())
         initNet()
@@ -46,12 +53,15 @@ class KGApplication : MultiDexApplication() {
         //查询出当前用户
         UserdataHelper.getOnlineUser()
         initEzOpen()
+
+        Tools.init(this)
         val mPushAgent = PushAgent.getInstance(this)
 //        mPushAgent.setDebugMode(Tools.apk().isAppDebug(this))
         mPushAgent.setDebugMode(true)
         //错误统计 debug模式下不开启
 //        MobclickAgent.setCatchUncaughtExceptions(!Tools.apk().isAppDebug(this))
         //注册推送服务，每次调用register方法都会回调该接口
+
         mPushAgent.register(object : IUmengRegisterCallback {
 
             override fun onSuccess(deviceToken: String) {

@@ -10,7 +10,6 @@ import android.kindergartens.com.core.ui.CustomSquareProgressBar
 import android.kindergartens.com.ext.getWaitDialog
 import android.kindergartens.com.ext.safeDismiss
 import android.kindergartens.com.ext.toText
-import android.kindergartens.com.ext.yes
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
@@ -52,46 +51,46 @@ class EditEatActivity : BaseToolbarActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_send) {
-            CustomNextInputs().add(edit_eat_breakfast, ValueScheme.Required().msg("早餐内容不能为空"))
-                    .add(edit_eat_lunch, ValueScheme.Required().msg("午餐内容不能为空"))
-                    .add(edit_eat_supper, ValueScheme.Required().msg("下午加餐内容不能为空")).test().yes {
-                val dialog = getWaitDialog()
-//            dialog.setUnCancel()
-                ServerApi.getOCSPeriodEffectiveSignSign(2).subscribe(object : CustomNetErrorWrapper<SignInfo>() {
-                    override fun onNext(t: SignInfo) {
-                        LogUtils.d(t)
-                        uploadPicDynamics(t.data, dialog)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        super.onError(e)
-                        dialog.safeDismiss()
-                    }
-
-                })
-            }
-
+            uploadEatPic()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun uploadPicDynamics(t: SignInfo.Data, dialog: MaterialDialog?) {
-        val uploadPics = ArrayList<DynamicSelectedPic.PicOrderInfo>()
-        if (photos.size > 0) {
-            photos.forEach {
-                //遍历然后上传图片
-                it.putPicForDynamicSelectedPic(t.sign, t.cosPath, uploadPics, photos.size, {
-                    if (it.isSucceed) {
-                        //图片上传完毕 开始把信息给服务端
-                        commitEat(it.uploadPics!!.joinToString { it.toString() }, dialog)
+    private fun uploadEatPic() {
+        if (CustomNextInputs().add(edit_eat_breakfast, ValueScheme.Required().msg("早餐内容不能为空"))
+                .add(edit_eat_lunch, ValueScheme.Required().msg("午餐内容不能为空"))
+                .add(edit_eat_supper, ValueScheme.Required().msg("下午加餐内容不能为空")).test()) {
+            val dialog = getWaitDialog()
+//            dialog.setUnCancel()
+            val a = object : CustomNetErrorWrapper<SignInfo>() {
+                override fun onNext(t: SignInfo) {
+                    val uploadPics = ArrayList<DynamicSelectedPic.PicOrderInfo>()
+                    if (photos.size > 0) {
+                        photos.forEach { item ->
+                            //遍历然后上传图片
+                            val joinToString = item.uploadPics!!.joinToString { itemString -> itemString.toString() }
+                            item.putPicForDynamicSelectedPic(t.data.sign, t.data.cosPath, uploadPics, photos.size, {
+                                if (item.isSucceed) {
+                                    //图片上传完毕 开始把信息给服务端
+                                    commitEat(joinToString, dialog)
+                                } else {
+                                    //失败
+                                    dialog.safeDismiss()
+                                }
+                            })
+                        }
                     } else {
-                        //失败
-                        dialog?.safeDismiss()
+                        commitEat("", dialog)
                     }
-                })
+                }
+
+                override fun onError(e: Throwable) {
+                    super.onError(e)
+                    dialog.safeDismiss()
+                }
+
             }
-        } else {
-            commitEat("", dialog)
+            ServerApi.getOCSPeriodEffectiveSignSign(2).subscribe(a)
         }
 
     }

@@ -26,4 +26,5 @@
     <string name="delete">删除</string>
     <string name="title_activity_setting">设置</string>
     <string name="title_activity_album">班级相册</string>
+    <string name="title_activity_qrcode">QRCodeActivity</string>
 </resources>

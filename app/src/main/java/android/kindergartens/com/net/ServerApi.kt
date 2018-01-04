@@ -30,8 +30,8 @@ import java.util.*
 class ServerApi {
     companion object {
         //手机
-        val baseUrl = "http://192.168.43.20:8080"
-//        val baseUrl = "http://192.168.31.150:8080"
+//        val baseUrl = "http://192.168.43.20:8080"
+        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()

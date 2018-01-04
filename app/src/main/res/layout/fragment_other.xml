@@ -84,6 +84,15 @@
                         android:layout_marginBottom="10dp"
                         android:text="好好学习"/>
                 </LinearLayout>
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/aciv_qr_code"
+                    style="@style/ImageViewSelect"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="30dp"
+                    app:srcCompat="@drawable/qr_code"/>
             </android.support.v7.widget.CardView>
         </FrameLayout>
 

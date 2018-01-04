@@ -58,3 +58,8 @@
 -dontwarn android.test.**
 -dontwarn android.support.test.**
 -dontwarn org.junit.**
+# 保持java.lang包 要不跟日历控件冲突 打包会失败
+-dontwarn java.lang.invoke.*
+-dontnote android.net.http.*
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**

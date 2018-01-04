@@ -6,6 +6,7 @@ import android.kindergartens.com.core.database.TUserModel
 import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.core.modular.auth.LoginActivity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
+import android.kindergartens.com.core.modular.orcode.QRCodeActivity
 import android.kindergartens.com.core.modular.setting.SettingActivity
 import android.kindergartens.com.core.modular.userinfo.UserInfoActivity
 import android.kindergartens.com.ext.applyAndSave
@@ -31,6 +32,9 @@ class OtherFragment : BaseFragment() {
     override fun onVisible() {
         super.onVisible()
         try {
+            aciv_qr_code.setOnClickListener({
+                startActivity<QRCodeActivity>()
+            })
             val haveOnlineUser = UserdataHelper.haveOnlineUser()
             UserdataHelper.haveOnlineLet {
 
