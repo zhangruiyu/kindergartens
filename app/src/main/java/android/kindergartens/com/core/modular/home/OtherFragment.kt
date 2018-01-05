@@ -19,10 +19,15 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import com.umeng.socialize.UMAuthListener
+import com.umeng.socialize.UMShareAPI
+import com.umeng.socialize.bean.SHARE_MEDIA
 import kotlinx.android.synthetic.main.fragment_other.*
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.support.v4.startActivity
 
@@ -75,7 +80,7 @@ class OtherFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bt_go_login.setOnClickListener {
+        aciv_phone_login.setOnClickListener {
             startActivity<LoginActivity>()
         }
         card_login.setOnClickListener {
@@ -83,6 +88,51 @@ class OtherFragment : BaseFragment() {
         }
         acb_store.setOnClickListener {
             startActivity<UserInfoActivity>()
+        }
+        aciv_qq_login.setOnClickListener {
+            UMShareAPI.get(ctx).getPlatformInfo(act, SHARE_MEDIA.QQ, authListener)
+        }
+    }
+
+    var authListener: UMAuthListener = object : UMAuthListener {
+        /**
+         * @desc 授权开始的回调
+         * @param platform 平台名称
+         */
+        override fun onStart(platform: SHARE_MEDIA) {
+
+        }
+
+        /**
+         * @desc 授权成功的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param data 用户资料返回
+         */
+        override fun onComplete(platform: SHARE_MEDIA, action: Int, data: Map<String, String>) {
+
+            Toast.makeText(ctx, "成功了${data["name"]}", Toast.LENGTH_LONG).show()
+            ServerApi.commitQQWeixinLogin(data["uid"]!!, data["name"]!!, data["gender"]!!, data["iconurl"]!!)
+        }
+
+        /**
+         * @desc 授权失败的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param t 错误原因
+         */
+        override fun onError(platform: SHARE_MEDIA, action: Int, t: Throwable) {
+
+            Toast.makeText(ctx, "失败：" + t.message, Toast.LENGTH_LONG).show()
+        }
+
+        /**
+         * @desc 授权取消的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         */
+        override fun onCancel(platform: SHARE_MEDIA, action: Int) {
+            Toast.makeText(ctx, "取消了", Toast.LENGTH_LONG).show()
         }
     }
 

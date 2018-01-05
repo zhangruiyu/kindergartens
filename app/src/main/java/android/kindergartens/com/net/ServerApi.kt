@@ -263,5 +263,10 @@ class ServerApi {
 
         }
 
+        fun commitQQWeixinLogin(uid: String, name: String, gender: String, iconurl: String) {
+
+
+        }
+
     }
 }

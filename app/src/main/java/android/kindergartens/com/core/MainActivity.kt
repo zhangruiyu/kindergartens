@@ -37,6 +37,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.mazouri.tools.Tools
 import com.tencent.ugc.TXRecordCommon
+import com.umeng.socialize.UMShareAPI
 import com.uuzuche.lib_zxing.activity.CodeUtils
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
@@ -132,6 +133,7 @@ class MainActivity : BaseFragmentActivity() {
                 }
             }
         }
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
     }
 
     private fun showJoinSchoolDialog(schoolId: String) {

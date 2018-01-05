@@ -36,14 +36,39 @@
                         android:layout_marginTop="15dp"
                         android:text="登陆小助手,体验更多功能"/>
 
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/bt_go_login"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/transparent"
-                        android:text="注册/登陆"
-                        android:textColor="@color/accent"/>
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/aciv_phone_login"
+                            style="@style/ImageViewSelect"
+                            android:layout_width="@dimen/other_fragment_login_icon_height"
+                            android:layout_height="@dimen/other_fragment_login_icon_height"
+                            app:srcCompat="@drawable/phone"/>
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/aciv_wachat_login"
+                            style="@style/ImageViewSelect"
+                            android:layout_width="@dimen/other_fragment_login_icon_height"
+                            android:layout_height="@dimen/other_fragment_login_icon_height"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginStart="20dp"
+                            app:srcCompat="@drawable/ic_wechat_login"
+                            />
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/aciv_qq_login"
+                            style="@style/ImageViewSelect"
+                            android:layout_width="@dimen/other_fragment_login_icon_height"
+                            android:layout_height="@dimen/other_fragment_login_icon_height"
+                            app:srcCompat="@drawable/ic_qq_login"/>
+                    </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -51,7 +76,8 @@
                 android:id="@+id/card_login"
                 style="@style/default_click_view"
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="70dp"
+                android:visibility="gone">
 
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_avatar"
