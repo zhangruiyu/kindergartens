@@ -2,6 +2,7 @@ package android.kindergartens.com.core.database
 
 import android.kindergartens.com.base.BaseActivity
 import android.kindergartens.com.core.modular.auth.LoginActivity
+import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
 import android.kindergartens.com.ext.applyAndSave
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.model.HttpHeaders
@@ -93,5 +94,22 @@ class UserdataHelper {
         fun resetData() {
             tUser = null
         }
+
+        fun saveLoginUser(it: LoginUserEntity) {
+            //统计用户id  第三方登陆请看友盟文档
+            MobclickAgent.onProfileSignIn(it.data.id)
+            UserdataHelper.selectUserByTel(it.data.tel).applyAndSave {
+                isOnline = true
+                tel = it.data.tel
+                id = it.data.id
+                token = it.data.token
+                gender = it.data.gender
+                address = it.data.address
+                relation = it.data.relation
+                schoolName = it.data.schoolName
+
+            }
+        }
+
     }
 }

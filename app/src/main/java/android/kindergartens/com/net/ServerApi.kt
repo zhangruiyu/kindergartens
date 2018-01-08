@@ -1,5 +1,6 @@
 package android.kindergartens.com.net
 
+import android.kindergartens.com.Constants
 import android.kindergartens.com.core.modular.album.data.AlbumEntity
 import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
 import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
@@ -31,7 +32,9 @@ class ServerApi {
     companion object {
         //手机
 //        val baseUrl = "http://192.168.43.20:8080"
-        val baseUrl = "http://192.168.31.150:8080"
+        //文浩
+        val baseUrl = "http://192.168.2.16:8080"
+//        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -263,9 +266,17 @@ class ServerApi {
 
         }
 
-        fun commitQQWeixinLogin(uid: String, name: String, gender: String, iconurl: String) {
-
-
+        fun loginByQQWeixin(uid: String, name: String, gender: String, iconurl: String, platform: String): Observable<LoginUserEntity> {
+            val request = OkGo.post<LoginUserEntity>("$baseUrl/public/qqWeixinLogin")
+            val params = HttpParams()
+            params.put("uid", uid)
+            params.put("name", name)
+            params.put("gender", gender)
+            params.put("iconurl", iconurl)
+            params.put("platform", platform)
+            params.put("pushToken", Constants.PushToken)
+            request.params(params)
+            return converter(request)
         }
 
     }
