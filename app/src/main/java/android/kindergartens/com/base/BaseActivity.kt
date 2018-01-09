@@ -11,7 +11,7 @@ import java.util.*
 /**
  * Created by zhangruiyu on 2017/6/21.
  */
-open class BaseActivity : RxAppCompatActivity() {
+open  class BaseActivity : RxAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PushAgent.getInstance(this).onAppStart()

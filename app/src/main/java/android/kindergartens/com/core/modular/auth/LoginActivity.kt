@@ -3,7 +3,7 @@ package android.kindergartens.com.core.modular.auth
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.kindergartens.com.R
-import android.kindergartens.com.base.BaseToolbarActivity
+import android.kindergartens.com.base.BaseToolbarFragmentActivity
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -13,13 +13,17 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
-import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : BaseToolbarActivity() {
+class LoginActivity : BaseToolbarFragmentActivity() {
+    private var currentTabIndex: Int = 0
+    private var index: Int = 0
+    val loginFragment = LoginFragment()
+    val inputPasswordFragment = InputPasswordFragment()
+    val registerFragment = RegisterFragment()
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -35,8 +39,7 @@ class LoginActivity : BaseToolbarActivity() {
         super.onCreate(savedInstanceState)
         // 允许使用transitions
         setContentView(R.layout.activity_login)
-        LoginFragment()
-        stl_tab.setViewPager(vp_auth, arrayOf("登陆", "注册"), this, arrayListOf(LoginFragment(), RegisterFragment()))
+//        stl_tab.setViewPager(vp_auth, arrayOf("登陆", "注册"), this, arrayListOf(LoginFragment(), RegisterFragment()))
         // Set up the login form.
         /*  mEmailView = findViewById(R.id.email) as AutoCompleteTextView
           //获取本地的预输入手机号
@@ -56,6 +59,40 @@ class LoginActivity : BaseToolbarActivity() {
 
           mLoginFormView = findViewById(R.id.login_form)
           mProgressView = findViewById(R.id.login_progress)*/
+        initFragments()
+    }
+
+    private fun initFragments() {
+        add(fragment = loginFragment)
+        supportFragmentManager.beginTransaction().add(R.id.auth_container, loginFragment)
+                .show(loginFragment).commit()
+    }
+
+    fun switchRegisterFragment() {
+        add(fragment = registerFragment)
+        changeFragmentByIndex(mFragments!!.size - 1)
+    }
+    fun switchInputPasswordFragment() {
+        add(fragment = inputPasswordFragment)
+        changeFragmentByIndex(mFragments!!.size - 1)
+    }
+    private fun changeFragmentByIndex(currentIndex: Int) {
+        index = currentIndex
+        switchFragment()
+    }
+
+    private fun switchFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.hide(mFragments!![currentTabIndex])
+        if (!mFragments!![index].isAdded) {
+            fragmentTransaction.add(R.id.auth_container, mFragments!![index])
+        }
+        fragmentTransaction.show(mFragments!![index]).commit()
+        currentTabIndex = index
+        if (currentTabIndex == 1) {
+//            (mFragments!![1] as DynamicFragment).initData()
+        }
+
     }
 
     /**

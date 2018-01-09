@@ -19,6 +19,7 @@ abstract class CustomNetErrorWrapper<T>(val context: Context? = null) : ErrorWra
             if (e.code == 1002) {
                 MainActivity.instance?.homepageFragment3?.onVisible()
             }
+            onCustomError(e)
             if (BaseActivity.runActivity != null) {
                 TSnackbarUtils.toFail(BaseActivity.runActivity!!, e.errorMessage).show()
                 return@onError
@@ -26,6 +27,11 @@ abstract class CustomNetErrorWrapper<T>(val context: Context? = null) : ErrorWra
         }
         KGApplication.kgApplication.toast(e.localizedMessage!!)
         LogUtils.e(e)
+    }
+
+    open fun onCustomError(e: ApiException) {
+
+
     }
 
     fun filterCustomException(e: Throwable, apiException: (ApiException) -> Unit, vararg filterCodes: Int) {

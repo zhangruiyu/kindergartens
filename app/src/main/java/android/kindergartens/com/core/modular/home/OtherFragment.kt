@@ -11,6 +11,7 @@ import android.kindergartens.com.core.modular.orcode.QRCodeActivity
 import android.kindergartens.com.core.modular.setting.SettingActivity
 import android.kindergartens.com.core.modular.userinfo.UserInfoActivity
 import android.kindergartens.com.ext.applyAndSave
+import android.kindergartens.com.net.ApiException
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
@@ -150,6 +151,14 @@ class OtherFragment : BaseFragment() {
                             UserdataHelper.saveLoginUser(it)
                             //刷新下当前界面
                             onVisible()
+                        }
+
+                        override fun onCustomError(e: ApiException) {
+                            super.onCustomError(e)
+                            //没授权
+                            if (e.code == 1004) {
+
+                            }
                         }
                     })
         }

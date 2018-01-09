@@ -2,6 +2,7 @@ package android.kindergartens.com.net
 
 import android.kindergartens.com.Constants
 import android.kindergartens.com.core.modular.album.data.AlbumEntity
+import android.kindergartens.com.core.modular.auth.data.CodeWrapperEntity
 import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
 import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
 import android.kindergartens.com.core.modular.classroom.data.YSToken
@@ -33,8 +34,8 @@ class ServerApi {
         //手机
 //        val baseUrl = "http://192.168.43.20:8080"
         //文浩
-        val baseUrl = "http://192.168.2.16:8080"
-//        val baseUrl = "http://192.168.31.150:8080"
+//        val baseUrl = "http://192.168.2.16:8080"
+        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -120,6 +121,15 @@ class ServerApi {
             params.put("tel", tel)
             params.put("password", password)
             params.put("pushToken", pushToken)
+            request.params(params)
+            return converter(request)
+        }
+
+        //判断是否注册过
+        fun verifyIsRegister(tel: String): Observable<CodeWrapperEntity> {
+            val request = OkGo.post<CodeWrapperEntity>("$baseUrl/public/verifyIsRegister")
+            val params = HttpParams()
+            params.put("tel", tel)
             request.params(params)
             return converter(request)
         }
