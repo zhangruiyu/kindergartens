@@ -23,6 +23,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
  * Created by zhangruiyu on 2017/6/27.
  */
 class InputPasswordFragment : BaseFragment() {
+    var tel: String = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_inputpassword, container, false)
     }
@@ -47,7 +48,6 @@ class InputPasswordFragment : BaseFragment() {
     }
 
 
-
     private fun attemptLogin() {
 
         // Reset errors.
@@ -69,11 +69,11 @@ class InputPasswordFragment : BaseFragment() {
         if (cancel) {
             focusView!!.requestFocus()
         } else {
-            ServerApi.login("15201231805", et_password.toText(), Constants.PushToken).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
+            ServerApi.login(tel, et_password.toText(), Constants.PushToken).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
                 override fun onNext(it: LoginUserEntity) {
                     UserdataHelper.saveLoginUser(it)
                     submitbutton.doResult(true)
-//                    activity?.finish()
+                    activity?.finish()
                 }
 
                 override fun onError(e: Throwable) {
@@ -91,4 +91,5 @@ class InputPasswordFragment : BaseFragment() {
     private fun isTelValid(email: String): Boolean {
         return email.length == 11
     }
+
 }

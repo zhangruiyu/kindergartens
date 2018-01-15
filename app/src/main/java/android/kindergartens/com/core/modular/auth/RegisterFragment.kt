@@ -3,17 +3,21 @@ package android.kindergartens.com.core.modular.auth
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragment
 import android.kindergartens.com.ext.toText
+import android.kindergartens.com.net.CustomNetErrorWrapper
+import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * Created by zhangruiyu on 2017/6/27.
  */
 class RegisterFragment : BaseFragment() {
+    var tel: String = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
@@ -22,38 +26,21 @@ class RegisterFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         et_auth_code.toText()
         bt_send_auth_code.onClick {
-           /* http<LzyResponse<String>> {
-                url = "/auth/register1"
-                params = mapOf("tel" to tel.toText())
-                onSuccess {
-                    debug { it }
+            ServerApi.sendRegisterCode(tel).subscribe(object : CustomNetErrorWrapper<Any>() {
+                override fun onNext(t: Any) {
+                    toast("验证码发送成功")
                 }
-                onFail {
-                    debug { it }
-                }
-            }*/
+
+            })
         }
-        bt_register.setOnClickListener {
-          /*  http<LzyResponse<Any>> {
-                url = "/auth/register2"
-                params = mapOf("tel" to tel.toText(), "password" to et_password.toText(), "authCode" to et_auth_code.toText())
-                onSuccess {
-                    debug { it }
+        submitbutton.setOnClickListener {
+            ServerApi.registerUser(tel, acact_password.toText(), et_auth_code.toText()).subscribe(object : CustomNetErrorWrapper<Any>() {
+                override fun onNext(t: Any) {
+                    toast("注册成功,请登录")
+                    activity?.finish()
                 }
-                onFail {
-                    debug { it }
-                }
-            }*/
+
+            })
         }
     }
-    /*http<LzyResponse<YSAccessToken>> {
-        url = "https://open.ys7.com/api/lapp/token/get"
-        params = mapOf("appKey" to "b109fdee59b14b19b48927f627814c58", "appSecret" to "fa7d8a8c75176be997d80f13590dfaa6")
-        onSuccess {
-            debug { it }
-        }
-        onFail {
-            debug { it }
-        }
-    }*/
 }

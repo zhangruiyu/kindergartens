@@ -68,14 +68,18 @@ class LoginActivity : BaseToolbarFragmentActivity() {
                 .show(loginFragment).commit()
     }
 
-    fun switchRegisterFragment() {
+    fun switchRegisterFragment(tel: String) {
         add(fragment = registerFragment)
+        registerFragment.tel = tel
         changeFragmentByIndex(mFragments!!.size - 1)
     }
-    fun switchInputPasswordFragment() {
+
+    fun switchInputPasswordFragment(tel: String) {
         add(fragment = inputPasswordFragment)
+        inputPasswordFragment.tel = tel
         changeFragmentByIndex(mFragments!!.size - 1)
     }
+
     private fun changeFragmentByIndex(currentIndex: Int) {
         index = currentIndex
         switchFragment()
@@ -91,6 +95,22 @@ class LoginActivity : BaseToolbarFragmentActivity() {
         currentTabIndex = index
         if (currentTabIndex == 1) {
 //            (mFragments!![1] as DynamicFragment).initData()
+        }
+
+    }
+
+    override fun onBackPressed() {
+        if (mFragments?.size == 1) {
+            super.onBackPressed()
+        } else {
+            if (mFragments == null || mFragments!!.size < 2) {
+                super.onBackPressed()
+            } else {
+                changeFragmentByIndex(mFragments!!.size - 2)
+                mFragments!!.removeAt(mFragments!!.size - 1)
+
+            }
+
         }
 
     }

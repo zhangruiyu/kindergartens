@@ -34,8 +34,8 @@ class ServerApi {
         //手机
 //        val baseUrl = "http://192.168.43.20:8080"
         //文浩
-//        val baseUrl = "http://192.168.2.16:8080"
-        val baseUrl = "http://192.168.31.150:8080"
+        val baseUrl = "http://192.168.2.16:8080"
+//        val baseUrl = "http://192.168.31.150:8080"
         /* inline fun <reified T> getAuthCode(tel: String): Observable<T> {
              val request = OkGo.post<T>("${baseUrl}https://open.ys7.com/api/lapp/token/get")
              val params = HttpParams()
@@ -49,17 +49,6 @@ class ServerApi {
         inline fun <reified T> converter(request: PostRequest<T>): Observable<T> =
                 request.converter(JsonConvert(T::class.java)).adapt(ObservableBody<T>()).composeMain()
 
-
-        inline fun <reified T> registerUser(tel: String, password: String, authCode: String): Observable<T> {
-            val request = OkGo.post<T>("https://open.ys7.com/api/lapp/token/get")
-            val params = HttpParams()
-            params.put("tel", tel)
-            params.put("password", password)
-            params.put("authCode", authCode)
-            request.params(params)
-
-            return converter(request)
-        }
 
         fun changePassword(oldPassword: String, newPassword: String): Observable<Any> {
             val request = OkGo.post<Any>("${baseUrl}/user/normal/auth/changePassword")
@@ -121,6 +110,25 @@ class ServerApi {
             params.put("tel", tel)
             params.put("password", password)
             params.put("pushToken", pushToken)
+            request.params(params)
+            return converter(request)
+        }
+
+        //发送注册验证码
+        fun sendRegisterCode(tel: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/public/auth/register1")
+            val params = HttpParams()
+            params.put("tel", tel)
+            request.params(params)
+            return converter(request)
+        }
+        //发送注册验证码
+        fun registerUser(tel: String,password: String,authCode: String): Observable<Any> {
+            val request = OkGo.post<Any>("$baseUrl/public/auth/register2")
+            val params = HttpParams()
+            params.put("tel", tel)
+            params.put("password", password)
+            params.put("authCode", authCode)
             request.params(params)
             return converter(request)
         }
