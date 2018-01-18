@@ -5,8 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.kindergartens.android.com.core.modular.safe.SafeActivity">
+    tools:context=".core.modular.safe.SafeActivity">
 
     <include layout="@layout/layout_toolbar"/>
 
@@ -18,79 +19,145 @@
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            app:divider="@drawable/line"
+            app:dividerPadding="20dp"
+            app:showDividers="middle">
 
-            <TextView
-                style="@style/default_text_subhead"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="修改密码"/>
-
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                android:id="@+id/ll_change_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/acat_old_password"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请输入原密码"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""/>
+                    android:text="手机号"
+                    android:textColor="@color/black_80"
+                    android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:id="@+id/tv_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="为了您的账号安全,可随时修改密码"
+                    android:textColor="@color/black_80"
+                    android:textSize="12sp"/>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
-
+            <LinearLayout
+                android:id="@+id/ll_change_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/acat_new_password"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请输入新密码"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""/>
+                    android:text="修改密码"
+                    android:textColor="@color/black_80"
+                    android:textSize="14sp"/>
 
-            </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="为了您的账号安全,可随时修改密码"
+                    android:textColor="@color/black_80"
+                    android:textSize="12sp"/>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
-
+            <FrameLayout
+                android:id="@+id/ll_change_wechat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/acat_again_password"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请再次输入新密码"
-                    android:maxLength="11"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text=""/>
+                    android:orientation="vertical">
 
-            </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="微信"
+                        android:textColor="@color/black_80"
+                        android:textSize="14sp"/>
+
+                    <io.github.rockerhieu.emojicon.EmojiconTextView
+                        android:id="@+id/tv_wechat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🤣"
+                        android:textColor="@color/black_80"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sc_bind_wechat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/ll_change_qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QQ"
+                        android:textColor="@color/black_80"
+                        android:textSize="14sp"/>
+
+                    <io.github.rockerhieu.emojicon.EmojiconTextView
+                        android:id="@+id/tv_qq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🤣"
+                        android:textColor="@color/black_80"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sc_bind_qq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"/>
+            </FrameLayout>
         </android.support.v7.widget.LinearLayoutCompat>
     </FrameLayout>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/acb_affirm"
-        style="@style/Base.TextAppearance.AppCompat.Widget.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="50dp"
-        android:text="确认修改"/>
 </LinearLayout>

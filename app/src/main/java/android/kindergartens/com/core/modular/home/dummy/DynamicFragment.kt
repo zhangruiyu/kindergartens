@@ -32,6 +32,7 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.onUiThread
 import org.jetbrains.anko.support.v4.toast
 
 
@@ -169,10 +170,14 @@ class DynamicFragment : BaseFragment() {
         //<Unit>可略, 开始主协程
         launch(CommonPool) {
             delay(200L)
-            if (bsw_dynamic_refresh != null) {
-                bsw_dynamic_refresh.autoRefresh()
-            } else {
-                refreshData()
+            onUiThread {
+                if (bsw_dynamic_refresh != null) {
+
+                    bsw_dynamic_refresh.autoRefresh()
+                } else {
+                    refreshData()
+                }
+
             }
         }
     }

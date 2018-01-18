@@ -3,13 +3,13 @@ package android.kindergartens.com.core.modular.setting
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseFragment
 import android.kindergartens.com.core.database.UserdataHelper
-import android.kindergartens.com.core.modular.safe.SafeActivity
+import android.kindergartens.com.core.modular.checkupdate.CustomVersionDialogActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_setting.*
-import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.ctx
 
 /**
  * A placeholder fragment containing a simple view.
@@ -29,9 +29,10 @@ class SettingActivityFragment : BaseFragment() {
             activity?.finish()
         }
         bt_login_out.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
-        bt_account_safe.setOnClickListener({
-            UserdataHelper.haveNoOnlineLet { startActivity<SafeActivity>() }
-
-        })
+        bt_update.setOnClickListener {
+            //检查更新
+            CustomVersionDialogActivity.chechUpdate(ctx)
+        }
+        CustomVersionDialogActivity.chechUpdate(ctx)
     }
 }

@@ -88,8 +88,4 @@ class InputPasswordFragment : BaseFragment() {
         return password.length > 4
     }
 
-    private fun isTelValid(email: String): Boolean {
-        return email.length == 11
-    }
-
 }

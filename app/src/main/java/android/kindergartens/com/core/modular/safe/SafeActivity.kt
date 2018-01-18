@@ -2,37 +2,55 @@ package android.kindergartens.com.core.modular.safe
 
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
-import android.kindergartens.com.core.tools.CustomNextInputs
-import android.kindergartens.com.ext.TSnackbarUtils
-import android.kindergartens.com.net.CustomNetErrorWrapper
-import android.kindergartens.com.net.ServerApi
+import android.kindergartens.com.core.database.UserdataHelper
+import android.kindergartens.com.core.modular.changepassword.ChangePasswordActivity
 import android.os.Bundle
-import com.github.yoojia.inputs.ValueScheme
+import android.widget.CompoundButton
+import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.activity_safe.*
+import org.jetbrains.anko.startActivity
+
 
 class SafeActivity : BaseToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_safe)
-        val passwordNextInputs = CustomNextInputs()
-        passwordNextInputs.add(acat_old_password, ValueScheme.RangeLength(6, 15).msg("原密码输入格式有误"))
-                .add(acat_new_password, ValueScheme.RangeLength(6, 15).msg("新密码输入格式有误"))
-                .add(acat_again_password, ValueScheme.RangeLength(6, 15).msg("再次输入的密码格式有误"))
-        acb_affirm.setOnClickListener({
-            if (passwordNextInputs.test()) {
-                if (acat_again_password.text === acat_again_password.text) {
-                    ServerApi.changePassword(acat_old_password.text.toString(), acat_new_password.text.toString())
-                            .subscribe(object : CustomNetErrorWrapper<Any>() {
-                                override fun onNext(t: Any) {
-                                    TSnackbarUtils.toSuccess(this@SafeActivity, "密码修改成功", { finish() }).show()
-                                }
+        UserdataHelper.haveOnlineLet {
+            tv_tel.text = it.tel
+            tv_qq.text = if (it.qqOpenId.isNullOrEmpty()) "尚未绑定" else it.qqNickName
+            tv_wechat.text = if (it.wxOpenId.isNullOrEmpty()) "尚未绑定" else it.wxNickName
+            sc_bind_qq.isChecked = it.qqOpenId?.isNotEmpty() == true
+            sc_bind_wechat.isChecked = it.wxOpenId?.isNotEmpty() == true
+            sc_bind_qq.setOnClickListener {
+                showHintDialog("qq", it as CompoundButton)
 
-                            })
-                } else {
-                    acat_again_password.error = "2次密码密码输入不一致"
-                }
             }
-        })
+            sc_bind_wechat.setOnClickListener {
+                if (sc_bind_wechat.isChecked) {
+                    showHintDialog("wechat", it as CompoundButton)
+                } else {
+
+                }
+
+
+            }
+        }
+        ll_change_password.setOnClickListener { startActivity<ChangePasswordActivity>() }
+
     }
+
+    private fun showHintDialog(platform: String, switchCompat: CompoundButton) {
+        MaterialDialog.Builder(this)
+                .title("提示")
+                .content("解绑${platform.toUpperCase()}后你将无法使用${platform.toUpperCase()}登录小助手,你确定要解绑吗?")
+                .positiveText("解绑").onPositive { dialog, which ->
+
+        }
+                .negativeText("取消").onNegative { dialog, which ->
+            switchCompat.isChecked = !switchCompat.isChecked
+        }
+                .show()
+    }
+
 }

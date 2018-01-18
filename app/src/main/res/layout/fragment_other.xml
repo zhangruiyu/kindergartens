@@ -142,6 +142,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/acb_store"
                     style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_local_grocery_store"
@@ -152,6 +153,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_local_grocery_store"
@@ -162,6 +164,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_local_grocery_store"
@@ -190,6 +193,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_local_grocery_store"
@@ -198,10 +202,22 @@
                     android:text="充值"
                     android:textColor="@color/secondary_text"/>
 
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/acb_safe"
+                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawablePadding="20dp"
+                    android:gravity="left|center_vertical"
+                    android:text="账号与安全"
+                    android:textColor="@color/secondary_text"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/acb_setting"
                     style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_settings_black"

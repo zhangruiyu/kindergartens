@@ -50,6 +50,14 @@ class TUserModel : BaseModel(), BaseEntity {
     var ysToken: String? = null
     @Column
     var schoolName: String? = null
+    @Column
+    var qqOpenId: String? = null
+    @Column
+    var wxOpenId: String? = null
+    @Column
+    var qqNickName: String? = null
+    @Column
+    var wxNickName: String? = null
 }
 
 inline fun TUser(init: TUserModel.() -> Unit): TUserModel {

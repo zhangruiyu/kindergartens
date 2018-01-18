@@ -91,7 +91,7 @@ class UserdataHelper {
 
         }
 
-        fun resetData() {
+        private fun resetData() {
             tUser = null
         }
 
@@ -107,6 +107,10 @@ class UserdataHelper {
                 address = it.data.address
                 relation = it.data.relation
                 schoolName = it.data.schoolName
+                qqNickName = it.data.qqNickName
+                wxNickName = it.data.wxNickName
+                wxOpenId = it.data.wxOpenId
+                qqOpenId = it.data.qqOpenId
 
             }
         }
