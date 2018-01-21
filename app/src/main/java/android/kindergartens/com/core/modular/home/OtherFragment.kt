@@ -9,6 +9,7 @@ import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
 import android.kindergartens.com.core.modular.orcode.QRCodeActivity
 import android.kindergartens.com.core.modular.safe.SafeActivity
+import android.kindergartens.com.core.modular.safe.SafeActivity.Companion.QQAUTODATA
 import android.kindergartens.com.core.modular.setting.SettingActivity
 import android.kindergartens.com.core.modular.userinfo.UserInfoActivity
 import android.kindergartens.com.ext.applyAndSave
@@ -27,6 +28,7 @@ import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import com.mazouri.tools.Tools
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -117,19 +119,9 @@ class OtherFragment : BaseFragment() {
          * @param data 用户资料返回
          */
         override fun onComplete(platform: SHARE_MEDIA, action: Int, data: Map<String, String>) {
-            val hashMap = HashMap<String, String>()
-            hashMap.put("uid", "9353405EEC487A7A4B39148E16F13C87")
-            hashMap.put("name", "牛顿")
-            hashMap.put("iconurl", "http://q.qlogo.cn/qqapp/1105658225/9353405EEC487A7A4B39148E16F13C87/100")
-            hashMap.put("gender", "男")
             Toast.makeText(ctx, "${platform.name}成功了${data["name"]}", Toast.LENGTH_LONG).show()
             LogUtils.e(data)
-            ServerApi.loginByQQWeixin(data["uid"]!!, data["name"]!!, data["gender"]!!, data["iconurl"]!!, platform.name)
-                    .subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
-                        override fun onNext(it: LoginUserEntity) {
-                            UserdataHelper.saveLoginUser(it)
-                        }
-                    })
+            sendL(platform, data)
         }
 
         /**
@@ -139,16 +131,13 @@ class OtherFragment : BaseFragment() {
          * @param t 错误原因
          */
         override fun onError(platform: SHARE_MEDIA, action: Int, t: Throwable) {
-            sendL(platform)
+            if (Tools.apk().isAppDebug(act)) {
+                sendL(platform, QQAUTODATA())
+            }
             Toast.makeText(ctx, "失败：" + t.message, Toast.LENGTH_LONG).show()
         }
 
-        fun sendL(platform: SHARE_MEDIA) {
-            val data = HashMap<String, String>()
-            data.put("uid", "9353405EEC487A7A4B39148E16F13C87")
-            data.put("name", "牛顿")
-            data.put("iconurl", "http://q.qlogo.cn/qqapp/1105658225/9353405EEC487A7A4B39148E16F13C87/100")
-            data.put("gender", "男")
+        fun sendL(platform: SHARE_MEDIA, data: Map<String, String>) {
             ServerApi.loginByQQWeixin(data["uid"]!!, data["name"]!!, data["gender"]!!, data["iconurl"]!!, platform.name)
                     .subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
                         override fun onNext(it: LoginUserEntity) {
@@ -173,7 +162,9 @@ class OtherFragment : BaseFragment() {
          * @param action 行为序号，开发者用不上
          */
         override fun onCancel(platform: SHARE_MEDIA, action: Int) {
-            sendL(platform)
+            if (Tools.apk().isAppDebug(act)) {
+                sendL(platform, QQAUTODATA())
+            }
             Toast.makeText(ctx, "取消了", Toast.LENGTH_LONG).show()
         }
     }

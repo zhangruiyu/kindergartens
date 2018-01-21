@@ -26,7 +26,7 @@ fun Dialog?.setUnCancel(): Dialog {
     return this
 }
 
-fun Context?.getWaitDialog(title: String = "正在发布中"): MaterialDialog {
+fun Context?.getWaitDialog(title: String = "网络请求中..."): MaterialDialog {
     return MaterialDialog.Builder(this!!)
             .title(title)
             .content(R.string.please_wait)
