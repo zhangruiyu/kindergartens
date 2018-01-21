@@ -45,7 +45,7 @@ class SafeActivity : BaseToolbarActivity() {
             sc_bind_wechat.isChecked = it.wxOpenId?.isNotEmpty() == true
             ll_change_qq.setOnClickListener {
                 if (sc_bind_qq.isChecked) {
-                    sc_bind_qq.isChecked = true
+//                    sc_bind_qq.isChecked = true
                     showHintDialog(SHARE_MEDIA.QQ.name, sc_bind_qq)
                 } else {
                     UMShareAPI.get(ctx).getPlatformInfo(act, SHARE_MEDIA.QQ, authListener)
@@ -53,7 +53,7 @@ class SafeActivity : BaseToolbarActivity() {
             }
             ll_change_wechat.setOnClickListener {
                 if (sc_bind_wechat.isChecked) {
-                    sc_bind_wechat.isChecked = true
+//                    sc_bind_wechat.isChecked = true
                     showHintDialog(SHARE_MEDIA.WEIXIN.name, sc_bind_wechat)
                 } else {
                     UMShareAPI.get(ctx).getPlatformInfo(act, SHARE_MEDIA.WEIXIN, authListener)
@@ -93,7 +93,7 @@ class SafeActivity : BaseToolbarActivity() {
             })
         }
                 .negativeText("取消").onNegative { dialog, which ->
-            switchCompat.isChecked = !switchCompat.isChecked
+//            switchCompat.isChecked = !switchCompat.isChecked
         }
                 .show()
     }
