@@ -1,5 +1,6 @@
 package android.kindergartens.com.core.modular.safe
 
+import android.content.Intent
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
 import android.kindergartens.com.core.database.UserdataHelper
@@ -45,7 +46,7 @@ class SafeActivity : BaseToolbarActivity() {
             ll_change_qq.setOnClickListener {
                 if (sc_bind_qq.isChecked) {
                     sc_bind_qq.isChecked = true
-                    showHintDialog("qq", sc_bind_qq)
+                    showHintDialog(SHARE_MEDIA.QQ.name, sc_bind_qq)
                 } else {
                     UMShareAPI.get(ctx).getPlatformInfo(act, SHARE_MEDIA.QQ, authListener)
                 }
@@ -53,7 +54,7 @@ class SafeActivity : BaseToolbarActivity() {
             ll_change_wechat.setOnClickListener {
                 if (sc_bind_wechat.isChecked) {
                     sc_bind_wechat.isChecked = true
-                    showHintDialog("wechat", sc_bind_wechat)
+                    showHintDialog(SHARE_MEDIA.WEIXIN.name, sc_bind_wechat)
                 } else {
                     UMShareAPI.get(ctx).getPlatformInfo(act, SHARE_MEDIA.WEIXIN, authListener)
                 }
@@ -76,9 +77,9 @@ class SafeActivity : BaseToolbarActivity() {
                     switchCompat.isChecked = false
 
                     UserdataHelper.getOnlineUser()?.applyAndSave {
-                        if (platform == "qq") {
+                        if (platform == "QQ") {
                             qqOpenId = ""
-                        } else if (platform == "wechat") {
+                        } else if (platform == "WEIXIN") {
                             wxOpenId = ""
                         }
                         setUpUi()
@@ -131,33 +132,33 @@ class SafeActivity : BaseToolbarActivity() {
         }
 
         fun sendL(platform: SHARE_MEDIA, data: Map<String, String>) {
-
+            val dialog = getWaitDialog()
             ServerApi.bindQQORWechat(data["uid"]!!, data["name"]!!, data["gender"]!!, data["iconurl"]!!, platform.name)
-                    .subscribe(object : CustomNetErrorWrapper<Any>() {
-                        override fun onNext(it: Any) {
-                            //刷新下当前界面
-                            UserdataHelper.getOnlineUser()?.applyAndSave {
-                                if (platform.toString() == "qq") {
-                                    qqOpenId = data["uid"]
-                                } else if (platform.toString() == "wechat") {
-                                    wxOpenId = data["uid"]
-                                }
-                                avatar.isNullOrEmpty().yes {
-                                    avatar = data["iconurl"]
-                                }
-                                setUpUi()
-                            }
-                            setUpUi()
+                    .doOnTerminate { dialog.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                override fun onNext(it: Any) {
+                    //刷新下当前界面
+                    UserdataHelper.getOnlineUser()?.applyAndSave {
+                        if (platform.toString() == "QQ") {
+                            qqOpenId = data["uid"]
+                        } else if (platform.toString() == "WEIXIN") {
+                            wxOpenId = data["uid"]
                         }
-
-                        override fun onCustomError(e: ApiException) {
-                            super.onCustomError(e)
-                            //没授权
-                            if (e.code == 1004) {
-
-                            }
+                        avatar.isNullOrEmpty().yes {
+                            avatar = data["iconurl"]
                         }
-                    })
+                        setUpUi()
+                    }
+                    setUpUi()
+                }
+
+                override fun onCustomError(e: ApiException) {
+                    super.onCustomError(e)
+                    //没授权
+                    if (e.code == 1004) {
+
+                    }
+                }
+            })
         }
 
         /**
@@ -172,6 +173,11 @@ class SafeActivity : BaseToolbarActivity() {
 
             Toast.makeText(ctx, "取消了", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {
