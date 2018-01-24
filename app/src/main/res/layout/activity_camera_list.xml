@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="android.kindergartens.com.core.modular.cameralist.CameraListActivity">
+
+    <include layout="@layout/layout_toolbar"/>
+
+   <!-- <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:id="@+id/srl_refresh"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+
+        >
+-->
+        <android.kindergartens.com.custom.ui.CustomStateFrameLayout
+            android:id="@+id/sfl_lyt_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/default_text_subhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="摄像头开放时间为: 09:00-10:45 15:30-17:35"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_camera_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+        </android.kindergartens.com.custom.ui.CustomStateFrameLayout>
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+</LinearLayout>

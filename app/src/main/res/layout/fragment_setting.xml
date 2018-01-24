@@ -94,7 +94,7 @@
             android:id="@+id/bt_login_out"
             style="@style/Widget.AppCompat.ActionButton.CloseMode"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/bottom_navigation_height"
             android:layout_gravity="bottom"
             android:background="@color/primary"
             android:gravity="center"

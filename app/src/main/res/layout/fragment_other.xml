@@ -196,7 +196,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_local_grocery_store"
+                    android:drawableLeft="@drawable/ic_settings_black"
                     android:drawablePadding="20dp"
                     android:gravity="left|center_vertical"
                     android:text="充值"
@@ -223,7 +223,7 @@
                     android:drawableLeft="@drawable/ic_settings_black"
                     android:drawablePadding="20dp"
                     android:gravity="left|center_vertical"
-                    android:text="设置"
+                    android:text="关于"
                     android:textColor="@color/secondary_text"/>
 
 

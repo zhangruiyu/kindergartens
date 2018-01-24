@@ -52,6 +52,43 @@
         android:supportsRtl="true"
         android:theme="@style/KGAppTheme"
         tools:replace="android:allowBackup">
+
+        <!--第三方需要-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="tencent100424468"/>
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a1d3c23f29d981667000090">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="79ed2aeb63fc7dc9cb001917ff84f08f">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Main">
+        </meta-data>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!--第三方需要-->
+
+
         <activity
             android:name=".core.MainActivity"
             android:label="@string/app_name"
@@ -143,19 +180,6 @@
             android:name=".receiver.AlarmReceiver"
             android:process=":remote"/>
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5a1d3c23f29d981667000090">
-        </meta-data>
-        <meta-data
-            android:name="UMENG_MESSAGE_SECRET"
-            android:value="79ed2aeb63fc7dc9cb001917ff84f08f">
-        </meta-data>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Main">
-        </meta-data>
-
         <activity android:name=".core.modular.notification.NotificationActivity"/>
         <activity
             android:name=".core.modular.eat.EditEatActivity"
@@ -164,37 +188,16 @@
         </activity>
         <activity
             android:name=".core.modular.orcode.QRCodeActivity"
-            android:label="邀请好友"
-            >
+            android:label="邀请好友">
         </activity>
         <activity
             android:name=".core.modular.changepassword.ChangePasswordActivity"
-            android:label="修改密码"
-            >
-        </activity>
-
-
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="tencent100424468"/>
-            </intent-filter>
-
+            android:label="修改密码">
         </activity>
 
         <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:name=".core.modular.cameralist.CameraListActivity"
+            android:label="在线宝贝"/>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@ import android.kindergartens.com.base.BaseFragment
 import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.core.modular.album.AlbumActivity
 import android.kindergartens.com.core.modular.browser.BrowserActivity
-import android.kindergartens.com.core.modular.classroom.ClassroomActivity
+import android.kindergartens.com.core.modular.cameralist.CameraListActivity
 import android.kindergartens.com.core.modular.classroommessage.ClassroomMessageActivity
 import android.kindergartens.com.core.modular.eat.EatActivity
 import android.kindergartens.com.core.modular.home.data.BannerEntity
@@ -102,7 +102,7 @@ open class HomepageFragment : BaseFragment() {
                     1 -> UserdataHelper.haveNoOnlineLet { startActivity<ClassroomMessageActivity>() }
                     2 -> UserdataHelper.haveNoOnlineLet { startActivity<EatActivity>() }
                     3 -> UserdataHelper.haveNoOnlineLet { startActivity<AlbumActivity>() }
-                    4 -> UserdataHelper.haveNoOnlineLet { startActivity<ClassroomActivity>() }
+                    4 -> UserdataHelper.haveNoOnlineLet { startActivity<CameraListActivity>() }
                     5 -> toast("暂不可用")
                 }
 //                val allSchoolInfo = (baseQuickAdapter as HomepageAdapter).data[i]
