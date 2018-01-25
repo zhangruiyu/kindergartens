@@ -93,7 +93,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/bt_login_out"
-            style="@style/Widget.AppCompat.ActionButton.CloseMode"
+            style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_navigation_height"
             android:layout_gravity="bottom"

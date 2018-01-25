@@ -141,7 +141,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/acb_store"
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                     android:textColor="@color/secondary_text"/>
 
                 <android.support.v7.widget.AppCompatButton
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                     android:textColor="@color/secondary_text"/>
 
                 <android.support.v7.widget.AppCompatButton
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                 app:showDividers="middle">
 
                 <android.support.v7.widget.AppCompatButton
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/acb_safe"
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -216,7 +216,7 @@
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/acb_setting"
-                    style="@style/Widget.AppCompat.ActionButton.CloseMode"
+                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
