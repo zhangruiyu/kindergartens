@@ -52,17 +52,18 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
         app:divider="@drawable/line"
         app:showDividers="middle|end">
 
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/bt_about_me"
             style="@style/default_text_subhead"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
+            android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="30dp"
             android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:gravity="center_vertical"
@@ -71,12 +72,12 @@
             android:textColor="@color/secondary_text"
             />
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/bt_update"
             style="@style/default_text_subhead"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
+            android:background="?android:attr/selectableItemBackground"
             android:drawablePadding="30dp"
             android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:gravity="center_vertical"

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.kindergartens.com.R
-import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
+import android.kindergartens.com.core.modular.cameralist.ClassroomEntity
 import android.os.Handler
 import android.os.Message
 import android.support.transition.Fade

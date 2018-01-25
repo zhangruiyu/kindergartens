@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.trello.rxlifecycle2.android.ActivityEvent
 import kotlinx.android.synthetic.main.activity_school_message.*
 import org.jetbrains.anko.ctx
 
@@ -30,7 +31,7 @@ class SchoolMessageActivity : BaseToolbarActivity() {
     }
 
     fun getData() {
-        ServerApi.getSchoolMessage().doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
+        ServerApi.getSchoolMessage().doOnTerminate { bswr_school_message.finishRefresh() }.compose(this.bindUntilEvent(ActivityEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
             override fun onNext(t: MessageEntity) {
                 schoolAdapter.setNewData(t.data)
             }

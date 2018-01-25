@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mazouri.tools.Tools
 import com.scwang.smartrefresh.header.MaterialHeader
+import com.trello.rxlifecycle2.android.ActivityEvent
 import kotlinx.android.synthetic.main.activity_eat.*
 import me.iwf.photopicker.PhotoPreview
 import org.jetbrains.anko.*
@@ -93,7 +94,7 @@ class EatActivity : BaseToolbarActivity() {
 
     private fun refreshData(date: String) {
         srf_eat_refresh.autoRefresh(0)
-        ServerApi.getEatInfoList(date).doOnTerminate { srf_eat_refresh.finishRefresh(100) }.subscribe(object : CustomNetErrorWrapper<EatEntity>() {
+        ServerApi.getEatInfoList(date).doOnTerminate { srf_eat_refresh.finishRefresh(100) }.compose(this.bindUntilEvent(ActivityEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<EatEntity>() {
             override fun onNext(t: EatEntity) {
 //                eatData.clear()
                 t.data.forEach {

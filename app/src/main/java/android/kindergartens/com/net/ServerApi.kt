@@ -4,9 +4,9 @@ import android.kindergartens.com.Constants
 import android.kindergartens.com.core.modular.album.data.AlbumEntity
 import android.kindergartens.com.core.modular.auth.data.CodeWrapperEntity
 import android.kindergartens.com.core.modular.auth.data.LoginUserEntity
-import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
-import android.kindergartens.com.core.modular.classroom.data.YSToken
-import android.kindergartens.com.core.modular.classroom.data.YsHelper
+import android.kindergartens.com.core.modular.cameralist.ClassroomEntity
+import android.kindergartens.com.core.modular.cameralist.YSToken
+import android.kindergartens.com.core.modular.cameralist.YsHelper
 import android.kindergartens.com.core.modular.classroommessage.data.MessageEntity
 import android.kindergartens.com.core.modular.dynamic.data.DynamicSelectedPic
 import android.kindergartens.com.core.modular.eat.data.EatEntity

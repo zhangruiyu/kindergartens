@@ -22,6 +22,7 @@ import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.github.yoojia.inputs.ValueScheme
+import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yanzhenjie.permission.PermissionYes
 import kotlinx.android.synthetic.main.activity_edit_eat.*
 import me.iwf.photopicker.PhotoPicker
@@ -96,7 +97,7 @@ class EditEatActivity : BaseToolbarActivity() {
     }
 
     private fun commitEat(picUrls: String, dialog: MaterialDialog?) {
-        ServerApi.commitEat(edit_eat_breakfast.toText(), edit_eat_lunch.toText(), edit_eat_supper.toText(), picUrls, intent.extras["currentDay"] as String)
+        ServerApi.commitEat(edit_eat_breakfast.toText(), edit_eat_lunch.toText(), edit_eat_supper.toText(), picUrls, intent.extras["currentDay"] as String).compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
             override fun onNext(t: Any) {
                 toast("发布成功!")

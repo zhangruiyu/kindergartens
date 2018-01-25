@@ -1,4 +1,4 @@
-package android.kindergartens.com.core.modular.classroom.data
+package android.kindergartens.com.core.modular.cameralist
 
 import android.kindergartens.com.base.BaseEntity
 

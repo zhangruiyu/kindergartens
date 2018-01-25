@@ -3,8 +3,7 @@ package android.kindergartens.com.core.modular.cameralist
 import am.widget.stateframelayout.StateFrameLayout
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
-import android.kindergartens.com.core.modular.classroom.ClassroomActivity
-import android.kindergartens.com.core.modular.classroom.data.ClassroomEntity
+import android.kindergartens.com.core.modular.cameralplay.PlayActivity
 import android.kindergartens.com.custom.ui.GlideRoundTransform
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
@@ -15,11 +14,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.mazouri.tools.Tools
+import com.trello.rxlifecycle2.android.ActivityEvent
 import com.videogo.exception.BaseException
 import com.videogo.openapi.EZOpenSDK
 import kotlinx.android.synthetic.main.activity_camera_list.*
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 
@@ -29,6 +28,9 @@ class CameraListActivity : BaseToolbarActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_list)
+        srl_refresh.setOnRefreshListener {
+            refreshData()
+        }
         sfl_lyt_state.setOnStateClickListener(object : StateFrameLayout.OnAllStateClickListener {
             override fun onLoadingClick(layout: StateFrameLayout?) = Unit
 
@@ -47,12 +49,14 @@ class CameraListActivity : BaseToolbarActivity() {
         cameraListAdapter.setOnItemClickListener { adapter, view, position ->
             val data = adapter.data[position] as ClassroomEntity.WrapperData.Data
             if (data.unWatch == 1) {
-                startActivity<ClassroomActivity>()
+                val kgCamera = data.kgCamera
+                PlayActivity.startPlayActivity(this, kgCamera.deviceSerial, kgCamera.verifyCode, 1)
             } else {
                 toast("未到开放时间,请下拉刷新后再次尝试")
             }
 
         }
+        rcv_camera_list.itemAnimator.changeDuration = 0
         if (Tools.apk().isAppDebug(this)) {
             cameraListAdapter.setOnItemLongClickListener { adapter, view, position ->
                 val data = adapter.data[position] as ClassroomEntity.WrapperData.Data
@@ -61,7 +65,6 @@ class CameraListActivity : BaseToolbarActivity() {
                 true
             }
         }
-
         rcv_camera_list.adapter = cameraListAdapter
 
     }
@@ -72,7 +75,7 @@ class CameraListActivity : BaseToolbarActivity() {
     }
 
     private fun refreshData() {
-        ServerApi.getClassrooms().subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
+        ServerApi.getClassrooms().compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
 
             override fun onNext(classroomEntity: ClassroomEntity) {
                 EZOpenSDK.getInstance().setAccessToken(classroomEntity.data.addition)

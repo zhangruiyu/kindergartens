@@ -80,7 +80,7 @@ class LoginFragment : BaseFragment() {
         } else {
             ServerApi.verifyIsRegister(tel.toText()).doOnTerminate {
                 submitbutton.reset()
-            }.subscribe(object : CustomNetErrorWrapper<CodeWrapperEntity>() {
+            }.compose(this.bindUntilEvent(com.trello.rxlifecycle2.android.FragmentEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<CodeWrapperEntity>() {
                 override fun onNext(it: CodeWrapperEntity) {
                     if (it.data.data == "0") {
                         (act as LoginActivity).switchRegisterFragment(tel.toText())

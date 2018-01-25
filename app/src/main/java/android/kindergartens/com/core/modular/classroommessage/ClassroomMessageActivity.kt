@@ -16,6 +16,7 @@ import android.view.View.VISIBLE
 import com.afollestad.materialdialogs.MaterialDialog
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.trello.rxlifecycle2.android.ActivityEvent
 import kotlinx.android.synthetic.main.activity_classroom_message.*
 import org.jetbrains.anko.act
 import org.jetbrains.anko.ctx
@@ -63,7 +64,7 @@ class ClassroomMessageActivity : BaseToolbarActivity() {
     }
 
     fun getData() {
-        ServerApi.getClassroomMessage().doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
+        ServerApi.getClassroomMessage().compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { bswr_school_message.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<MessageEntity>() {
             override fun onNext(t: MessageEntity) {
                 schoolAdapter.setNewData(t.data)
             }

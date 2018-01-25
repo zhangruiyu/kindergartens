@@ -53,7 +53,7 @@
         android:theme="@style/KGAppTheme"
         tools:replace="android:allowBackup">
 
-        <!--第三方需要-->
+        <!-- 第三方需要 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -86,8 +86,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <!--第三方需要-->
-
+        <!-- 第三方需要 -->
 
         <activity
             android:name=".core.MainActivity"
@@ -125,12 +124,6 @@
         <activity
             android:name=".core.modular.classroommessage.ClassroomMessageActivity"
             android:label="校园消息"/>
-        <activity
-            android:name=".core.modular.classroom.ClassroomActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label=""
-            android:screenOrientation="sensor">
-        </activity>
         <activity
             android:name=".core.modular.eat.EatActivity"
             android:label="宝贝饮食">
@@ -194,10 +187,14 @@
             android:name=".core.modular.changepassword.ChangePasswordActivity"
             android:label="修改密码">
         </activity>
-
         <activity
             android:name=".core.modular.cameralist.CameraListActivity"
             android:label="在线宝贝"/>
+        <!--使用这个主题是因为防止点击时候时间栏那块出先蓝色-->
+        <activity
+            android:name=".core.modular.cameralplay.PlayActivity"
+            android:theme="@style/PlayTheme">
+        </activity>
     </application>
 
 </manifest>

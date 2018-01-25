@@ -34,7 +34,7 @@ import org.jetbrains.anko.support.v4.ctx
 class AlbumActivityFragment : BaseFragment(), OnRefreshListener {
     lateinit var albumAdapter: AlbumAdapter
     override fun onRefresh(p0: RefreshLayout?) {
-        ServerApi.getSchoolAlbum().doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<AlbumEntity>() {
+        ServerApi.getSchoolAlbum().compose(this.bindUntilEvent(com.trello.rxlifecycle2.android.FragmentEvent.DESTROY)).doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<AlbumEntity>() {
             override fun onNext(t: AlbumEntity) {
                 val albumList = ArrayList<AlbumSection>()
                 t.data.forEach {

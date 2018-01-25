@@ -34,7 +34,7 @@ class RegisterFragment : BaseFragment() {
             })
         }
         submitbutton.setOnClickListener {
-            ServerApi.registerUser(tel, acact_password.toText(), et_auth_code.toText()).subscribe(object : CustomNetErrorWrapper<Any>() {
+            ServerApi.registerUser(tel, acact_password.toText(), et_auth_code.toText()).compose(this.bindUntilEvent(com.trello.rxlifecycle2.android.FragmentEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<Any>() {
                 override fun onNext(t: Any) {
                     toast("注册成功,请登录")
                     activity?.finish()

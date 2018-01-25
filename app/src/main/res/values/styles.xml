@@ -115,6 +115,11 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
     </style>
 
+    <style name="PlayTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+    </style>
+
     <style name="ImageViewSelect">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

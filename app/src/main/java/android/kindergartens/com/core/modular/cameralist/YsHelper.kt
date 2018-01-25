@@ -1,6 +1,5 @@
-package android.kindergartens.com.core.modular.classroom.data
+package android.kindergartens.com.core.modular.cameralist
 
-import android.kindergartens.com.core.database.TUserModel_Table.ysToken
 import android.kindergartens.com.core.database.UserdataHelper
 import android.kindergartens.com.ext.applyAndSave
 

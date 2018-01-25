@@ -69,7 +69,7 @@ class InputPasswordFragment : BaseFragment() {
         if (cancel) {
             focusView!!.requestFocus()
         } else {
-            ServerApi.login(tel, et_password.toText(), Constants.PushToken).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
+            ServerApi.login(tel, et_password.toText(), Constants.PushToken).compose(this.bindUntilEvent(com.trello.rxlifecycle2.android.FragmentEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<LoginUserEntity>() {
                 override fun onNext(it: LoginUserEntity) {
                     UserdataHelper.saveLoginUser(it)
                     submitbutton.doResult(true)

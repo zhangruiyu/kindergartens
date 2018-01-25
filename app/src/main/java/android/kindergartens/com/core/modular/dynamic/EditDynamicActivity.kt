@@ -24,6 +24,7 @@ import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.apkfuns.logutils.LogUtils
 import com.bumptech.glide.Glide
+import com.trello.rxlifecycle2.android.ActivityEvent
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.PermissionYes
 import kotlinx.android.synthetic.main.activity_edit_dynamic.*
@@ -148,7 +149,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
             if (it.isSucceed) {
                 //成功后回调
                 ServerApi.commitDynamicVideo(edt_dynamic_content.toText(), it.screenshot_server_url, it.video_server_url, it.video_long)
-                        .doOnTerminate { dialog.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                        .compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { dialog.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
                     override fun onNext(any: Any) {
                         toast("消息发布成功!")
                         dialog.safeDismiss()
@@ -174,7 +175,7 @@ class EditDynamicActivity : BaseToolbarActivity() {
                 if (it.isSucceed) {
                     //图片上传完毕 开始把信息给服务端
                     ServerApi.commitDynamicPic(edt_dynamic_content.toText(), it.uploadPics!!)
-                            .doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+                            .compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { dialog?.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
                         override fun onNext(t: Any) {
                             toast("消息发布成功!")
                             finish()

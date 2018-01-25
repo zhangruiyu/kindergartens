@@ -17,6 +17,7 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import com.afollestad.materialdialogs.MaterialDialog
 import com.mazouri.tools.Tools
+import com.trello.rxlifecycle2.android.ActivityEvent
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -72,7 +73,7 @@ class SafeActivity : BaseToolbarActivity() {
                 .content("解绑${platform.toUpperCase()}后你将无法使用${platform.toUpperCase()}登录小助手,你确定要解绑吗?")
                 .positiveText("解绑").onPositive { _, which ->
             val dialog = getWaitDialog()
-            ServerApi.unbindQQORWechat(platform).doOnTerminate { dialog.safeDismiss() }.subscribe(object : CustomNetErrorWrapper<Any>() {
+            ServerApi.unbindQQORWechat(platform).doOnTerminate { dialog.safeDismiss() }.compose(this.bindUntilEvent(ActivityEvent.DESTROY)).subscribe(object : CustomNetErrorWrapper<Any>() {
                 override fun onNext(t: Any) {
                     switchCompat.isChecked = false
 
