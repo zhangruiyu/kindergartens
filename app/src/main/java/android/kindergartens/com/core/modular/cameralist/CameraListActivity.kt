@@ -50,7 +50,7 @@ class CameraListActivity : BaseToolbarActivity() {
             val data = adapter.data[position] as ClassroomEntity.WrapperData.Data
             if (data.unWatch == 1) {
                 val kgCamera = data.kgCamera
-                PlayActivity.startPlayActivity(this, kgCamera.deviceSerial, kgCamera.verifyCode, 1)
+                PlayActivity.startPlayActivity(this, kgCamera.deviceSerial.trim(), kgCamera.verifyCode, 1)
             } else {
                 toast("未到开放时间,请下拉刷新后再次尝试")
             }
