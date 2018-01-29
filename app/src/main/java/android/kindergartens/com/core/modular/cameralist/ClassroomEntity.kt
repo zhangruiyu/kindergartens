@@ -8,7 +8,7 @@ import android.kindergartens.com.base.BaseEntity
 data class ClassroomEntity(var code: Int,
                            var msg: String,
                            var data: WrapperData) : BaseEntity {
-    data class WrapperData(var data: List<Data>, var addition: String) : BaseEntity {
+    data class WrapperData(var data: List<Data>, var addition: OtherWrapperData) : BaseEntity {
         data class Data(var childCount: Int,
                         var classroomImage: String,
                         var showName: String,
@@ -22,5 +22,8 @@ data class ClassroomEntity(var code: Int,
                                 var verifyCode: String, var isEncrypt: Int) : BaseEntity
         }
     }
+
+
+    data class OtherWrapperData(var data: String, var addition: String) : BaseEntity {}
 
 }

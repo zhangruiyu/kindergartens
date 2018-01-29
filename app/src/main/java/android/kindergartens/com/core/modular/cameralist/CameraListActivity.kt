@@ -9,6 +9,9 @@ import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -25,6 +28,7 @@ import org.jetbrains.anko.toast
 class CameraListActivity : BaseToolbarActivity() {
 
     lateinit var cameraListAdapter: CameraListAdapter
+    lateinit var layout_camera_list_footer: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_list)
@@ -66,7 +70,8 @@ class CameraListActivity : BaseToolbarActivity() {
             }
         }
         rcv_camera_list.adapter = cameraListAdapter
-
+        val layout_camera_list_footer = LayoutInflater.from(this).inflate(R.layout.layout_camera_list_footer, null)
+        cameraListAdapter.addFooterView(layout_camera_list_footer)
     }
 
     override fun onResume() {
@@ -78,7 +83,11 @@ class CameraListActivity : BaseToolbarActivity() {
         ServerApi.getClassrooms().compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<ClassroomEntity>() {
 
             override fun onNext(classroomEntity: ClassroomEntity) {
-                EZOpenSDK.getInstance().setAccessToken(classroomEntity.data.addition)
+                EZOpenSDK.getInstance().setAccessToken(classroomEntity.data.addition.data)
+                if (::layout_camera_list_footer.isInitialized) {
+                    layout_camera_list_footer.findViewById<TextView>(R.id.tv_expire_time).text = "到期时间:  ${classroomEntity.data.addition.addition}"
+
+                }
                 cameraListAdapter.setNewData(classroomEntity.data.data)
 //                doAsync {
                 try {
