@@ -15,6 +15,7 @@ import android.kindergartens.com.core.modular.home.data.SchoolEntity
 import android.kindergartens.com.core.modular.home.data.UserProfileEntity
 import android.kindergartens.com.core.modular.home.dummy.data.CommentEntity
 import android.kindergartens.com.core.modular.home.dummy.data.DynamicEntity
+import android.kindergartens.com.core.modular.tels.data.TeacherEntity
 import android.kindergartens.com.core.modular.userinfo.data.ProfileAlteredInfo
 import android.kindergartens.com.core.tools.cos.data.SignInfo
 import android.kindergartens.com.ext.composeMain
@@ -320,6 +321,13 @@ class ServerApi {
             request.params(params)
             return converter(request)
 
+        }
+
+        fun getTels(): Observable<TeacherEntity> {
+            val request = OkGo.post<TeacherEntity>("${baseUrl + TEACHER_URL}/teachersAndStudentsInfo")
+            val params = HttpParams()
+            request.params(params)
+            return converter(request)
         }
 
     }

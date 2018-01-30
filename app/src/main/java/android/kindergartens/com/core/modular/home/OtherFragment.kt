@@ -11,6 +11,7 @@ import android.kindergartens.com.core.modular.orcode.QRCodeActivity
 import android.kindergartens.com.core.modular.safe.SafeActivity
 import android.kindergartens.com.core.modular.safe.SafeActivity.Companion.QQAUTODATA
 import android.kindergartens.com.core.modular.setting.SettingActivity
+import android.kindergartens.com.core.modular.tels.TelsActivity
 import android.kindergartens.com.core.modular.userinfo.UserInfoActivity
 import android.kindergartens.com.ext.applyAndSave
 import android.kindergartens.com.net.ApiException
@@ -62,8 +63,8 @@ class OtherFragment : BaseFragment() {
                 setUpUserUi(it)
             }
             TransitionManager.beginDelayedTransition(fl_login_state_parent, Slide(Gravity.TOP))
-            card_noLogin.visibility = if (haveOnlineUser) View.INVISIBLE else View.VISIBLE
-            card_login.visibility = if (!haveOnlineUser) View.INVISIBLE else View.VISIBLE
+            card_noLogin.visibility = if (haveOnlineUser) View.GONE else View.VISIBLE
+            card_login.visibility = if (!haveOnlineUser) View.GONE else View.VISIBLE
             acb_setting.setOnClickListener({
                 startActivity<SettingActivity>()
             })
@@ -101,6 +102,9 @@ class OtherFragment : BaseFragment() {
         acb_safe.setOnClickListener {
             UserdataHelper.haveNoOnlineLet { startActivity<SafeActivity>() }
         }
+        acb_tels.setOnClickListener {
+            UserdataHelper.haveNoOnlineLet { startActivity<TelsActivity>() }
+        }
     }
 
     var authListener: UMAuthListener = object : UMAuthListener {
@@ -119,7 +123,7 @@ class OtherFragment : BaseFragment() {
          * @param data 用户资料返回
          */
         override fun onComplete(platform: SHARE_MEDIA, action: Int, data: Map<String, String>) {
-            Toast.makeText(ctx, "${platform.name}成功了${data["name"]}", Toast.LENGTH_LONG).show()
+            Toast.makeText(ctx, "${data["name"]}在${platform.name}获取授权成功", Toast.LENGTH_LONG).show()
             LogUtils.e(data)
             sendL(platform, data)
         }

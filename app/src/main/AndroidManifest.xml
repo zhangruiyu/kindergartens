@@ -190,10 +190,15 @@
         <activity
             android:name=".core.modular.cameralist.CameraListActivity"
             android:label="在线宝贝"/>
-        <!--使用这个主题是因为防止点击时候时间栏那块出先蓝色-->
+        <!-- 使用这个主题是因为防止点击时候时间栏那块出先蓝色 -->
         <activity
             android:name=".core.modular.cameralplay.PlayActivity"
             android:theme="@style/PlayTheme">
+        </activity>
+        <activity
+            android:name=".core.modular.tels.TelsActivity"
+            android:label="联系人"
+            android:theme="@style/KGAppTheme">
         </activity>
     </application>
 

@@ -70,7 +70,7 @@ class CameraListActivity : BaseToolbarActivity() {
             }
         }
         rcv_camera_list.adapter = cameraListAdapter
-        val layout_camera_list_footer = LayoutInflater.from(this).inflate(R.layout.layout_camera_list_footer, null)
+        layout_camera_list_footer = LayoutInflater.from(this).inflate(R.layout.layout_camera_list_footer, null)
         cameraListAdapter.addFooterView(layout_camera_list_footer)
     }
 
