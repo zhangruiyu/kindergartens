@@ -1,5 +1,6 @@
 package android.kindergartens.com.core.modular.tels
 
+import am.widget.stateframelayout.StateFrameLayout
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
 import android.kindergartens.com.core.modular.tels.data.TeacherEntity
@@ -12,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.trello.rxlifecycle2.android.ActivityEvent
 import kotlinx.android.synthetic.main.activity_tels.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.toast
@@ -27,13 +29,7 @@ class TelsActivity : BaseToolbarActivity() {
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         rcv_teachers.layoutManager = linearLayoutManager
         rcv_teachers.adapter = teacherAdapter
-        ServerApi.getTels().subscribe(object : CustomNetErrorWrapper<TeacherEntity>() {
-            override fun onNext(t: TeacherEntity) {
-                teacherAdapter.setNewData(t.data.teachers)
-                studentAdapter.setNewData(t.data.students)
-            }
 
-        })
         rcv_students.layoutManager = LinearLayoutManager(ctx)
         studentAdapter = StudentAdapter()
         rcv_students.adapter = studentAdapter
@@ -41,6 +37,35 @@ class TelsActivity : BaseToolbarActivity() {
             toast("目前暂不可网上申请,请直接联系园长咨询")
             submitbutton.reset()
         }
+        sfl_lyt_state.setOnStateClickListener(object : StateFrameLayout.OnAllStateClickListener {
+            override fun onLoadingClick(layout: StateFrameLayout?) = Unit
+
+            override fun onErrorClick(layout: StateFrameLayout?) {
+                refreshData()
+            }
+
+            override fun onEmptyClick(layout: StateFrameLayout?) = Unit
+
+            override fun onNormalClick(layout: StateFrameLayout?) = Unit
+
+        })
+        refreshData()
+    }
+
+    private fun refreshData() {
+        ServerApi.getTels().compose(this.bindUntilEvent(ActivityEvent.DESTROY)).doOnTerminate { srl_refresh.finishRefresh() }.subscribe(object : CustomNetErrorWrapper<TeacherEntity>() {
+            override fun onNext(t: TeacherEntity) {
+                teacherAdapter.setNewData(t.data.teachers)
+                studentAdapter.setNewData(t.data.students)
+                sfl_lyt_state.normal()
+            }
+
+            override fun onError(e: Throwable) {
+                super.onError(e)
+                sfl_lyt_state.error()
+            }
+
+        })
     }
 
     class TeacherAdapter : BaseQuickAdapter<TeacherEntity.Data.Teachers, BaseViewHolder>(R.layout.layout_tels_teacher_item) {

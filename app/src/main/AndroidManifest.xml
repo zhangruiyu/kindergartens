@@ -197,7 +197,7 @@
         </activity>
         <activity
             android:name=".core.modular.tels.TelsActivity"
-            android:label="联系人"
+            android:label="班级成员"
             android:theme="@style/KGAppTheme">
         </activity>
     </application>

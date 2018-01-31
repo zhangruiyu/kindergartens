@@ -174,7 +174,7 @@
                     android:drawableLeft="@drawable/ic_local_grocery_store"
                     android:drawablePadding="20dp"
                     android:gravity="start|center_vertical"
-                    android:text="班级联系人"
+                    android:text="班级成员"
                     android:textColor="@color/secondary_text"/>
 
                 <android.support.v7.widget.AppCompatButton
