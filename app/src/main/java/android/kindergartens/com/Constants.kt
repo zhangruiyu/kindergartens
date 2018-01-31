@@ -11,5 +11,9 @@ class Constants {
 
         const val EXTRA_TITLE = "title"
         var PushToken: String = ""
+
+        const val Role_USER_CODE = "2"
+        const val Role_TEACHER_CODE = "3"
+        const val Role_ADMIN_CODE = "1"
     }
 }

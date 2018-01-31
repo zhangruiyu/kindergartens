@@ -23,9 +23,15 @@
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:buttonColor="@color/accent"
         app:buttonText="加入我们"
         app:buttonTextSize="12sp"
         app:succeedColor="@color/accent"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_students"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

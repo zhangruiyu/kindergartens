@@ -1,6 +1,7 @@
 package android.kindergartens.com.core.modular.eat
 
 import android.content.Intent
+import android.kindergartens.com.Constants.Companion.Role_USER_CODE
 import android.kindergartens.com.R
 import android.kindergartens.com.base.BaseToolbarActivity
 import android.kindergartens.com.core.database.UserdataHelper
@@ -59,7 +60,7 @@ class EatActivity : BaseToolbarActivity() {
           }
   */
         UserdataHelper.haveOnlineLet {
-            if (it.roleCode != null && it.roleCode!!.toInt() < 1) {
+            if (it.roleCode != null && it.roleCode == Role_USER_CODE) {
                 fab.visibility = GONE
             } else {
                 fab.visibility = VISIBLE

@@ -54,7 +54,11 @@ class CameraListActivity : BaseToolbarActivity() {
             val data = adapter.data[position] as ClassroomEntity.WrapperData.Data
             if (data.unWatch == 1) {
                 val kgCamera = data.kgCamera
-                PlayActivity.startPlayActivity(this, kgCamera.deviceSerial.trim(), kgCamera.verifyCode, 1)
+                if (kgCamera?.deviceSerial?.isNotEmpty() == true) {
+                    PlayActivity.startPlayActivity(this, kgCamera.deviceSerial!!.trim(), kgCamera.verifyCode, 1)
+                } else {
+                    toast("此教室暂未开放在线摄像头")
+                }
             } else {
                 toast("未到开放时间,请下拉刷新后再次尝试")
             }
@@ -65,7 +69,7 @@ class CameraListActivity : BaseToolbarActivity() {
             cameraListAdapter.setOnItemLongClickListener { adapter, view, position ->
                 val data = adapter.data[position] as ClassroomEntity.WrapperData.Data
                 data.unWatch = if (data.unWatch == 1) 0 else 1
-                cameraListAdapter.notifyDataSetChanged()
+                cameraListAdapter.notifyItemChanged(position)
                 true
             }
         }

@@ -15,9 +15,9 @@ data class ClassroomEntity(var code: Int,
                         var isCorridor: Int,
                         var synopsis: String,
                         var unWatch: Int,
-                        var kgCamera: KgCamera) : BaseEntity {
+                        var kgCamera: KgCamera? = null) : BaseEntity {
             data class KgCamera(var deviceName: String,
-                                var deviceSerial: String,
+                                var deviceSerial: String? = null,
                                 var model: String,
                                 var verifyCode: String, var isEncrypt: Int) : BaseEntity
         }
