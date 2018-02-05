@@ -7,7 +7,6 @@ import android.kindergartens.com.ext.toText
 import android.kindergartens.com.net.CustomNetErrorWrapper
 import android.kindergartens.com.net.ServerApi
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -32,10 +31,6 @@ class LoginFragment : BaseFragment() {
         onLoadFinished()
         submitbutton.onClick {
             attemptLogin()
-        }
-        tv_help.onClick {
-            Snackbar.make(ll_root, "121", Snackbar.LENGTH_SHORT).show()
-            submitbutton.reset()
         }
     }
 

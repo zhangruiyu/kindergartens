@@ -42,8 +42,7 @@ class InputPasswordFragment : BaseFragment() {
             attemptLogin()
         }
         tv_help.onClick {
-            Snackbar.make(ll_root, "121", Snackbar.LENGTH_SHORT).show()
-            submitbutton.reset()
+            Snackbar.make(ll_root, "请联系幼儿园", Snackbar.LENGTH_SHORT).show()
         }
     }
 

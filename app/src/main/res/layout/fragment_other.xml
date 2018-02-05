@@ -177,18 +177,6 @@
                     android:text="班级成员"
                     android:textColor="@color/secondary_text"/>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/acb_function"
-                    style="@style/Base.Widget.AppCompat.ActionButton.CloseMode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:drawableLeft="@drawable/ic_local_grocery_store"
-                    android:drawablePadding="20dp"
-                    android:gravity="start|center_vertical"
-                    android:text="功能"
-                    android:textColor="@color/secondary_text"/>
-
 
             </android.support.v7.widget.LinearLayoutCompat>
         </android.support.v7.widget.CardView>

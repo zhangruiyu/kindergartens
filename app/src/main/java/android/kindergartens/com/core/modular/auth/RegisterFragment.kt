@@ -24,6 +24,9 @@ class RegisterFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        tv_help.setOnClickListener {
+            toast("如果收不到验证码,请联系幼儿园管理人员")
+        }
         et_auth_code.toText()
         bt_send_auth_code.onClick {
             ServerApi.sendRegisterCode(tel).subscribe(object : CustomNetErrorWrapper<Any>() {

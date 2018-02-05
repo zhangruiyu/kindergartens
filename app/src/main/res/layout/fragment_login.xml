@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
+                android:inputType="phone"
                 android:maxLength="11"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -53,14 +53,5 @@
             app:succeedColor="@color/accent"/>
 
 
-        <TextView
-            android:id="@+id/tv_help"
-            style="@style/Base.TextAppearance.AppCompat.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:text="需要帮助?"/>
     </android.support.v7.widget.LinearLayoutCompat>
 </LinearLayout>
